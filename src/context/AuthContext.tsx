@@ -50,7 +50,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const response = await userLogin(email, password);
 
       setToken(response.token);
-      localStorage.setItem("token", `${token}`);
+      localStorage.setItem("token", `${response.token}`);
 
       toast.success(response.message);
     } catch (error) {
