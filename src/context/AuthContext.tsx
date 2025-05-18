@@ -5,19 +5,15 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import type { Auth, Roles } from "../types";
+import type { Auth, Roles, User } from "../types";
 import toast from "react-hot-toast";
+import { loginUser, logoutUser, registerUser } from "../service/api";
 
 interface AuthContextType {
   auth: Auth | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (
-    fullname: string,
-    email: string,
-    password: string,
-    role: Roles
-  ) => Promise<void>;
+  register: (userDetails: User) => Promise<void>;
   logout: () => void;
 }
 
@@ -57,6 +53,9 @@ export function AuthProvider({ children }: AuthProviderProp) {
   const login = async (email: string, password: string) => {
     try {
       setLoading(true);
+      const response = await loginUser(email, password);
+      setAuth({ token: response.token });
+      toast.success(response.message);
     } catch (error) {
       console.error("Login error:", error);
       toast.error("An error occurred during login");
@@ -65,14 +64,11 @@ export function AuthProvider({ children }: AuthProviderProp) {
     }
   };
 
-  const register = async (
-    fullname: string,
-    email: string,
-    password: string,
-    role: Roles
-  ) => {
+  const register = async (userDetails: User) => {
     try {
       setLoading(true);
+      const response = await registerUser(userDetails);
+      toast.success(response.message);
     } catch (error) {
       console.error("Registration error:", error);
       toast.error("An error occurred during registration");
@@ -81,9 +77,18 @@ export function AuthProvider({ children }: AuthProviderProp) {
     }
   };
 
-  const logout = () => {
-    setAuth(null);
-    toast.success("You have been successfully logged out");
+  const logout = async () => {
+    try {
+      setLoading(true);
+      const response = await logoutUser();
+      toast.success(response.message);
+      setAuth(null);
+    } catch (error) {
+      console.error("Registration error:", error);
+      toast.error("An error occurred during logout");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

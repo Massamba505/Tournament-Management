@@ -5,12 +5,17 @@ import Footer from "../Footer";
 interface MainLayoutProps {
   children: React.ReactNode;
   showFooter?: boolean;
+  showNav?: boolean;
 }
 
-function MainLayout({ children, showFooter = true }: MainLayoutProps) {
+function MainLayout({
+  children,
+  showFooter = true,
+  showNav = true,
+}: MainLayoutProps) {
   return (
     <div className="min-h-screen flex flex-col">
-      <NavBar />
+      {showNav && <NavBar />}
       <main className="flex-grow">{children}</main>
       {showFooter && <Footer />}
     </div>
