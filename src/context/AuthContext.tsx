@@ -54,8 +54,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       toast.success(response.message);
     } catch (error) {
-      console.error("Login error:", error);
-      toast.error("An error occurred during login");
+      throw new Error("An error occurred during login");
     } finally {
       setLoading(false);
     }
@@ -69,8 +68,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.setItem("token", `${token}`);
       toast.success(response.message);
     } catch (error) {
-      console.error("Registration error:", error);
-      toast.error("An error occurred during registration");
+      throw new Error("An error occurred during registration");
     } finally {
       setLoading(false);
     }
@@ -83,8 +81,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       toast.success(response.message);
       setToken(null);
     } catch (error) {
-      console.error("Registration error:", error);
-      toast.error("An error occurred during logout");
+      throw new Error("An error occurred during logout");
     } finally {
       setLoading(false);
     }

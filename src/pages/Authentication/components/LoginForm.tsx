@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { useAuthContext } from "../../../context/AuthContext";
+import { useAuth } from "../../../hooks/useAuth";
 import { useNavigate, Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, loading } = useAuthContext();
+  const { login, loading } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -22,7 +22,6 @@ function LoginForm() {
       navigate("/dashboard");
     } catch (error) {
       toast.error("Invalid email or password");
-      console.error("Login error:", error);
     }
   };
 

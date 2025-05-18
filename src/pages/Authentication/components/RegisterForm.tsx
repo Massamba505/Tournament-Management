@@ -2,21 +2,19 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Users, ShieldCheck } from "lucide-react";
-import { useAuthContext } from "../../../context/AuthContext";
+import { useAuth } from "../../../hooks/useAuth";
 import type { Roles } from "../../../types";
 
 function RegisterForm() {
-  const { register, loading } = useAuthContext();
+  const { register, loading } = useAuth();
   const navigate = useNavigate();
 
-  // Step 1: User input
   const [step, setStep] = useState<1 | 2>(1);
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // Step 2: Role selection
   const [selectedRole, setSelectedRole] = useState<Roles>("Organiser");
 
   const handleFirstSubmit = (e: React.FormEvent) => {
@@ -39,7 +37,6 @@ function RegisterForm() {
       navigate("/dashboard");
     } catch (error) {
       toast.error("Signup failed");
-      console.error("Signup error:", error);
     }
   };
 

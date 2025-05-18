@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { Logo } from "../assets";
-import { useAuthContext } from "../context/AuthContext";
+import { useAuth } from "../hooks/useAuth";
 import ProfileDropdown from "./ProfileDropdown";
 
 function NavBar() {
-  const { auth } = useAuthContext();
+  const { user } = useAuth();
 
   return (
     <header className="w-full absolute z-50 bg-transparent">
@@ -30,7 +30,7 @@ function NavBar() {
             >
               Tournaments
             </Link>
-            {auth && (
+            {user && (
               <Link
                 to="/dashboard"
                 className="hover:text-[#6bacec] transition-colors duration-200"
@@ -41,7 +41,7 @@ function NavBar() {
           </nav>
 
           <div className="flex items-center gap-3 text-white font-medium">
-            {!auth ? (
+            {!user ? (
               <>
                 <Link
                   to="/login"
