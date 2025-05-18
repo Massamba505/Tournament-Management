@@ -46,17 +46,21 @@ function RegisterForm() {
         <>
           <div className="mb-6 text-center">
             <h2 className="text-3xl font-bold text-gray-900">
-              Create an Account
+              Create Your Account
             </h2>
-            <p className="text-sm text-gray-500 mt-1">Let’s get you started!</p>
+            <p className="text-sm text-gray-500 mt-2">
+              Start organizing or joining tournaments. Complete the form to
+              continue.
+            </p>
           </div>
+
           <form onSubmit={handleFirstSubmit} className="space-y-4">
             <div>
               <label
                 className="text-sm font-medium text-gray-700"
                 htmlFor="name"
               >
-                Full Name
+                First Name
               </label>
               <input
                 id="name"
@@ -70,9 +74,9 @@ function RegisterForm() {
             <div>
               <label
                 className="text-sm font-medium text-gray-700"
-                htmlFor="name"
+                htmlFor="surname"
               >
-                Surname
+                Last Name
               </label>
               <input
                 id="surname"
@@ -88,7 +92,7 @@ function RegisterForm() {
                 className="text-sm font-medium text-gray-700"
                 htmlFor="email"
               >
-                Email
+                Email Address
               </label>
               <input
                 id="email"
@@ -99,7 +103,6 @@ function RegisterForm() {
                 className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#142d4c]"
               />
             </div>
-
             <div>
               <label
                 className="text-sm font-medium text-gray-700"
@@ -124,6 +127,16 @@ function RegisterForm() {
               Continue
             </button>
           </form>
+
+          <p className="text-sm text-center text-gray-600 mt-4">
+            Already have an account?{" "}
+            <a
+              href="/login"
+              className="text-[#142d4c] font-medium hover:underline"
+            >
+              Log in here
+            </a>
+          </p>
         </>
       )}
 
@@ -131,10 +144,10 @@ function RegisterForm() {
         <>
           <div className="mb-6 text-center">
             <h2 className="text-2xl font-bold text-gray-900">
-              Select Your Role
+              Choose Your Role
             </h2>
             <p className="text-sm text-gray-500 mt-1">
-              How do you want to use the platform?
+              Select the option that best describes how you’ll use the platform.
             </p>
           </div>
 
@@ -153,7 +166,9 @@ function RegisterForm() {
                   <h4 className="text-md font-semibold text-gray-800">
                     Tournament Organizer
                   </h4>
-                  <p className="text-sm text-gray-500">Create tournaments</p>
+                  <p className="text-sm text-gray-500">
+                    Create, manage, and host tournaments on the platform.
+                  </p>
                 </div>
               </div>
             </div>
@@ -173,8 +188,8 @@ function RegisterForm() {
                     Member
                   </h4>
                   <p className="text-sm text-gray-500">
-                    Create a team or join a team, participate in tournaments,
-                    and track results.
+                    Join or create teams, enter tournaments, and track your
+                    progress.
                   </p>
                 </div>
               </div>

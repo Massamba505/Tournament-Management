@@ -64,8 +64,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       setLoading(true);
       const response = await UserRegister(userDetails);
-      setToken(response.token);
-      localStorage.setItem("token", `${token}`);
+      localStorage.setItem("token", `${response.token}`);
       toast.success(response.message);
     } catch (error) {
       throw new Error("An error occurred during registration");
