@@ -1,48 +1,42 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from "react";
-import type { Auth, Roles, User } from "../types";
+import { createContext, useEffect, useState, type ReactNode } from "react";
+import type { RegisterRequest, User } from "../types";
 import toast from "react-hot-toast";
-import { loginUser, logoutUser, registerUser } from "../service/api";
+import { getMe, userLogin, userLogout, UserRegister } from "../service/api";
 
 interface AuthContextType {
-  auth: Auth | null;
+  user: User | null;
+  token: string | null;
   loading: boolean;
+  error: string | null;
   login: (email: string, password: string) => Promise<void>;
-  register: (userDetails: User) => Promise<void>;
-  logout: () => void;
+  register: (data: RegisterRequest) => Promise<void>;
+  logout: () => Promise<void>;
 }
 
-interface AuthProviderProp {
-  children: ReactNode;
-}
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined
+);
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-export function useAuthContext() {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuthContext must be used within a AuthContextProvider");
-  }
-
-  return context;
-}
-
-export function AuthProvider({ children }: AuthProviderProp) {
-  const [auth, setAuth] = useState<Auth | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const checkAuth = async () => {
-      try {
-        setAuth({ token: "MassambaToken" });
-      } catch (error) {
-        console.error("Error checking authentication:", error);
-      } finally {
+      const savedToken = localStorage.getItem("token");
+      if (savedToken) {
+        setToken(savedToken);
+        try {
+          const data = await getMe(savedToken);
+          setUser(data);
+        } catch (error) {
+          setError(`${error}`);
+        } finally {
+          setLoading(false);
+        }
+      } else {
         setLoading(false);
       }
     };
@@ -53,8 +47,11 @@ export function AuthProvider({ children }: AuthProviderProp) {
   const login = async (email: string, password: string) => {
     try {
       setLoading(true);
-      const response = await loginUser(email, password);
-      setAuth({ token: response.token });
+      const response = await userLogin(email, password);
+
+      setToken(response.token);
+      localStorage.setItem("token", `${token}`);
+
       toast.success(response.message);
     } catch (error) {
       console.error("Login error:", error);
@@ -64,10 +61,12 @@ export function AuthProvider({ children }: AuthProviderProp) {
     }
   };
 
-  const register = async (userDetails: User) => {
+  const register = async (userDetails: RegisterRequest) => {
     try {
       setLoading(true);
-      const response = await registerUser(userDetails);
+      const response = await UserRegister(userDetails);
+      setToken(response.token);
+      localStorage.setItem("token", `${token}`);
       toast.success(response.message);
     } catch (error) {
       console.error("Registration error:", error);
@@ -80,9 +79,9 @@ export function AuthProvider({ children }: AuthProviderProp) {
   const logout = async () => {
     try {
       setLoading(true);
-      const response = await logoutUser();
+      const response = await userLogout(`${token}`);
       toast.success(response.message);
-      setAuth(null);
+      setToken(null);
     } catch (error) {
       console.error("Registration error:", error);
       toast.error("An error occurred during logout");
@@ -92,7 +91,9 @@ export function AuthProvider({ children }: AuthProviderProp) {
   };
 
   return (
-    <AuthContext.Provider value={{ auth, loading, login, register, logout }}>
+    <AuthContext.Provider
+      value={{ user, token, loading, login, register, logout, error }}
+    >
       {children}
     </AuthContext.Provider>
   );

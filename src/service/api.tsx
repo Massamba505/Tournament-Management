@@ -1,20 +1,77 @@
-import type { Roles, User } from "../types";
+import type { RegisterRequest, User } from "../types";
 
-export const loginUser = async (email: string, password: string) => {
-  return {
-    token: "MassambaToken",
-    message: "Login Successfully",
-  };
+const API_BASE_URL = "http://localhost:3000/api";
+
+const handleError = async (response: Response) => {
+  let message = response.statusText;
+  const data = await response.json();
+  message = data.message;
+
+  throw new Error(`${message}`);
 };
 
-export const registerUser = async (userDetails: User) => {
-  return {
-    message: "Registered Successfully",
-  };
+export const userLogin = async (
+  email: string,
+  password: string
+): Promise<{ message: string; token: string }> => {
+  const response = await fetch(`${API_BASE_URL}/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+
+  if (!response.ok) {
+    return handleError(response);
+  }
+
+  return response.json();
 };
 
-export const logoutUser = async () => {
-  return {
-    message: "Logout Successfully",
-  };
+export const UserRegister = async (
+  data: RegisterRequest
+): Promise<{ message: string; token: string }> => {
+  const response = await fetch(`${API_BASE_URL}/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    return handleError(response);
+  }
+
+  return response.json();
+};
+
+export const userLogout = async (
+  token: string
+): Promise<{ message: string }> => {
+  const response = await fetch(`${API_BASE_URL}/logout`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    return handleError(response);
+  }
+
+  return response.json();
+};
+
+export const getMe = async (token: string): Promise<User> => {
+  const response = await fetch(`${API_BASE_URL}/me`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    return handleError(response);
+  }
+
+  return response.json();
 };

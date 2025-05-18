@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { LogOut, UserCircle2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuthContext } from "../context/AuthContext";
+import { useAuth } from "../hooks/useAuth";
 
 function ProfileDropdown() {
-  const { logout } = useAuthContext();
+  const { logout, user } = useAuth();
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
@@ -36,9 +36,7 @@ function ProfileDropdown() {
         onClick={() => setOpen((prev) => !prev)}
       >
         <img
-          src={
-            "https://eu.ui-avatars.com/api/?name=Massamba+Maphalala&size=250"
-          }
+          src={user?.profilePricture}
           alt="Profile"
           className="w-10 h-10 rounded-full border-2 border-white object-cover"
         />
