@@ -15,7 +15,7 @@ function RegisterForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [selectedRole, setSelectedRole] = useState<Roles>("Organiser");
+  const [selectedRole, setSelectedRole] = useState<Roles>(1);
 
   const handleFirstSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,7 +33,7 @@ function RegisterForm() {
     }
 
     try {
-      await register({ name, surname, email, password, role: selectedRole });
+      await register({ name, surname, email, password, roleId: selectedRole });
       navigate("/dashboard");
     } catch (error) {
       toast.error("Signup failed");
@@ -153,9 +153,9 @@ function RegisterForm() {
 
           <div className="flex flex-col gap-4">
             <div
-              onClick={() => setSelectedRole("Organiser")}
+              onClick={() => setSelectedRole(2)}
               className={`cursor-pointer p-5 border rounded-lg transition shadow-sm ${
-                selectedRole === "Organiser"
+                selectedRole === 2
                   ? "border-[#142d4c] bg-[#f0f4f8]"
                   : "border-gray-300"
               }`}
@@ -174,9 +174,9 @@ function RegisterForm() {
             </div>
 
             <div
-              onClick={() => setSelectedRole("General")}
+              onClick={() => setSelectedRole(1)}
               className={`cursor-pointer p-5 border rounded-lg transition shadow-sm ${
-                selectedRole === "General"
+                selectedRole === 1
                   ? "border-[#142d4c] bg-[#f0f4f8]"
                   : "border-gray-300"
               }`}

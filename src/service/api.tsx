@@ -1,6 +1,6 @@
 import type { RegisterRequest, User } from "../types";
 
-const API_BASE_URL = "http://localhost:3000/api";
+const API_BASE_URL = "https://localhost:7175/api";
 
 const handleError = async (response: Response) => {
   let message = response.statusText;
@@ -14,7 +14,7 @@ export const userLogin = async (
   email: string,
   password: string
 ): Promise<{ message: string; token: string }> => {
-  const response = await fetch(`${API_BASE_URL}/login`, {
+  const response = await fetch(`${API_BASE_URL}/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
@@ -30,7 +30,7 @@ export const userLogin = async (
 export const UserRegister = async (
   data: RegisterRequest
 ): Promise<{ message: string; token: string }> => {
-  const response = await fetch(`${API_BASE_URL}/register`, {
+  const response = await fetch(`${API_BASE_URL}/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
@@ -46,7 +46,7 @@ export const UserRegister = async (
 export const userLogout = async (
   token: string
 ): Promise<{ message: string }> => {
-  const response = await fetch(`${API_BASE_URL}/logout`, {
+  const response = await fetch(`${API_BASE_URL}/auth/logout`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

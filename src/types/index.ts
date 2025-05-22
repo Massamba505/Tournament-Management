@@ -1,4 +1,4 @@
-export type Roles = "General" | "Organiser";
+export type Roles = 1 | 2;
 
 export interface User {
   id: string;
@@ -15,5 +15,5 @@ export interface RegisterRequest {
   surname: string;
   email: string;
   password: string;
-  role: string;
+  roleId: number;
 }
