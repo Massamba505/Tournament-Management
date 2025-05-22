@@ -16,7 +16,9 @@ function MainLayout({
   return (
     <div className="min-h-screen flex flex-col">
       {showNav && <NavBar />}
-      <main className="flex-grow">{children}</main>
+      <div className="flex-grow min-h-screen bg-white text-black">
+        {children}
+      </div>
       {showFooter && <Footer />}
     </div>
   );

@@ -16,6 +16,7 @@ export default function ProtectedRoutes({
   }
 
   if (!token || !user) {
+    console.log("noooo token");
     return <Navigate to="/login" replace />;
   }
 

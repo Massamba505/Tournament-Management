@@ -36,7 +36,10 @@ function ProfileDropdown() {
         onClick={() => setOpen((prev) => !prev)}
       >
         <img
-          src={user?.profilePricture}
+          src={
+            user?.profilePricture ||
+            `https://eu.ui-avatars.com/api/?name=${user?.name}+${user?.surname}&size=250`
+          }
           alt="Profile"
           className="w-10 h-10 rounded-full border-2 border-white object-cover"
         />

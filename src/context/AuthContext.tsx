@@ -7,7 +7,6 @@ interface AuthContextType {
   user: User | null;
   token: string | null;
   loading: boolean;
-  error: string | null;
   login: (email: string, password: string) => Promise<void>;
   register: (data: RegisterRequest) => Promise<void>;
   logout: () => Promise<void>;
@@ -22,18 +21,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(() => {
     return localStorage.getItem("token");
   });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const fetchUser = async (authToken: string) => {
     setLoading(true);
     try {
+      console.log("fetching user");
       const userData = await getMe(authToken);
+      console.log(userData);
       setUser(userData);
     } catch (err) {
-      setError("Failed to fetch user");
-      setUser(null);
-      setToken(null);
+      const message = "Failed to fetch user";
+      errorHappend(message);
       localStorage.removeItem("token");
     } finally {
       setLoading(false);
@@ -43,20 +42,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (token) {
       fetchUser(token);
+    } else {
+      setLoading(false);
     }
   }, [token]);
 
+  const errorHappend = (message: string) => {
+    setToken(null);
+    setUser(null);
+    throw new Error(message);
+  };
+
   const login = async (email: string, password: string) => {
     setLoading(true);
-    setError(null);
     try {
       const { message, token: newToken } = await userLogin(email, password);
-      setToken(newToken);
       localStorage.setItem("token", newToken);
       toast.success(message);
-      await fetchUser(newToken);
+      setToken(newToken);
     } catch (err) {
-      setError("Login failed. Please check your credentials.");
+      const message = "Login failed. Please check your credentials.";
+      errorHappend(message);
     } finally {
       setLoading(false);
     }
@@ -64,15 +70,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const register = async (userDetails: RegisterRequest) => {
     setLoading(true);
-    setError(null);
     try {
       const { message, token: newToken } = await UserRegister(userDetails);
-      setToken(newToken);
       localStorage.setItem("token", newToken);
       toast.success(message);
-      await fetchUser(newToken);
+      setToken(newToken);
     } catch (err) {
-      setError("Registration failed. Please try again.");
+      const message = "Registration failed. Please try again.";
+      errorHappend(message);
     } finally {
       setLoading(false);
     }
@@ -80,14 +85,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = async () => {
     setLoading(true);
-    setError(null);
     try {
       if (token) {
         const { message } = await userLogout(token);
         toast.success(message);
       }
     } catch (err) {
-      setError("Logout failed.");
+      const message = "Logout failed.";
+      errorHappend(message);
     } finally {
       localStorage.removeItem("token");
       setToken(null);
@@ -98,7 +103,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, token, loading, error, login, register, logout }}
+      value={{
+        user,
+        token,
+        loading,
+        login,
+        register,
+        logout,
+      }}
     >
       {children}
     </AuthContext.Provider>

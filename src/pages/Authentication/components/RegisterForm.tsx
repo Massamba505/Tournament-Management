@@ -1,24 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { Users, ShieldCheck } from "lucide-react";
 import { useAuth } from "../../../hooks/useAuth";
 import type { Roles } from "../../../types";
+import RegisterStepOne from "./RegisterStepOne";
+import RegisterStepTwo from "./RegisterStepTwo";
 
 function RegisterForm() {
-  const { register, loading } = useAuth();
+  const { register, loading, user } = useAuth();
   const navigate = useNavigate();
 
   const [step, setStep] = useState<1 | 2>(1);
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    surname: "",
+    email: "",
+    password: "",
+    roleId: 1 as Roles,
+  });
 
-  const [selectedRole, setSelectedRole] = useState<Roles>(1);
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
 
-  const handleFirstSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleStepOneSubmit = () => {
+    const { name, surname, email, password } = formData;
     if (!name || !surname || !email || !password) {
       toast.error("Please fill in all fields");
       return;
@@ -27,183 +35,35 @@ function RegisterForm() {
   };
 
   const handleFinalSubmit = async () => {
-    if (!selectedRole) {
+    if (!formData.roleId) {
       toast.error("Please select a role");
       return;
     }
-
     try {
-      await register({ name, surname, email, password, roleId: selectedRole });
-      navigate("/dashboard");
-    } catch (error) {
-      toast.error("Signup failed");
+      await register(formData);
+    } catch (err: any) {
+      toast.error(err.message);
+      setStep(1);
     }
   };
 
   return (
     <div className="w-full max-w-md mx-auto p-6 mt-10 bg-white rounded-xl shadow-lg border border-gray-100">
-      {step === 1 && (
-        <>
-          <div className="mb-6 text-center">
-            <h2 className="text-3xl font-bold text-gray-900">
-              Create Your Account
-            </h2>
-            <p className="text-sm text-gray-500 mt-2">
-              Start organizing or joining tournaments. Complete the form to
-              continue.
-            </p>
-          </div>
-
-          <form onSubmit={handleFirstSubmit} className="space-y-4">
-            <div>
-              <label
-                className="text-sm font-medium text-gray-700"
-                htmlFor="name"
-              >
-                First Name
-              </label>
-              <input
-                id="name"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#142d4c]"
-              />
-            </div>
-            <div>
-              <label
-                className="text-sm font-medium text-gray-700"
-                htmlFor="surname"
-              >
-                Last Name
-              </label>
-              <input
-                id="surname"
-                type="text"
-                value={surname}
-                onChange={(e) => setSurname(e.target.value)}
-                required
-                className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#142d4c]"
-              />
-            </div>
-            <div>
-              <label
-                className="text-sm font-medium text-gray-700"
-                htmlFor="email"
-              >
-                Email Address
-              </label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#142d4c]"
-              />
-            </div>
-            <div>
-              <label
-                className="text-sm font-medium text-gray-700"
-                htmlFor="password"
-              >
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#142d4c]"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full bg-[#142d4c] hover:bg-[#1f3c5e] text-white font-semibold py-2.5 rounded-md transition"
-            >
-              Continue
-            </button>
-          </form>
-
-          <p className="text-sm text-center text-gray-600 mt-4">
-            Already have an account?{" "}
-            <a
-              href="/login"
-              className="text-[#142d4c] font-medium hover:underline"
-            >
-              Log in here
-            </a>
-          </p>
-        </>
-      )}
-
-      {step === 2 && (
-        <>
-          <div className="mb-6 text-center">
-            <h2 className="text-2xl font-bold text-gray-900">
-              Choose Your Role
-            </h2>
-            <p className="text-sm text-gray-500 mt-1">
-              Select the option that best describes how you’ll use the platform.
-            </p>
-          </div>
-
-          <div className="flex flex-col gap-4">
-            <div
-              onClick={() => setSelectedRole(2)}
-              className={`cursor-pointer p-5 border rounded-lg transition shadow-sm ${
-                selectedRole === 2
-                  ? "border-[#142d4c] bg-[#f0f4f8]"
-                  : "border-gray-300"
-              }`}
-            >
-              <div className="flex items-center gap-4">
-                <ShieldCheck className="w-6 h-6 text-[#142d4c]" />
-                <div>
-                  <h4 className="text-md font-semibold text-gray-800">
-                    Tournament Organizer
-                  </h4>
-                  <p className="text-sm text-gray-500">
-                    Create, manage, and host tournaments on the platform.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div
-              onClick={() => setSelectedRole(1)}
-              className={`cursor-pointer p-5 border rounded-lg transition shadow-sm ${
-                selectedRole === 1
-                  ? "border-[#142d4c] bg-[#f0f4f8]"
-                  : "border-gray-300"
-              }`}
-            >
-              <div className="flex items-center gap-4">
-                <Users className="w-6 h-6 text-[#142d4c]" />
-                <div>
-                  <h4 className="text-md font-semibold text-gray-800">
-                    Member
-                  </h4>
-                  <p className="text-sm text-gray-500">
-                    Join or create teams, enter tournaments, and track your
-                    progress.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <button
-              onClick={handleFinalSubmit}
-              disabled={loading}
-              className="w-full mt-4 bg-[#142d4c] hover:bg-[#1f3c5e] text-white font-semibold py-2.5 rounded-md transition disabled:opacity-50"
-            >
-              {loading ? "Creating account..." : "Create Account"}
-            </button>
-          </div>
-        </>
+      {step === 1 ? (
+        <RegisterStepOne
+          data={formData}
+          onChange={setFormData}
+          onContinue={handleStepOneSubmit}
+        />
+      ) : (
+        <RegisterStepTwo
+          selectedRole={formData.roleId}
+          setSelectedRole={(roleId: Roles) =>
+            setFormData({ ...formData, roleId })
+          }
+          onSubmit={handleFinalSubmit}
+          loading={loading}
+        />
       )}
     </div>
   );

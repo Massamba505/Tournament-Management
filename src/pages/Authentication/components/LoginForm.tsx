@@ -1,25 +1,27 @@
 import { useState } from "react";
-import { useAuth } from "../../../hooks/useAuth";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../../hooks/useAuth";
 import toast from "react-hot-toast";
 
 function LoginForm() {
+  const { login, loading } = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, loading } = useAuth();
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!email || !password) {
+    if (!email.trim() || !password.trim()) {
       toast.error("Please fill in all fields");
       return;
     }
 
     try {
       await login(email, password);
-    } catch (error) {
-      toast.error("Invalid email or password");
+    } catch (err: any) {
+      setError(err.message);
     }
   };
 
@@ -33,46 +35,31 @@ function LoginForm() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">
-        <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Email address
-          </label>
-          <input
-            id="email"
-            type="email"
-            placeholder="email@gmail.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#142d4c] focus:border-transparent"
-          />
-        </div>
+        {error && (
+          <div className="text-red-600 text-sm text-center">{error}</div>
+        )}
 
-        <div>
-          <div className="flex justify-between items-center">
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Password
-            </label>
-            <a href="#" className="text-sm text-[#5585b5] hover:underline">
-              Forgot password?
-            </a>
-          </div>
-          <input
-            id="password"
-            type="password"
-            placeholder="••••••••"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#142d4c] focus:border-transparent"
-          />
-        </div>
+        <InputField
+          label="Email address"
+          id="email"
+          type="email"
+          value={email}
+          onChange={setEmail}
+          placeholder="email@gmail.com"
+        />
+
+        <InputField
+          label="Password"
+          id="password"
+          type="password"
+          value={password}
+          onChange={setPassword}
+          placeholder="••••••••"
+          extraLink={{
+            href: "#",
+            text: "Forgot password?",
+          }}
+        />
 
         <button
           type="submit"
@@ -84,11 +71,61 @@ function LoginForm() {
       </form>
 
       <div className="mt-6 text-center text-sm text-gray-600">
-        Don't have an account?{" "}
+        Don&apos;t have an account?{" "}
         <Link to="/register" className="text-[#5585b5] hover:underline">
           Sign up
         </Link>
       </div>
+    </div>
+  );
+}
+
+interface InputFieldProps {
+  label: string;
+  id: string;
+  type: string;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  extraLink?: {
+    href: string;
+    text: string;
+  };
+}
+
+function InputField({
+  label,
+  id,
+  type,
+  value,
+  onChange,
+  placeholder,
+  extraLink,
+}: InputFieldProps) {
+  return (
+    <div>
+      <div className="flex justify-between items-center">
+        <label htmlFor={id} className="block text-sm font-medium text-gray-700">
+          {label}
+        </label>
+        {extraLink && (
+          <a
+            href={extraLink.href}
+            className="text-sm text-[#5585b5] hover:underline"
+          >
+            {extraLink.text}
+          </a>
+        )}
+      </div>
+      <input
+        id={id}
+        type={type}
+        value={value}
+        placeholder={placeholder}
+        onChange={(e) => onChange(e.target.value)}
+        required
+        className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#142d4c] focus:border-transparent"
+      />
     </div>
   );
 }

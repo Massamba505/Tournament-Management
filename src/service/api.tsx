@@ -47,7 +47,7 @@ export const userLogout = async (
   token: string
 ): Promise<{ message: string }> => {
   const response = await fetch(`${API_BASE_URL}/auth/logout`, {
-    method: "POST",
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
@@ -62,7 +62,7 @@ export const userLogout = async (
 };
 
 export const getMe = async (token: string): Promise<User> => {
-  const response = await fetch(`${API_BASE_URL}/me`, {
+  const response = await fetch(`${API_BASE_URL}/user/me`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,

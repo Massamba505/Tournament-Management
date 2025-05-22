@@ -1,22 +1,16 @@
 import { useEffect } from "react";
+import { useNavigate, Outlet } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import { Outlet, useNavigate } from "react-router-dom";
 
 function RedirectIfAuthenticated() {
-  const { user, loading, token } = useAuth();
+  const { user, token, loading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loading) {
-      if (user && token) {
-        navigate("/dashboard");
-      }
+    if (!loading && user && token) {
+      navigate("/dashboard");
     }
   }, [loading, user, token, navigate]);
-
-  if (loading) {
-    return <h1>Loading...</h1>;
-  }
 
   return <Outlet />;
 }
