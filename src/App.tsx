@@ -6,6 +6,7 @@ import RedirectIfAuthenticated from "./components/RedirectIfAuthenticated";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Unauthorized from "./pages/Unauthorized/Unauthorized";
+import DashboardLayout from "./components/Layouts/DashboardLayout";
 
 function App() {
   return (
@@ -20,7 +21,9 @@ function App() {
       <Route path="/unauthorized" element={<Unauthorized />} />
 
       <Route element={<ProtectedRoutes />}>
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route element={<DashboardLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
       </Route>
     </Routes>
   );
