@@ -21,7 +21,7 @@ function Hero() {
               <span className="text-[#5585b5]">Own the Game.</span>
             </h1>
 
-            <p className="text-xl text-white/90 mb-8 max-w-2xl">
+            <p className="text-xl text-white/90 mb-8 max-w-2xl text-justify">
               Whether you're hosting a local tournament or forming your dream
               team our platform makes it effortless. Create tournaments, invite
               teams, and track matches all in one place.
@@ -37,11 +37,6 @@ function Hero() {
                 Browse Tournaments
               </button>
             </div>
-
-            <p className="text-sm text-white/70 mt-6">
-              No sign-up needed to explore. Join as a player or create a team
-              today.
-            </p>
           </div>
 
           <div className="relative flex justify-center">

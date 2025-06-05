@@ -1,5 +1,5 @@
 function Dashboard() {
-  return <h1>I am dashboard</h1>;
+  return <h1 className="text-2xl font-bold">Dashboard</h1>;
 }
 
 export default Dashboard;

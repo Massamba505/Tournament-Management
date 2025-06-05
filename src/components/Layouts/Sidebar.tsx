@@ -1,17 +1,30 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import { Logo } from "../../assets";
 
 const navItems = [
   { name: "Dashboard", path: "/dashboard" },
-  { name: "Tournaments", path: "/dashboard/tournaments" },
-  { name: "Teams", path: "/dashboard/teams" },
-  { name: "Fixtures", path: "/dashboard/fixtures" },
-  { name: "Statistics", path: "/dashboard/statistics" },
+  { name: "Tournaments", path: "/tournaments" },
+  { name: "Teams", path: "/teams" },
+  { name: "Fixtures", path: "/fixtures" },
+  { name: "Statistics", path: "/statistics" },
 ];
 
 function Sidebar() {
   return (
-    <aside className="w-64 bg-[#142d4c] text-white h-screen p-5 pt-16">
-      <nav className="flex flex-col gap-4">
+    <aside className="w-64 bg-[#142d4c] text-white h-screen pt-7 p-5">
+      <header>
+        <Link to="/" className="flex gap-2 items-center">
+          <img
+            className="w-10 h-10 border-2 rounded-2xl"
+            src={Logo}
+            alt="Logo"
+          />
+          <span className="font-bold text-white text-lg tracking-wide">
+            TRM
+          </span>
+        </Link>
+      </header>
+      <nav className="flex flex-col mt-7 gap-4">
         {navItems.map(({ name, path }) => (
           <NavLink
             key={path}

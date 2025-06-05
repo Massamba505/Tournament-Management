@@ -7,6 +7,10 @@ import ProtectedRoutes from "./components/ProtectedRoutes";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Unauthorized from "./pages/Unauthorized/Unauthorized";
 import DashboardLayout from "./components/Layouts/DashboardLayout";
+import Tournaments from "./pages/Dashboard/components/Tournaments";
+import Teams from "./pages/Dashboard/components/Teams";
+import Fixtures from "./pages/Dashboard/components/fixtures";
+import Statistics from "./pages/Dashboard/components/Statistics";
 
 function App() {
   return (
@@ -23,6 +27,10 @@ function App() {
       <Route element={<ProtectedRoutes />}>
         <Route element={<DashboardLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/tournaments" element={<Tournaments />} />
+          <Route path="/teams" element={<Teams />} />
+          <Route path="/fixtures" element={<Fixtures />} />
+          <Route path="/statistics" element={<Statistics />} />
         </Route>
       </Route>
     </Routes>
