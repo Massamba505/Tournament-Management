@@ -48,7 +48,7 @@ function RegisterForm() {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto p-6 mt-10 bg-white rounded-xl shadow-lg border border-gray-100">
+    <div className="w-full max-w-md mx-auto p-6 bg-white rounded-xl shadow-lg border border-gray-100">
       {step === 1 ? (
         <RegisterStepOne
           data={formData}
