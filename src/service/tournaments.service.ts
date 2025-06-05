@@ -7,36 +7,36 @@ import type {
 import type { Match } from "../types/match";
 
 export const getTournaments = (): Promise<Tournament[]> => {
-  return api("/tournaments");
+  return api("/tournament");
 };
 
 export const createTournament = (
   tournament: Partial<Tournament>
 ): Promise<void> => {
-  return api("/tournaments", {
+  return api("/tournament", {
     method: "POST",
     body: JSON.stringify(tournament),
   });
 };
 
 export const getTournamentById = (id: string): Promise<Tournament> => {
-  return api(`/tournaments/${id}`);
+  return api(`/tournament/${id}`);
 };
 
 export const getTournamentTypes = (): Promise<TournamentType[]> => {
-  return api("/tournament-types");
+  return api("/tournament/types");
 };
 
 export const getTournamentFormats = (): Promise<TournamentFormat[]> => {
-  return api("/tournament-formats");
+  return api("/tournament/formats");
 };
 
 export const getMatches = (tournamentId: string): Promise<Match[]> => {
-  return api(`/tournaments/${tournamentId}/matches`);
+  return api(`/tournament/${tournamentId}/matches`);
 };
 
 export const createMatch = (match: Partial<Match>): Promise<void> => {
-  return api("/matches", {
+  return api("/match", {
     method: "POST",
     body: JSON.stringify(match),
   });
