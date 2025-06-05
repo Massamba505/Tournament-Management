@@ -1,19 +1,8 @@
-export type Roles = 1 | 2;
-
-export interface User {
-  id: string;
-  name: string;
-  surname: string;
-  email: string;
-  password: string;
-  profilePricture: string;
-  role: Roles;
-}
-
-export interface RegisterRequest {
-  name: string;
-  surname: string;
-  email: string;
-  password: string;
-  roleId: number;
-}
+export * from "./role";
+export * from "./user";
+export * from "./team";
+export * from "./player";
+export * from "./tournament";
+export * from "./match";
+export * from "./playerStat";
+export * from "./leaderboard";
