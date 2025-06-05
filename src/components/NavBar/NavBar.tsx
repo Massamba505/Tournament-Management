@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 // import { Logo } from "../assets";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 import ProfileDropdown from "./ProfileDropdown";
 
 function NavBar() {
@@ -20,20 +20,20 @@ function NavBar() {
           {/* <nav className="hidden md:flex items-center gap-6 text-white font-medium">
             <Link
               to="/"
-              className="hover:text-[#6bacec] transition-colors duration-200"
+              className="hover:text-[#6bacec] duration-200"
             >
               Home
             </Link>
             <Link
               to="/tournaments"
-              className="hover:text-[#6bacec] transition-colors duration-200"
+              className="hover:text-[#6bacec] duration-200"
             >
               Tournaments
             </Link>
             {user && (
               <Link
                 to="/dashboard"
-                className="hover:text-[#6bacec] transition-colors duration-200"
+                className="hover:text-[#6bacec] duration-200"
               >
                 Dashboard
               </Link>

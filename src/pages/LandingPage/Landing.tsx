@@ -3,7 +3,7 @@ import Hero from "./components/Hero";
 
 function LandingPage() {
   return (
-    <MainLayout showFooter={false}>
+    <MainLayout>
       <div className="min-h-screen bg-white text-black">
         <Hero />
       </div>

@@ -2,7 +2,7 @@ import MainLayout from "../../components/Layouts/MainLayout";
 
 function Unauthorized() {
   return (
-    <MainLayout showFooter={false}>
+    <MainLayout>
       <div className="min-h-screen flex flex-col justify-center items-center bg-gray-600 text-white">
         <div className="text-center">
           <h1 className="text-6xl font-extrabold mb-4">403 - Unauthorized</h1>
