@@ -1,7 +1,19 @@
-import { createContext, useState, useEffect, type ReactNode } from "react";
-import { getMe, userLogin, userLogout, UserRegister } from "../service/api";
+import {
+  createContext,
+  useState,
+  useEffect,
+  type ReactNode,
+  useCallback,
+} from "react";
 import toast from "react-hot-toast";
-import type { RegisterRequest, User } from "../types";
+import {
+  login as loginApi,
+  register as registerApi,
+  logout as logoutApi,
+} from "../service/auth.service";
+import type { User } from "../types/user";
+import type { RegisterRequest } from "../types/auth";
+import { getCurrentUser } from "../service/user.service";
 
 interface AuthContextType {
   user: User | null;
@@ -9,7 +21,7 @@ interface AuthContextType {
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (data: RegisterRequest) => Promise<void>;
-  logout: () => Promise<void>;
+  logout: () => void;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -18,66 +30,66 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(() => {
-    return localStorage.getItem("token");
-  });
+  const [token, setToken] = useState<string | null>(() =>
+    localStorage.getItem("token")
+  );
   const [loading, setLoading] = useState(true);
 
-  const fetchUser = async (authToken: string) => {
+  const handleToken = useCallback((newToken: string | null) => {
+    if (newToken) {
+      localStorage.setItem("token", newToken);
+    } else {
+      localStorage.removeItem("token");
+    }
+    setToken(newToken);
+  }, []);
+
+  const fetchUser = useCallback(async () => {
+    if (!token) return;
     setLoading(true);
     try {
-      console.log("fetching user");
-      const userData = await getMe(authToken);
-      console.log(userData);
+      const userData = await getCurrentUser();
       setUser(userData);
     } catch (err) {
-      const message = "Failed to fetch user";
-      errorHappend(message);
-      localStorage.removeItem("token");
+      toast.error("Session expired. Please log in again.");
+      handleToken(null);
+      setUser(null);
     } finally {
       setLoading(false);
     }
-  };
+  }, [token, handleToken]);
 
   useEffect(() => {
     if (token) {
-      fetchUser(token);
+      fetchUser();
     } else {
       setLoading(false);
     }
-  }, [token]);
-
-  const errorHappend = (message: string) => {
-    setToken(null);
-    setUser(null);
-    throw new Error(message);
-  };
+  }, [token, fetchUser]);
 
   const login = async (email: string, password: string) => {
     setLoading(true);
     try {
-      const { message, token: newToken } = await userLogin(email, password);
-      localStorage.setItem("token", newToken);
+      const { token: newToken, message } = await loginApi({ email, password });
       toast.success(message);
-      setToken(newToken);
+      handleToken(newToken);
     } catch (err) {
-      const message = "Login failed. Please check your credentials.";
-      errorHappend(message);
+      toast.error("Login failed. Check your credentials.");
+      handleToken(null);
     } finally {
       setLoading(false);
     }
   };
 
-  const register = async (userDetails: RegisterRequest) => {
+  const register = async (data: RegisterRequest) => {
     setLoading(true);
     try {
-      const { message, token: newToken } = await UserRegister(userDetails);
-      localStorage.setItem("token", newToken);
+      const { token: newToken, message } = await registerApi(data);
       toast.success(message);
-      setToken(newToken);
+      handleToken(newToken);
     } catch (err) {
-      const message = "Registration failed. Please try again.";
-      errorHappend(message);
+      toast.error("Registration failed. Try again.");
+      handleToken(null);
     } finally {
       setLoading(false);
     }
@@ -86,17 +98,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = async () => {
     setLoading(true);
     try {
-      if (token) {
-        const { message } = await userLogout(token);
-        toast.success(message);
-      }
-    } catch (err) {
-      const message = "Logout failed.";
-      errorHappend(message);
-    } finally {
-      localStorage.removeItem("token");
-      setToken(null);
+      const { message } = await logoutApi();
+      toast.success(message);
+      handleToken(null);
       setUser(null);
+    } catch (err) {
+    } finally {
       setLoading(false);
     }
   };
