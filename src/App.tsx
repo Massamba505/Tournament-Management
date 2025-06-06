@@ -1,18 +1,20 @@
 import { Route, Routes } from "react-router-dom";
-import LandingPage from "./pages/LandingPage/Landing";
-import Login from "./pages/Authentication/Login";
-import Register from "./pages/Authentication/Register";
 import RedirectIfAuthenticated from "./components/RedirectIfAuthenticated";
 import ProtectedRoutes from "./components/ProtectedRoutes";
-import Dashboard from "./pages/Dashboard/Dashboard/Dashboard";
-import Unauthorized from "./pages/Unauthorized/Unauthorized";
-import DashboardLayout from "./pages/Dashboard/components/DashboardLayout";
-import Tournaments from "./pages/Dashboard/Tournaments/Tournaments";
-import Teams from "./pages/Dashboard/Teams/Teams";
-import Fixtures from "./pages/Dashboard/Fixtures/Fixtures";
-import Statistics from "./pages/Dashboard/Statistics/Statistics";
-import Notifications from "./pages/Notifications/Notifications";
-import CreateTournaments from "./pages/Dashboard/Tournaments/CreateTournament";
+import {
+  CreateTournaments,
+  Dashboard,
+  DashboardLayout,
+  Fixtures,
+  LandingPage,
+  Login,
+  Notifications,
+  Register,
+  Statistics,
+  Teams,
+  Tournaments,
+  Unauthorized,
+} from "./pages";
 
 function App() {
   return (

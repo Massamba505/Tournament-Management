@@ -1,4 +1,3 @@
-import { Settings } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 import ProfileDropdown from "./NavBar/ProfileDropdown";
 
