@@ -1,7 +1,35 @@
 import { Users, Plus } from "lucide-react";
 
 const TournamentSection = () => {
-  const tournaments: any = [];
+  const tournaments = [
+    {
+      id: 1,
+      name: "Summer League 2023",
+      role: "Organizer",
+      teams: 8,
+      status: "In Progress",
+      progress: 75,
+      statusColor: "bg-green-100 text-green-800",
+    },
+    {
+      id: 2,
+      name: "Corporate Cup",
+      role: "Team Manager",
+      teams: 12,
+      status: "In Progress",
+      progress: 25,
+      statusColor: "bg-green-100 text-green-800",
+    },
+    {
+      id: 3,
+      name: "Youth Championship",
+      role: "Organizer",
+      teams: 16,
+      status: "Starting Soon",
+      progress: 10,
+      statusColor: "bg-yellow-100 text-yellow-800",
+    },
+  ];
 
   return (
     <>
@@ -47,7 +75,7 @@ const TournamentSection = () => {
             </div>
           </div>
 
-          <button className="w-full py-2 px-4 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">
+          <button className="w-full py-2 px-4 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-200">
             Manage Tournament
           </button>
         </div>

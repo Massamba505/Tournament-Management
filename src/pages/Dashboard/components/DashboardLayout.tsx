@@ -14,7 +14,7 @@ function DashboardLayout() {
           onToggle={() => setSidebarOpen(!sidebarOpen)}
         />
         <main
-          className={`flex-1 min-h-screen transition-all duration-300 p-6 ${
+          className={`flex-1 h-full transition-all duration-300 p-6 ${
             sidebarOpen ? "ml-64" : "ml-16"
           }`}
         >

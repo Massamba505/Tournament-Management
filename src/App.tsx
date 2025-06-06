@@ -12,6 +12,7 @@ import Teams from "./pages/Dashboard/Teams/Teams";
 import Fixtures from "./pages/Dashboard/Fixtures/Fixtures";
 import Statistics from "./pages/Dashboard/Statistics/Statistics";
 import Notifications from "./pages/Notifications/Notifications";
+import CreateTournaments from "./pages/Dashboard/Tournaments/CreateTournament";
 
 function App() {
   return (
@@ -25,14 +26,15 @@ function App() {
 
       <Route path="/unauthorized" element={<Unauthorized />} />
 
-      <Route element={<ProtectedRoutes />}>
-        <Route element={<DashboardLayout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/tournaments" element={<Tournaments />} />
-          <Route path="/teams" element={<Teams />} />
-          <Route path="/fixtures" element={<Fixtures />} />
-          <Route path="/statistics" element={<Statistics />} />
-          <Route path="/notifications" element={<Notifications />} />
+      <Route path="/" element={<DashboardLayout />}>
+        <Route element={<ProtectedRoutes />}>
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="tournaments" element={<Tournaments />} />
+          <Route path="create-tournament" element={<CreateTournaments />} />
+          <Route path="teams" element={<Teams />} />
+          <Route path="fixtures" element={<Fixtures />} />
+          <Route path="statistics" element={<Statistics />} />
+          <Route path="notifications" element={<Notifications />} />
         </Route>
       </Route>
     </Routes>

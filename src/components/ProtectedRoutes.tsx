@@ -1,9 +1,9 @@
 import { Navigate, Outlet } from "react-router-dom";
-import type { Roles } from "../types";
 import { useAuth } from "../hooks/useAuth";
+import type { Role } from "../types";
 
 interface ProtectedRoutesProps {
-  requiredRole?: Roles | Roles[];
+  requiredRole?: Role | Role[];
 }
 
 export default function ProtectedRoutes({
@@ -16,7 +16,6 @@ export default function ProtectedRoutes({
   }
 
   if (!token || !user) {
-    console.log("noooo token");
     return <Navigate to="/login" replace />;
   }
 

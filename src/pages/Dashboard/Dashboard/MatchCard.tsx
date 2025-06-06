@@ -7,7 +7,7 @@ interface MatchCardProps {
 
 const MatchCard: React.FC<MatchCardProps> = ({ match }) => {
   return (
-    <div className="bg-white rounded-lg border border-gray-100 p-4 mb-4 hover:shadow-md transition-shadow">
+    <div className="bg-white min-w-xs rounded-lg border border-gray-200 p-4 mb-4 hover:shadow-md transition-shadow">
       <div className="text-sm text-gray-500 mb-3 font-medium">
         {match.league}
       </div>
@@ -30,7 +30,7 @@ const MatchCard: React.FC<MatchCardProps> = ({ match }) => {
         </div>
       </div>
 
-      <div className="flex items-center flex-wrap text-sm justify-between text-gray-600">
+      <div className="flex items-center flex-col flex-wrap text-sm justify-between text-gray-600">
         <div className="flex items-center space-x-1">
           <Calendar size={14} />
           <span>
@@ -45,7 +45,7 @@ const MatchCard: React.FC<MatchCardProps> = ({ match }) => {
       </div>
 
       <div className="mt-3 text-right">
-        <button className="w-full py-2 px-4 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">
+        <button className="w-full py-2 px-4 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-200">
           View Details
         </button>
       </div>

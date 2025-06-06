@@ -9,16 +9,14 @@ const Dashboard = () => {
 
   return (
     <>
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Dashboard</h1>
+      <h1 className="text-3xl font-bold text-black mb-5">Dashboard</h1>
       <StatsOverview />
-      <div className="flex flex-wrap gap-6 mt-8">
-        <div className="flex-1 flex min-w-96 flex-col">
+      <div className="flex flex-wrap gap-6 mt-8 h-full">
+        <div className="flex-1 min-w-md flex flex-col">
           <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
           <TabContent activeTab={activeTab} />
         </div>
-        <div className="space-y-6">
-          <UpcomingMatches />
-        </div>
+        <UpcomingMatches />
       </div>
     </>
   );

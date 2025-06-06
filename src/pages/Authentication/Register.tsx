@@ -4,7 +4,7 @@ import RegisterForm from "./components/RegisterForm";
 
 function Register() {
   return (
-    <MainLayout showFooter={false} showNav={false}>
+    <MainLayout>
       <div className="flex flex-col items-center justify-center">
         <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">

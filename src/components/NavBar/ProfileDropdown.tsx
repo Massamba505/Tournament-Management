@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import { LogOut, UserCircle2 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { LogOut, Settings, UserCircle2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 
 function ProfileDropdown() {
@@ -9,10 +9,26 @@ function ProfileDropdown() {
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
-  const handleLogout = () => {
-    logout();
-    navigate("/");
-  };
+  const menuItems = [
+    {
+      label: "Profile",
+      icon: <UserCircle2 />,
+      action: () => navigate("/profile"),
+    },
+    {
+      label: "Settings",
+      icon: <Settings />,
+      action: () => navigate("/settings"),
+    },
+    {
+      label: "Logout",
+      icon: <LogOut />,
+      action: () => {
+        logout();
+        navigate("/");
+      },
+    },
+  ];
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -30,9 +46,9 @@ function ProfileDropdown() {
   }, []);
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative flex-shrink-0" ref={dropdownRef}>
       <button
-        className="flex cursor-pointer items-center gap-2 "
+        className="flex cursor-pointer items-center gap-2"
         onClick={() => setOpen((prev) => !prev)}
       >
         <img
@@ -43,22 +59,17 @@ function ProfileDropdown() {
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-36 bg-white rounded-lg shadow-lg z-50">
-          <Link
-            to="/profile"
-            className="px-4 py-2 text-sm text-gray-700 flex rounded-lg justify-between items-center hover:bg-gray-100"
-            onClick={() => setOpen(false)}
-          >
-            Profile
-            <UserCircle2 />
-          </Link>
-          <button
-            onClick={handleLogout}
-            className="w-full text-left px-4 py-2 text-sm text-gray-700 rounded-lg flex justify-between items-center hover:bg-gray-100"
-          >
-            Logout
-            <LogOut />
-          </button>
+        <div className="absolute left-0 -top-35 mt-2 w-36 bg-white rounded-lg shadow-lg z-50">
+          {menuItems.map((item, index) => (
+            <button
+              key={index}
+              onClick={item.action}
+              className="w-full text-left px-4 py-2 text-sm text-gray-700 rounded-lg flex justify-between items-center hover:bg-gray-100"
+            >
+              {item.label}
+              {item.icon}
+            </button>
+          ))}
         </div>
       )}
     </div>

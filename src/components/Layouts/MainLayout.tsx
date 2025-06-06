@@ -1,18 +1,13 @@
 import React from "react";
-import NavBar from "../NavBar/NavBar";
 
 interface MainLayoutProps {
   children: React.ReactNode;
-  showNav?: boolean;
 }
 
-function MainLayout({ children, showNav = true }: MainLayoutProps) {
+function MainLayout({ children }: MainLayoutProps) {
   return (
     <div className="min-h-screen flex flex-col">
-      {showNav && <NavBar />}
-      <div className="flex-grow min-h-screen bg-white text-black">
-        {children}
-      </div>
+      <div className="flex-grow h-full bg-white text-black">{children}</div>
     </div>
   );
 }

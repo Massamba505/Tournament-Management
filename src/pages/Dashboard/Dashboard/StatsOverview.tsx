@@ -17,7 +17,7 @@ const StatsOverview = () => {
       {stats.map((stat: any, index: any) => (
         <div
           key={index}
-          className="bg-white flex-1 min-w-56 p-6 rounded-lg shadow-sm border border-gray-100"
+          className="bg-white max-w-md flex-1 min-w-56 p-6 rounded-lg shadow-sm border border-gray-100"
         >
           <div className="flex items-center justify-between">
             <div>

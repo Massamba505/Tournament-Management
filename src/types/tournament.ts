@@ -23,3 +23,15 @@ export interface TournamentRegistration {
   teamId: string;
   registeredAt?: string;
 }
+
+export type TournamentFormData = {
+  name: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  format: "League" | "Knockout";
+  type: "5-a-side" | "11-a-side";
+  location: string;
+  maxTeams: number;
+  rules: string;
+};
