@@ -52,7 +52,7 @@ function ProfileDropdown() {
         onClick={() => setOpen((prev) => !prev)}
       >
         <img
-          src={`https://eu.ui-avatars.com/api/?name=${user?.name}+${user?.surname}&size=250`}
+          src={user?.profilePicture}
           alt="Profile"
           className="w-10 h-10 rounded-full border-2 border-gray-300 object-cover"
         />
