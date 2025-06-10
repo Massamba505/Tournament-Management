@@ -1,37 +1,24 @@
-export interface TournamentType {
-  id: number;
-  name: "5-a-side" | "7-a-side" | "Futsal";
-}
-
 export interface TournamentFormat {
   id: number;
-  name: "Knockout" | "RoundRobin";
-}
-
-export interface Tournament {
-  id: string;
   name: string;
-  type: TournamentType;
-  format: TournamentFormat;
-  location?: string;
-  startDate?: string;
-  organizerId: number;
 }
 
-export interface TournamentRegistration {
-  tournamentId: string;
-  teamId: string;
-  registeredAt?: string;
+export interface CreateTournament {
+  name: string | null;
+  organizerId: string | null;
+  description: string | null;
+  formatId: number | null;
+  numberOfTeams: number | null;
+  maxPlayersPerTeam: number | null;
+  startDate: string | null;
+  endDate: string | null;
+  location: string | null;
+  allowJoinViaLink: boolean;
+  bannerImage: string | null;
+  contactEmail?: string | null;
+  contactPhone?: string | null;
+  entryFee?: number | null;
+  matchDuration: number | null;
+  registrationDeadline: string | null;
+  isPublic: boolean | null;
 }
-
-export type TournamentFormData = {
-  name: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  format: "League" | "Knockout";
-  type: "5-a-side" | "11-a-side";
-  location: string;
-  maxTeams: number;
-  rules: string;
-};
