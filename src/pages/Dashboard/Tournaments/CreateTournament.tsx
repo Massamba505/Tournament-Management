@@ -1,459 +1,449 @@
-import React, { useState } from "react";
-import { Trophy, Calendar } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Trophy } from "lucide-react";
+import { useAuth } from "../../../hooks/useAuth";
+import type { TournamentFormat, CreateTournament } from "../../../types";
+import {
+  createTournament,
+  getTournamentFormats,
+} from "../../../service/tournaments.service";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 function CreateTournaments() {
-  const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    type: "",
-    format: "",
-    numberOfTeams: "",
-    startDate: "",
-    endDate: "",
-    location: "",
+  const { user, loading: isLoading } = useAuth();
+  const [formats, setFormats] = useState<TournamentFormat[]>([]);
+  const navigation = useNavigate();
+
+  const [formData, setFormData] = useState<CreateTournament>({
+    name: null,
+    organizerId: user?.id ?? null,
+    description: null,
+    formatId: 0,
+    numberOfTeams: 2,
+    maxPlayersPerTeam: 2,
+    startDate: null,
+    endDate: null,
+    location: null,
     allowJoinViaLink: false,
-    organizer: "",
-    bannerImage: "",
-    prize: "",
-    rules: "",
-    contact: "",
-    entryFee: "",
-    matchDuration: "",
-    registrationDeadline: "",
-    visibility: "public",
-    maxPlayers: "",
-    ageGroup: "",
+    bannerImage: null,
+    contactEmail: null,
+    contactPhone: null,
+    entryFee: null,
+    matchDuration: 0,
+    registrationDeadline: null,
+    isPublic: true,
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    const fetchFormats = async () => {
+      try {
+        const data = await getTournamentFormats();
+        setFormats(data);
+      } catch (err: any) {
+        toast.error(err.message);
+        console.error(err);
+      }
+    };
+
+    fetchFormats();
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Tournament data:", formData);
+
+    try {
+      await createTournament({
+        ...formData,
+        organizerId: user?.id || "",
+      });
+      toast.success("Tournament created successfully!");
+      navigation("/dashboard");
+    } catch (err: any) {
+      toast.error(err.message);
+      console.error(err);
+    }
   };
 
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value, type } = e.target;
+    let val: string | number | boolean = value;
+
+    if (type === "checkbox") {
+      val = (e.target as HTMLInputElement).checked;
+    } else if (type === "number") {
+      val = Number(value);
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: val,
+    }));
+  };
+
+  const handleContactChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const isEmail = value.includes("@");
+
+    setFormData((prev) => ({
+      ...prev,
+      contactEmail: isEmail ? value : null,
+      contactPhone: !isEmail ? value : null,
+    }));
+  };
+
+  if (isLoading)
+    return <div className="text-center py-10">Loading formats...</div>;
+
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <div className="flex items-center gap-3 mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">
+    <div className="max-w-4xl mx-auto p-4 sm:p-6">
+      <div className="flex items-center justify-center gap-3 mb-6">
+        <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl">
           Create Your Tournament
         </h1>
       </div>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-        <div className="flex flex-col gap-2">
-          <label htmlFor="name" className="text-base font-medium text-gray-900">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 sm:gap-6">
+        <div className="p-4 sm:p-6 rounded-lg shadow-sm border border-gray-100">
+          <label
+            htmlFor="name"
+            className="block text-sm sm:text-base font-medium text-gray-800 mb-2"
+          >
             Tournament Name
           </label>
           <input
             id="name"
+            name="name"
             type="text"
             placeholder="e.g. Summer League 2023"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className="h-12 text-base w-full border border-gray-300 rounded px-3"
+            value={formData.name ?? ""}
+            onChange={handleChange}
+            className="w-full px-4 py-2 sm:py-3 border border-gray-300 rounded-lg"
+            required
           />
         </div>
 
-        <div className="flex flex-col gap-2">
-          <label
-            htmlFor="organizer"
-            className="text-base font-medium text-gray-900"
-          >
-            Organizer / Organization
-          </label>
-          <input
-            id="organizer"
-            type="text"
-            placeholder="e.g. Soccer United League"
-            value={formData.organizer}
-            onChange={(e) =>
-              setFormData({ ...formData, organizer: e.target.value })
-            }
-            className="h-12 text-base w-full border border-gray-300 rounded px-3"
-          />
+        <div className="p-4 sm:p-6 rounded-lg shadow-sm border border-gray-100">
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4">
+            Organizer Information
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+            <div>
+              <label
+                htmlFor="bannerImage"
+                className="block text-sm sm:text-base font-medium text-gray-700 mb-2"
+              >
+                Banner Image URL
+              </label>
+              <input
+                id="bannerImage"
+                name="bannerImage"
+                type="text"
+                placeholder="https://example.com/banner.jpg"
+                value={formData.bannerImage ?? ""}
+                onChange={handleChange}
+                className="w-full px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="contact"
+                className="block text-sm sm:text-base font-medium text-gray-700 mb-2"
+              >
+                Contact (Email or Phone)
+              </label>
+              <input
+                id="contact"
+                type="text"
+                placeholder="info@league.com or +27123456789"
+                value={(formData.contactEmail || formData.contactPhone) ?? ""}
+                onChange={handleContactChange}
+                className="w-full px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg"
+                required
+              />
+            </div>
+          </div>
         </div>
 
-        <div className="flex flex-col gap-2">
-          <label
-            htmlFor="bannerImage"
-            className="text-base font-medium text-gray-900"
-          >
-            Banner Image URL
-          </label>
-          <input
-            id="bannerImage"
-            type="text"
-            placeholder="e.g. https://example.com/banner.jpg"
-            value={formData.bannerImage}
-            onChange={(e) =>
-              setFormData({ ...formData, bannerImage: e.target.value })
-            }
-            className="h-12 text-base w-full border border-gray-300 rounded px-3"
-          />
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <label
-            htmlFor="description"
-            className="text-base font-medium text-gray-900"
-          >
-            Description
-          </label>
+        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+          <div className="flex items-center justify-between mb-2">
+            <h2 className="block text-lg font-medium text-gray-800">
+              Description
+            </h2>
+            <span className="text-sm text-gray-500">
+              {formData.description?.length ?? 0}/255
+            </span>
+          </div>
+          <p className="text-sm text-gray-500 mb-3">
+            Describe your tournament format, rules, and any special requirements
+          </p>
           <textarea
             id="description"
-            placeholder="Tell teams what your tournament is about..."
-            value={formData.description}
-            onChange={(e) =>
-              setFormData({ ...formData, description: e.target.value })
-            }
-            className="min-h-[120px] text-base w-full border border-gray-300 rounded px-3 py-2 resize-none"
+            name="description"
+            placeholder="e.g., This is a 5-a-side summer tournament with knockout rounds..."
+            value={formData.description ?? ""}
+            onChange={handleChange}
+            maxLength={255}
+            className="w-full min-h-[120px] px-4 py-3 border border-gray-300 rounded-lg 
+               transition-all duration-200"
+            required
           />
         </div>
 
-        <div className="w-full flex justify-between flex-wrap sm:flex-row flex-col gap-6">
-          <div className="flex flex-col gap-2 flex-1">
-            <label
-              htmlFor="type"
-              className="text-base font-medium text-gray-900"
-            >
-              Tournament Type
-            </label>
-            <select
-              id="type"
-              value={formData.type}
-              onChange={(e) =>
-                setFormData({ ...formData, type: e.target.value })
-              }
-              className="h-12 text-base w-full border border-gray-300 rounded px-3"
-            >
-              <option value="">Select tournament type</option>
-              <option value="5aside">5-aside</option>
-              <option value="6aside">6-aside</option>
-              <option value="7aside">7-aside</option>
-            </select>
-          </div>
+        <div className="p-4 sm:p-6 rounded-lg shadow-sm border border-gray-100">
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4">
+            Tournament Details
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+            <div>
+              <label
+                htmlFor="formatId"
+                className="block text-sm sm:text-base font-medium text-gray-700 mb-2"
+              >
+                Tournament Format
+              </label>
+              <select
+                id="formatId"
+                name="formatId"
+                value={formData.formatId ?? ""}
+                onChange={handleChange}
+                className="w-full px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg"
+                required
+              >
+                <option value="">Select format</option>
+                {formats.map((format) => (
+                  <option key={format.id} value={format.id}>
+                    {format.name}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          <div className="flex flex-col gap-2 flex-1">
-            <label
-              htmlFor="format"
-              className="text-base font-medium text-gray-900"
-            >
-              Tournament Format
-            </label>
-            <select
-              id="format"
-              value={formData.format}
-              onChange={(e) =>
-                setFormData({ ...formData, format: e.target.value })
-              }
-              className="h-12 text-base w-full border border-gray-300 rounded px-3"
-            >
-              <option value="">Select format</option>
-              <option value="single-elimination">Single Elimination</option>
-              <option value="double-elimination">Double Elimination</option>
-              <option value="round-robin">Round Robin</option>
-            </select>
+            <div>
+              <label
+                htmlFor="numberOfTeams"
+                className="block text-sm sm:text-base font-medium text-gray-700 mb-2"
+              >
+                Number of Teams
+              </label>
+              <input
+                id="numberOfTeams"
+                name="numberOfTeams"
+                type="number"
+                min="2"
+                max="128"
+                value={formData.numberOfTeams ?? ""}
+                onChange={handleChange}
+                className="w-full px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg"
+                required
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="maxPlayersPerTeam"
+                className="block text-sm sm:text-base font-medium text-gray-700 mb-2"
+              >
+                Max Players per Team
+              </label>
+              <input
+                id="maxPlayersPerTeam"
+                name="maxPlayersPerTeam"
+                type="number"
+                min="1"
+                max="25"
+                value={formData.maxPlayersPerTeam ?? ""}
+                onChange={handleChange}
+                className="w-full px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg"
+                required
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="location"
+                className="block text-sm sm:text-base font-medium text-gray-700 mb-2"
+              >
+                Location
+              </label>
+              <input
+                id="location"
+                name="location"
+                type="text"
+                placeholder="City Sports Complex"
+                value={formData.location ?? ""}
+                onChange={handleChange}
+                className="w-full px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg"
+                required
+              />
+            </div>
           </div>
         </div>
 
-        <div className="w-full flex justify-between flex-wrap sm:flex-row flex-col gap-6">
-          <div className="flex flex-col gap-2 flex-1">
-            <label
-              htmlFor="numberOfTeams"
-              className="text-base font-medium text-gray-900"
-            >
-              Number of Teams
-            </label>
-            <select
-              id="numberOfTeams"
-              value={formData.numberOfTeams}
-              onChange={(e) =>
-                setFormData({ ...formData, numberOfTeams: e.target.value })
-              }
-              className="h-12 text-base w-full border border-gray-300 rounded px-3"
-            >
-              <option value="">Select number</option>
-              <option value="4">4 Teams</option>
-              <option value="8">8 Teams</option>
-              <option value="16">16 Teams</option>
-              <option value="32">32 Teams</option>
-              <option value="64">64 Teams</option>
-            </select>
-          </div>
-
-          <div className="flex flex-col gap-2 flex-1">
-            <label
-              htmlFor="maxPlayers"
-              className="text-base font-medium text-gray-900"
-            >
-              Max Players per Team
-            </label>
-            <input
-              id="maxPlayers"
-              type="number"
-              placeholder="e.g. 10"
-              value={formData.maxPlayers}
-              onChange={(e) =>
-                setFormData({ ...formData, maxPlayers: e.target.value })
-              }
-              className="h-12 text-base w-full border border-gray-300 rounded px-3"
-            />
-          </div>
-        </div>
-
-        <div className="w-full flex justify-between flex-wrap sm:flex-row flex-col gap-6">
-          <div className="flex flex-col gap-2 flex-1">
-            <label
-              htmlFor="startDate"
-              className="text-base font-medium text-gray-900"
-            >
-              Start Date
-            </label>
-            <div className="relative">
+        <div className="p-4 sm:p-6 rounded-lg shadow-sm border border-gray-100">
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4">
+            Schedule
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+            <div>
+              <label
+                htmlFor="startDate"
+                className="block text-sm sm:text-base font-medium text-gray-700 mb-2"
+              >
+                Start Date
+              </label>
               <input
                 id="startDate"
+                name="startDate"
                 type="date"
-                value={formData.startDate}
-                onChange={(e) =>
-                  setFormData({ ...formData, startDate: e.target.value })
-                }
-                className="h-12 text-base pr-10 w-full border border-gray-300 rounded px-3"
+                value={formData.startDate ?? ""}
+                onChange={handleChange}
+                className="w-full px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg"
+                required
               />
-              <Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
             </div>
-          </div>
 
-          <div className="flex flex-col gap-2 flex-1">
-            <label
-              htmlFor="endDate"
-              className="text-base font-medium text-gray-900"
-            >
-              End Date
-            </label>
-            <div className="relative">
+            <div>
+              <label
+                htmlFor="endDate"
+                className="block text-sm sm:text-base font-medium text-gray-700 mb-2"
+              >
+                End Date
+              </label>
               <input
                 id="endDate"
+                name="endDate"
                 type="date"
-                value={formData.endDate}
-                onChange={(e) =>
-                  setFormData({ ...formData, endDate: e.target.value })
-                }
-                className="h-12 text-base pr-10 w-full border border-gray-300 rounded px-3"
+                value={formData.endDate ?? ""}
+                onChange={handleChange}
+                className="w-full px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg"
+                required
               />
-              <Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
+            </div>
+
+            <div>
+              <label
+                htmlFor="registrationDeadline"
+                className="block text-sm sm:text-base font-medium text-gray-700 mb-2"
+              >
+                Registration Deadline
+              </label>
+              <input
+                id="registrationDeadline"
+                name="registrationDeadline"
+                type="date"
+                value={formData.registrationDeadline ?? ""}
+                onChange={handleChange}
+                className="w-full px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg"
+                required
+              />
             </div>
           </div>
         </div>
 
-        <div className="w-full flex justify-between flex-wrap sm:flex-row flex-col gap-6">
-          <div className="flex flex-col gap-2 flex-1">
-            <label
-              htmlFor="registrationDeadline"
-              className="text-base font-medium text-gray-900"
-            >
-              Registration Deadline
-            </label>
-            <input
-              id="registrationDeadline"
-              type="date"
-              value={formData.registrationDeadline}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  registrationDeadline: e.target.value,
-                })
-              }
-              className="h-12 text-base w-full border border-gray-300 rounded px-3"
-            />
+        <div className="p-4 sm:p-6 rounded-lg shadow-sm border border-gray-100">
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4">
+            Additional Settings
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+            <div>
+              <label
+                htmlFor="matchDuration"
+                className="block text-sm sm:text-base font-medium text-gray-700 mb-2"
+              >
+                Match Duration (minutes)
+              </label>
+              <input
+                id="matchDuration"
+                name="matchDuration"
+                type="number"
+                min="0"
+                max="120"
+                value={formData.matchDuration ?? ""}
+                onChange={handleChange}
+                className="w-full px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg"
+                required
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="entryFee"
+                className="block text-sm sm:text-base font-medium text-gray-700 mb-2"
+              >
+                Entry Fee (optional)
+              </label>
+              <input
+                id="entryFee"
+                name="entryFee"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="e.g. 200"
+                value={formData.entryFee ?? ""}
+                onChange={handleChange}
+                className="w-full px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg"
+              />
+            </div>
+
+            <div className="flex items-start space-x-3">
+              <input
+                id="allowJoinViaLink"
+                name="allowJoinViaLink"
+                type="checkbox"
+                checked={formData.allowJoinViaLink}
+                onChange={handleChange}
+                className="mt-1 w-5 h-5 text-[#142d4c] rounded focus:ring-[#142d4c]"
+              />
+              <div>
+                <label
+                  htmlFor="allowJoinViaLink"
+                  className="block text-sm sm:text-base font-medium text-gray-700"
+                >
+                  Allow join via link
+                </label>
+                <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                  Teams can join using a shareable link
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <label
+                htmlFor="isPublic"
+                className="block text-sm sm:text-base font-medium text-gray-700 mb-2"
+              >
+                Visibility
+              </label>
+              <select
+                id="isPublic"
+                name="isPublic"
+                value={formData.isPublic ? "public" : "private"}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    isPublic: e.target.value === "public",
+                  }))
+                }
+                className="w-full px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg"
+              >
+                <option value="public">Public - Visible to everyone</option>
+                <option value="private">Private - Only via invite</option>
+              </select>
+            </div>
           </div>
-
-          <div className="flex flex-col gap-2 flex-1">
-            <label
-              htmlFor="matchDuration"
-              className="text-base font-medium text-gray-900"
-            >
-              Match Duration (minutes)
-            </label>
-            <input
-              id="matchDuration"
-              type="number"
-              placeholder="e.g. 30"
-              value={formData.matchDuration}
-              onChange={(e) =>
-                setFormData({ ...formData, matchDuration: e.target.value })
-              }
-              className="h-12 text-base w-full border border-gray-300 rounded px-3"
-            />
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <label
-            htmlFor="location"
-            className="text-base font-medium text-gray-900"
-          >
-            Location
-          </label>
-          <input
-            id="location"
-            type="text"
-            placeholder="e.g. City Sports Complex"
-            value={formData.location}
-            onChange={(e) =>
-              setFormData({ ...formData, location: e.target.value })
-            }
-            className="h-12 text-base w-full border border-gray-300 rounded px-3"
-          />
-        </div>
-
-        <div className="w-full flex justify-between flex-wrap sm:flex-row flex-col gap-6">
-          <div className="flex flex-col gap-2 flex-1">
-            <label
-              htmlFor="ageGroup"
-              className="text-base font-medium text-gray-900"
-            >
-              Age Group
-            </label>
-            <input
-              id="ageGroup"
-              type="text"
-              placeholder="e.g. U18, Open"
-              value={formData.ageGroup}
-              onChange={(e) =>
-                setFormData({ ...formData, ageGroup: e.target.value })
-              }
-              className="h-12 text-base w-full border border-gray-300 rounded px-3"
-            />
-          </div>
-
-          <div className="flex flex-col gap-2 flex-1">
-            <label
-              htmlFor="entryFee"
-              className="text-base font-medium text-gray-900"
-            >
-              Entry Fee
-            </label>
-            <input
-              id="entryFee"
-              type="number"
-              placeholder="e.g. 200"
-              value={formData.entryFee}
-              onChange={(e) =>
-                setFormData({ ...formData, entryFee: e.target.value })
-              }
-              className="h-12 text-base w-full border border-gray-300 rounded px-3"
-            />
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <label
-            htmlFor="prize"
-            className="text-base font-medium text-gray-900"
-          >
-            Prize Information
-          </label>
-          <input
-            id="prize"
-            type="text"
-            placeholder="e.g. Trophy + R1000"
-            value={formData.prize}
-            onChange={(e) =>
-              setFormData({ ...formData, prize: e.target.value })
-            }
-            className="h-12 text-base w-full border border-gray-300 rounded px-3"
-          />
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <label
-            htmlFor="rules"
-            className="text-base font-medium text-gray-900"
-          >
-            Rules & Guidelines
-          </label>
-          <textarea
-            id="rules"
-            placeholder="Add key rules or player eligibility requirements..."
-            value={formData.rules}
-            onChange={(e) =>
-              setFormData({ ...formData, rules: e.target.value })
-            }
-            className="min-h-[120px] text-base w-full border border-gray-300 rounded px-3 py-2 resize-none"
-          />
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <label
-            htmlFor="contact"
-            className="text-base font-medium text-gray-900"
-          >
-            Contact Email / Phone
-          </label>
-          <input
-            id="contact"
-            type="text"
-            placeholder="e.g. info@soccerleague.com or +27123456789"
-            value={formData.contact}
-            onChange={(e) =>
-              setFormData({ ...formData, contact: e.target.value })
-            }
-            className="h-12 text-base w-full border border-gray-300 rounded px-3"
-          />
-        </div>
-
-        <div className="flex items-start gap-3">
-          <input
-            type="checkbox"
-            id="allowJoinViaLink"
-            checked={formData.allowJoinViaLink}
-            onChange={(e) =>
-              setFormData({ ...formData, allowJoinViaLink: e.target.checked })
-            }
-            className="mt-1 w-4 h-4 text-[#142d4c] border-gray-300 rounded"
-          />
-          <div>
-            <label
-              htmlFor="allowJoinViaLink"
-              className="text-base font-medium text-gray-900 cursor-pointer"
-            >
-              Allow teams to join via link
-            </label>
-            <p className="text-sm text-gray-500 mt-1">
-              You'll get a shareable link that teams can use to join your
-              tournament.
-            </p>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <label
-            htmlFor="visibility"
-            className="text-base font-medium text-gray-900"
-          >
-            Visibility
-          </label>
-          <select
-            id="visibility"
-            value={formData.visibility}
-            onChange={(e) =>
-              setFormData({ ...formData, visibility: e.target.value })
-            }
-            className="h-12 text-base w-full border border-gray-300 rounded px-3"
-          >
-            <option value="public">Public - visible to everyone</option>
-            <option value="private">
-              Private - visible only via invite link
-            </option>
-          </select>
         </div>
 
         <div className="pt-4">
           <button
             type="submit"
-            className="w-full h-14 bg-[#142d4c] hover:bg-[#142d4c]/90 text-white text-lg font-medium rounded-lg flex items-center justify-center gap-2"
+            className="w-full py-3.5 bg-gradient-to-r from-[#142d4c] to-[#1a508b] hover:from-[#1a508b] hover:to-[#142d4c] text-white font-semibold rounded-lg transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
           >
-            Create Tournament
             <Trophy className="w-5 h-5" />
+            Create Tournament
           </button>
         </div>
       </form>

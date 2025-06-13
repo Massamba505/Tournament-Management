@@ -50,8 +50,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const userData = await getCurrentUser();
       setUser(userData);
-    } catch (err) {
-      toast.error("Session expired. Please log in again.");
+    } catch (err: any) {
+      toast.error(err.message);
       handleToken(null);
       setUser(null);
     } finally {
@@ -73,8 +73,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const { token: newToken, message } = await loginApi({ email, password });
       toast.success(message);
       handleToken(newToken);
-    } catch (err) {
-      toast.error("Login failed. Check your credentials.");
+    } catch (err: any) {
+      toast.error(err.message);
       handleToken(null);
     } finally {
       setLoading(false);
@@ -87,8 +87,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const { token: newToken, message } = await registerApi(data);
       toast.success(message);
       handleToken(newToken);
-    } catch (err) {
-      toast.error("Registration failed. Try again.");
+    } catch (err: any) {
+      toast.error(err.message);
       handleToken(null);
     } finally {
       setLoading(false);
