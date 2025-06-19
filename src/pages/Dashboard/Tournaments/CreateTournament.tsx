@@ -8,6 +8,7 @@ import {
 } from "../../../service/tournaments.service";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import MainLayout from "../../../components/Layouts/MainLayout";
 
 function CreateTournaments() {
   const { user, loading: isLoading } = useAuth();
@@ -99,9 +100,9 @@ function CreateTournaments() {
     return <div className="text-center py-10">Loading formats...</div>;
 
   return (
-    <div className="max-w-4xl mx-auto p-4 sm:p-6">
+    <MainLayout>
       <div className="flex items-center justify-center gap-3 mb-6">
-        <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl">
+        <h1 className="text-xl font-semibold sm:text-2xl">
           Create Your Tournament
         </h1>
       </div>
@@ -447,7 +448,7 @@ function CreateTournaments() {
           </button>
         </div>
       </form>
-    </div>
+    </MainLayout>
   );
 }
 
