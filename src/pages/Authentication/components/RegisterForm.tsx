@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAuth } from "../../../hooks/useAuth";
-import type { Roles } from "../../../types";
 import RegisterStepOne from "./RegisterStepOne";
 import RegisterStepTwo from "./RegisterStepTwo";
+import type { Roles } from "../../../constants/roles";
 
 function RegisterForm() {
   const { register, loading, user } = useAuth();

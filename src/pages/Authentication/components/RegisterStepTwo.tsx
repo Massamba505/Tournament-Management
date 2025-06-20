@@ -1,5 +1,5 @@
 import { ShieldCheck, Users } from "lucide-react";
-import type { Roles } from "../../../types";
+import { Roles } from "../../../constants/roles";
 
 interface Props {
   selectedRole: Roles;
@@ -19,7 +19,7 @@ const RegisterStepTwo: React.FC<Props> = ({
       <div className="mb-6 text-center">
         <h2 className="text-2xl font-bold text-gray-900">Choose Your Role</h2>
         <p className="text-sm text-gray-500 mt-1">
-          Select the option that best describes how you’ll use the platform.
+          Select the option that best describes how you'll use the platform.
         </p>
       </div>
 
@@ -28,15 +28,16 @@ const RegisterStepTwo: React.FC<Props> = ({
           icon={<ShieldCheck className="w-6 h-6 text-[#142d4c]" />}
           title="Tournament Organizer"
           description="Create, manage, and host tournaments."
-          selected={selectedRole === 2}
-          onClick={() => setSelectedRole(2)}
+          selected={selectedRole === Roles.Organizer}
+          onClick={() => setSelectedRole(Roles.Organizer)}
         />
+
         <RoleCard
           icon={<Users className="w-6 h-6 text-[#142d4c]" />}
           title="Member"
           description="Join or create teams and enter tournaments."
-          selected={selectedRole === 1}
-          onClick={() => setSelectedRole(1)}
+          selected={selectedRole === Roles.General}
+          onClick={() => setSelectedRole(Roles.General)}
         />
 
         <button

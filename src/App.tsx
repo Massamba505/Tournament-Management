@@ -28,8 +28,8 @@ function App() {
 
       <Route path="/unauthorized" element={<Unauthorized />} />
 
-      <Route path="/" element={<DashboardLayout />}>
-        <Route element={<ProtectedRoutes />}>
+      <Route element={<ProtectedRoutes />}>
+        <Route path="/" element={<DashboardLayout />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="tournaments" element={<Tournaments />} />
           <Route path="create-tournament" element={<CreateTournaments />} />
