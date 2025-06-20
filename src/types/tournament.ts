@@ -23,62 +23,33 @@ export interface CreateTournament {
   isPublic: boolean | null;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-export interface User {
-  id: string;
-  name: string;
-  email?: string;
-}
-
-export interface Member {
-  id: number;
-  name: string;
-  surname?: string;
-  profilePicture?: string;
-}
-
-export interface TeamMember {
-  id: string;
-  teamId: string;
-  userId: string;
-  joinedAt: string;
-  isActive: boolean;
-  user: User;
-}
-
-export interface Team {
-  id: string;
-  name: string;
-  logoUrl?: string;
-  managerId: string;
-  captainId?: string;
-  createdAt: string;
-  isActive: boolean;
-  manager: User;
-  captain?: User;
-  members: TeamMember[];
-  players?: Member[];
-}
-
 export interface Tournament {
   id: string;
   name: string;
-  description?: string;
+  description: string;
+  format: string;
+  numberOfTeams: number;
+  maxPlayersPerTeam: number;
   startDate: string;
-  endDate?: string;
-  isActive: boolean;
+  endDate: string;
+  location: string;
+  allowJoinViaLink: boolean;
+  organizerId: string;
+  bannerImage: string;
+  contactEmail?: string;
+  contactPhone?: string;
+  entryFee?: number;
+  matchDuration?: number;
+  registrationDeadline: string;
+  isPublic: boolean;
+  createdAt: string;
 }
 
 export interface TournamentTeam {
   id: string;
-  tournamentId: string;
   teamId: string;
+  teamName: string;
+  teamLogoUrl: string;
   registeredAt: string;
   isActive: boolean;
-  tournament: Tournament;
-  team: Team;
-}
-
-export interface TournamentWithTeams extends Tournament {
-  teams: TournamentTeam[];
 }

@@ -1,11 +1,9 @@
-import type { Role } from "./role";
-
 export interface User {
   id: string;
   name: string;
   surname: string;
   email: string;
   profilePicture: string;
-  role: Role;
-  createdAt: string;
+  role: string; // Backend returns role as string
+  createdAt?: string; // Optional if not always present
 }
