@@ -1,5 +1,5 @@
 import React from "react";
-import type { RegisterRequest } from "../../../types";
+import type { RegisterRequest } from "../../../types/auth";
 
 interface Props {
   data: RegisterRequest;
@@ -26,32 +26,46 @@ const RegisterStepOne: React.FC<Props> = ({ data, onChange, onContinue }) => {
         }}
         className="space-y-4"
       >
-        {["name", "surname", "email", "password"].map((field) => (
-          <div key={field}>
-            <label
-              className="text-sm font-medium text-gray-700"
-              htmlFor={field}
-            >
-              {field === "surname"
-                ? "Last Name"
-                : field.charAt(0).toUpperCase() + field.slice(1)}
-            </label>
-            <input
-              id={field}
-              type={
-                field === "email"
-                  ? "email"
-                  : field === "password"
-                  ? "password"
-                  : "text"
-              }
-              value={data[field as keyof typeof data]}
-              onChange={(e) => onChange({ ...data, [field]: e.target.value })}
-              required
-              className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#142d4c]"
-            />
-          </div>
-        ))}
+        {["name", "surname", "email", "password", "confirmPassword"].map(
+          (field) => (
+            <div key={field}>
+              <label
+                className="text-sm font-medium text-gray-700"
+                htmlFor={field}
+              >
+                {field === "surname"
+                  ? "Last Name"
+                  : field === "confirmPassword"
+                  ? "Confirm Password"
+                  : field.charAt(0).toUpperCase() + field.slice(1)}
+              </label>
+              <input
+                id={field}
+                type={
+                  field === "email"
+                    ? "email"
+                    : field === "password" || field === "confirmPassword"
+                    ? "password"
+                    : "text"
+                }
+                autoComplete={
+                  field === "password" || field === "confirmPassword"
+                    ? "new-password"
+                    : undefined
+                }
+                value={data[field as keyof typeof data]}
+                onChange={(e) => onChange({ ...data, [field]: e.target.value })}
+                required
+                minLength={
+                  field === "password" || field === "confirmPassword"
+                    ? 8
+                    : undefined
+                }
+                className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#142d4c]"
+              />
+            </div>
+          )
+        )}
 
         <button
           type="submit"

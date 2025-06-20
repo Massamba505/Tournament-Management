@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAuth } from "../../../hooks/useAuth";
-import type { Roles } from "../../../types";
+import type { RegisterRequest } from "../../../types/auth";
 import RegisterStepOne from "./RegisterStepOne";
 import RegisterStepTwo from "./RegisterStepTwo";
 
@@ -11,12 +11,13 @@ function RegisterForm() {
   const navigate = useNavigate();
 
   const [step, setStep] = useState<1 | 2>(1);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<RegisterRequest>({
     name: "",
     surname: "",
     email: "",
     password: "",
-    roleId: 1 as Roles,
+    confirmPassword: "",
+    roleId: 1,
   });
 
   useEffect(() => {
@@ -26,9 +27,13 @@ function RegisterForm() {
   }, [user, navigate]);
 
   const handleStepOneSubmit = () => {
-    const { name, surname, email, password } = formData;
-    if (!name || !surname || !email || !password) {
+    const { name, surname, email, password, confirmPassword } = formData;
+    if (!name || !surname || !email || !password || !confirmPassword) {
       toast.error("Please fill in all fields");
+      return;
+    }
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
       return;
     }
     setStep(2);
@@ -58,7 +63,7 @@ function RegisterForm() {
       ) : (
         <RegisterStepTwo
           selectedRole={formData.roleId}
-          setSelectedRole={(roleId: Roles) =>
+          setSelectedRole={(roleId: number) =>
             setFormData({ ...formData, roleId })
           }
           onSubmit={handleFinalSubmit}
