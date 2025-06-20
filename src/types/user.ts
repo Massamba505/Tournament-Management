@@ -7,5 +7,4 @@ export interface User {
   email: string;
   profilePicture: string;
   role: Role;
-  createdAt: string;
 }

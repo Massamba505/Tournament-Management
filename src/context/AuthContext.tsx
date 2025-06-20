@@ -45,7 +45,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const fetchUser = useCallback(async () => {
-    if (!token) return;
+    if (!token) {
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     try {
       const userData = await getCurrentUser();
@@ -103,6 +106,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       handleToken(null);
       setUser(null);
     } catch (err) {
+      toast.error("Failed to logout");
     } finally {
       setLoading(false);
     }
