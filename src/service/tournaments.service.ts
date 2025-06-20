@@ -5,13 +5,13 @@ import {
 } from "../types/tournament";
 
 export const getTournamentFormats = (): Promise<TournamentFormat[]> => {
-  return api("/tournament/formats");
+  return api("/tournaments/formats");
 };
 
 export const createTournament = (
   tournament: CreateTournament
 ): Promise<void> => {
-  return api("/tournament", {
+  return api("/tournaments", {
     method: "POST",
     body: JSON.stringify(tournament),
   });
