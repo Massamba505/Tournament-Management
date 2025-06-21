@@ -3,8 +3,11 @@ import {
   type TournamentFormat,
   type CreateTournament,
 } from "../types/tournament";
+import type { ApiResponse } from "../types/common";
 
-export const getTournamentFormats = (): Promise<TournamentFormat[]> => {
+export const getTournamentFormats = (): Promise<
+  ApiResponse<TournamentFormat[]>
+> => {
   return api("/tournaments/formats");
 };
 

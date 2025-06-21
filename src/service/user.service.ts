@@ -1,15 +1,11 @@
 import type { User } from "../types";
+import type { ApiResponse } from "../types/common";
 import { api } from "./customFetch";
 
-interface UserResponse<T> {
-  data: T;
-  message?: string;
-}
-
-export const getCurrentUser = (): Promise<UserResponse<User>> => {
+export const getCurrentUser = (): Promise<ApiResponse<User>> => {
   return api("/users/me");
 };
 
-export const getAllUsers = (): Promise<UserResponse<User[]>> => {
+export const getAllUsers = (): Promise<ApiResponse<User[]>> => {
   return api("/users");
 };

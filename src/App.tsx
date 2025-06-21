@@ -19,7 +19,7 @@ import {
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<LandingPage />} />
+      <Route path="/landingPage" element={<LandingPage />} />
 
       <Route element={<RedirectIfAuthenticated />}>
         <Route path="/login" element={<Login />} />

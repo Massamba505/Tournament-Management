@@ -1,9 +1,9 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import type { Role } from "../types";
+import type { Roles } from "../constants/roles";
 
 interface ProtectedRoutesProps {
-  requiredRole?: Role | Role[];
+  requiredRole?: Roles | Roles[];
 }
 
 export default function ProtectedRoutes({
