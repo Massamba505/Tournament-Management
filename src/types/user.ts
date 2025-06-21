@@ -8,3 +8,13 @@ export interface User {
   profilePicture: string;
   role: Roles;
 }
+
+export interface Member {
+  id: number;
+  fullName: string;
+  profilePicture: string;
+}
+
+export interface Captain extends Member {}
+
+export interface Manager extends Member {}

@@ -1,7 +1,11 @@
+import type { Captain, Manager, Member } from "./user";
+
 export interface Team {
   id: string;
   name: string;
-  logoUrl?: string;
-  managerId: number;
-  captainId: string;
+  logoUrl: string;
+  manager: Manager;
+  captain?: Captain;
+  members?: Member[];
+  players?: Member[];
 }
