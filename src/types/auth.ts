@@ -1,10 +1,11 @@
+import type { Roles } from "../constants/roles";
+
 export interface RegisterRequest {
   name: string;
   surname: string;
   email: string;
   password: string;
-  confirmPassword: string;
-  roleId: number;
+  role: Roles;
 }
 
 export interface LoginRequest {

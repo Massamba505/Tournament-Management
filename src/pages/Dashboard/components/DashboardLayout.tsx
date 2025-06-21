@@ -2,9 +2,12 @@ import Sidebar from "./Sidebar";
 import MainLayout from "../../../components/Layouts/MainLayout";
 import { Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useAuth } from "../../../hooks/useAuth";
 
 function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth > 768);
+  const { user } = useAuth();
+  const userRole = user?.role!;
 
   useEffect(() => {
     const handleResize = () => {
@@ -21,6 +24,7 @@ function DashboardLayout() {
         <Sidebar
           isOpen={sidebarOpen}
           onToggle={() => setSidebarOpen(!sidebarOpen)}
+          userRole={userRole}
         />
         <main
           className={`flex-1 h-full transition-all duration-300 p-6 ${

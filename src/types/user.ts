@@ -1,4 +1,4 @@
-import type { Role } from "./role";
+import type { Roles } from "../constants/roles";
 
 export interface User {
   id: string;
@@ -6,5 +6,5 @@ export interface User {
   surname: string;
   email: string;
   profilePicture: string;
-  role: Role;
+  role: Roles;
 }

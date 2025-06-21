@@ -1,13 +1,22 @@
 import React from "react";
-import type { RegisterRequest } from "../../../types";
+import type { RegisterRequest } from "../../../types/auth";
 
 interface Props {
   data: RegisterRequest;
-  onChange: (data: any) => void;
+  onChange: (data: RegisterRequest) => void;
   onContinue: () => void;
 }
 
 const RegisterStepOne: React.FC<Props> = ({ data, onChange, onContinue }) => {
+  const handleChange = (field: keyof RegisterRequest, value: string) => {
+    onChange({ ...data, [field]: value });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onContinue();
+  };
+
   return (
     <>
       <div className="mb-6 text-center">
@@ -19,39 +28,68 @@ const RegisterStepOne: React.FC<Props> = ({ data, onChange, onContinue }) => {
         </p>
       </div>
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          onContinue();
-        }}
-        className="space-y-4"
-      >
-        {["name", "surname", "email", "password"].map((field) => (
-          <div key={field}>
-            <label
-              className="text-sm font-medium text-gray-700"
-              htmlFor={field}
-            >
-              {field === "surname"
-                ? "Last Name"
-                : field.charAt(0).toUpperCase() + field.slice(1)}
-            </label>
-            <input
-              id={field}
-              type={
-                field === "email"
-                  ? "email"
-                  : field === "password"
-                  ? "password"
-                  : "text"
-              }
-              value={data[field as keyof typeof data]}
-              onChange={(e) => onChange({ ...data, [field]: e.target.value })}
-              required
-              className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#142d4c]"
-            />
-          </div>
-        ))}
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label htmlFor="name" className="text-sm font-medium text-gray-700">
+            Name
+          </label>
+          <input
+            id="name"
+            type="text"
+            value={data.name}
+            onChange={(e) => handleChange("name", e.target.value)}
+            required
+            className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#142d4c]"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="surname"
+            className="text-sm font-medium text-gray-700"
+          >
+            Last Name
+          </label>
+          <input
+            id="surname"
+            type="text"
+            value={data.surname}
+            onChange={(e) => handleChange("surname", e.target.value)}
+            required
+            className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#142d4c]"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="email" className="text-sm font-medium text-gray-700">
+            Email
+          </label>
+          <input
+            id="email"
+            type="email"
+            value={data.email}
+            onChange={(e) => handleChange("email", e.target.value)}
+            required
+            className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#142d4c]"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="password"
+            className="text-sm font-medium text-gray-700"
+          >
+            Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            value={data.password}
+            onChange={(e) => handleChange("password", e.target.value)}
+            required
+            className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#142d4c]"
+          />
+        </div>
 
         <button
           type="submit"

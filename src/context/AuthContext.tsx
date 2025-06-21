@@ -52,7 +52,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(true);
     try {
       const userData = await getCurrentUser();
-      setUser(userData);
+      setUser(userData.data ?? null);
     } catch (err: any) {
       toast.error(err.message);
       handleToken(null);
@@ -61,14 +61,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLoading(false);
     }
   }, [token, handleToken]);
-
-  useEffect(() => {
-    if (token) {
-      fetchUser();
-    } else {
-      setLoading(false);
-    }
-  }, [token, fetchUser]);
 
   const login = async (email: string, password: string) => {
     setLoading(true);
@@ -111,6 +103,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (token) {
+      fetchUser();
+    } else {
+      setLoading(false);
+    }
+  }, [token, fetchUser]);
 
   return (
     <AuthContext.Provider

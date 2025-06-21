@@ -1,6 +1,7 @@
+import type { Roles } from "../constants/roles";
+import type { ApiResponse } from "../types/common";
 import { api } from "./customFetch";
-import type { Role } from "../types/role";
 
-export const getRoles = (): Promise<Role[]> => {
+export const getRoles = (): Promise<ApiResponse<ApiResponse<Roles[]>>> => {
   return api("/roles");
 };
