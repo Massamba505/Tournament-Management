@@ -1,29 +1,22 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { useAuth } from "../../../hooks/useAuth";
 import RegisterStepOne from "./RegisterStepOne";
 import RegisterStepTwo from "./RegisterStepTwo";
-import type { Roles } from "../../../constants/roles";
+import { Roles } from "../../../constants/roles";
+import type { RegisterRequest } from "../../../types/auth";
 
 function RegisterForm() {
-  const { register, loading, user } = useAuth();
-  const navigate = useNavigate();
+  const { register, loading } = useAuth();
 
   const [step, setStep] = useState<1 | 2>(1);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<RegisterRequest>({
     name: "",
     surname: "",
     email: "",
     password: "",
-    roleId: 1 as Roles,
+    role: Roles.Organizer,
   });
-
-  useEffect(() => {
-    if (user) {
-      navigate("/dashboard");
-    }
-  }, [user, navigate]);
 
   const handleStepOneSubmit = () => {
     const { name, surname, email, password } = formData;
@@ -35,7 +28,7 @@ function RegisterForm() {
   };
 
   const handleFinalSubmit = async () => {
-    if (!formData.roleId) {
+    if (!formData.role) {
       toast.error("Please select a role");
       return;
     }
@@ -57,10 +50,8 @@ function RegisterForm() {
         />
       ) : (
         <RegisterStepTwo
-          selectedRole={formData.roleId}
-          setSelectedRole={(roleId: Roles) =>
-            setFormData({ ...formData, roleId })
-          }
+          selectedRole={formData.role}
+          setSelectedRole={(role: Roles) => setFormData({ ...formData, role })}
           onSubmit={handleFinalSubmit}
           loading={loading}
         />

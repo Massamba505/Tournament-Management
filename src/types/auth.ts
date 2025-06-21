@@ -5,7 +5,7 @@ export interface RegisterRequest {
   surname: string;
   email: string;
   password: string;
-  roleId: Roles;
+  role: Roles;
 }
 
 export interface LoginRequest {

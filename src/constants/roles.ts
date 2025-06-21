@@ -1,4 +1,4 @@
 export enum Roles {
-  General = 1,
-  Organizer = 2,
+  General = "General",
+  Organizer = "Organizer",
 }

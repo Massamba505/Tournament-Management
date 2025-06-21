@@ -52,7 +52,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(true);
     try {
       const userData = await getCurrentUser();
-      setUser(userData.data);
+      setUser(userData.data ?? null);
     } catch (err: any) {
       toast.error(err.message);
       handleToken(null);

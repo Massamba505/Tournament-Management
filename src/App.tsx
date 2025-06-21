@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import RedirectIfAuthenticated from "./components/RedirectIfAuthenticated";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import {
@@ -19,7 +19,7 @@ import {
 function App() {
   return (
     <Routes>
-      <Route path="/landingPage" element={<LandingPage />} />
+      <Route path="/landing" element={<LandingPage />} />
 
       <Route element={<RedirectIfAuthenticated />}>
         <Route path="/login" element={<Login />} />
@@ -30,6 +30,7 @@ function App() {
 
       <Route element={<ProtectedRoutes />}>
         <Route path="/" element={<DashboardLayout />}>
+          <Route index element={<Navigate to="dashboard" replace />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="tournaments" element={<Tournaments />} />
           <Route path="create-tournament" element={<CreateTournaments />} />
