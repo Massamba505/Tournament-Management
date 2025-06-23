@@ -22,5 +22,9 @@ export const api = async <T>(
     throw new Error(errorData.message ?? errorData.title);
   }
 
+  if (response.status == 204) {
+    return { message: "delete" } as T;
+  }
+
   return response.json();
 };
