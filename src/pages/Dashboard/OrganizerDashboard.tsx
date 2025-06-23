@@ -1,5 +1,5 @@
-import type { User } from "../../../types";
-import TournamentSection from "./TournamentSection";
+import type { User } from "../../types";
+import TournamentSection from "./Dashboard/TournamentSection";
 
 interface OrganizerDashboardProps {
   user: User;

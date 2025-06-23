@@ -1,5 +1,5 @@
 import { useAuth } from "../hooks/useAuth";
-import ProfileDropdown from "./NavBar/ProfileDropdown";
+import ProfileDropdown from "./ProfileDropdown";
 
 interface FooterProps {
   isOpen: boolean;

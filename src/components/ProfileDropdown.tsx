@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { LogOut, Settings, UserCircle2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../hooks/useAuth";
 
 function ProfileDropdown() {
   const { logout, user } = useAuth();

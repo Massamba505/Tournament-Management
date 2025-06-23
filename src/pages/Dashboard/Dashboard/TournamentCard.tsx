@@ -1,15 +1,17 @@
 import { Clock, MapPin, Trophy, Users } from "lucide-react";
 import { Link } from "react-router-dom";
-import type { Tournament } from "../../../types";
+import type { Tournament, User } from "../../../types";
 import { teamJoinTournament } from "../../../service/tournaments.service";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { Roles } from "../../../constants/roles";
 
 interface TournamentProps {
   tournament: Tournament;
+  user: User;
 }
 
-function GeneralTournamentCard({ tournament }: TournamentProps) {
+function TournamentCard({ tournament, user }: TournamentProps) {
   const isUpcoming = new Date(tournament.startDate) > new Date();
   const [loading, setLoading] = useState<boolean>(false);
   const isRegistrationOpen =
@@ -89,26 +91,35 @@ function GeneralTournamentCard({ tournament }: TournamentProps) {
               {new Date(tournament.registrationDeadline).toLocaleDateString()}
             </span>
           </div>
-          <div className="flex gap-2">
-            {isRegistrationOpen && (
-              <button
-                onClick={() => joinTournament(tournament.id)}
+          {user.role === Roles.General ? (
+            <div className="flex gap-2">
+              {isRegistrationOpen && (
+                <button
+                  onClick={() => joinTournament(tournament.id)}
+                  className="text-sm cursor-pointer font-medium text-blue-600 hover:text-blue-800"
+                >
+                  {loading ? "Joining..." : "Join"}
+                </button>
+              )}
+              <Link
+                to={`/tournament-details/${tournament.id}`}
                 className="text-sm cursor-pointer font-medium text-blue-600 hover:text-blue-800"
               >
-                {loading ? "Joining..." : "Join"}
-              </button>
-            )}
+                View Details
+              </Link>
+            </div>
+          ) : (
             <Link
-              to={`/tournament-details/${tournament.id}`}
-              className="text-sm cursor-pointer font-medium text-blue-600 hover:text-blue-800"
+              to={`/manage-tournament/${tournament.id}`}
+              className="text-sm font-medium text-blue-600 hover:text-blue-800"
             >
-              View Details
+              Manage
             </Link>
-          </div>
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-export default GeneralTournamentCard;
+export default TournamentCard;

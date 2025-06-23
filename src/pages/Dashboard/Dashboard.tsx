@@ -1,5 +1,5 @@
-import { useAuth } from "../../../hooks/useAuth";
-import LoadingSpinner from "../../../components/LoadingSpinner";
+import { useAuth } from "../../hooks/useAuth";
+import LoadingSpinner from "../../components/LoadingSpinner";
 import GeneralDashboard from "./GeneralDashboard";
 import OrganizerDashboard from "./OrganizerDashboard";
 
