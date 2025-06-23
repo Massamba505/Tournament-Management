@@ -1,25 +1,27 @@
-import { useState } from "react";
-import StatsOverview from "./StatsOverview";
-import TabNavigation from "./Tab/TabNavigation";
-import TabContent from "./Tab/TabContent";
-import UpcomingMatches from "./UpcomingMatches";
+import { useAuth } from "../../../hooks/useAuth";
+import LoadingSpinner from "../../../components/LoadingSpinner";
+import GeneralDashboard from "./GeneralDashboard";
+import OrganizerDashboard from "./OrganizerDashboard";
 
 const Dashboard = () => {
-  const [activeTab, setActiveTab] = useState("tournaments");
+  const { user, loading } = useAuth();
+  if (!user) return null;
 
-  return (
-    <>
-      <h1 className="text-3xl font-bold text-black mb-5">Dashboard</h1>
-      <StatsOverview />
-      <div className="flex flex-wrap gap-6 mt-8 h-full">
-        <div className="flex-1 min-w-md flex flex-col">
-          <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
-          <TabContent activeTab={activeTab} />
-        </div>
-        <UpcomingMatches />
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <LoadingSpinner />
       </div>
-    </>
-  );
+    );
+  }
+
+  if (user.role === "General") {
+    return <GeneralDashboard user={user} />;
+  }
+
+  if (user.role === "Organizer") {
+    return <OrganizerDashboard user={user} />;
+  }
 };
 
 export default Dashboard;

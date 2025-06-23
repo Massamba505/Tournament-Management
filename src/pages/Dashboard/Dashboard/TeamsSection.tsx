@@ -1,6 +1,10 @@
 import { Users, Plus } from "lucide-react";
 
-const TeamsSection = () => {
+interface TournamentProps {
+  userId: string;
+}
+
+const TeamsSection = ({ userId }: TournamentProps) => {
   const teams: any = [];
 
   return (
