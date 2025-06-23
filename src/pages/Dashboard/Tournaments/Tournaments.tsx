@@ -8,7 +8,6 @@ import {
 import TournamentDropdown from "./components/TournamentDropdown";
 import TournamentDetails from "./components/TournamentDetails";
 import TeamsList from "./components/TeamsList";
-import ConfirmDeleteModal from "./components/ConfirmDeleteModal";
 import { useAuth } from "../../../hooks/useAuth";
 import toast from "react-hot-toast";
 import ConfirmDeleteTournamentModal from "./components/ConfirmDeleteTournamentModal";
