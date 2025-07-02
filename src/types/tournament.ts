@@ -71,10 +71,8 @@ export interface TournamentTeam {
   registeredAt: string;
 }
 
-export interface Member {
-  id: number;
-  fullname: string;
-  profilePicture: string;
+export interface JoinTournament {
+  teamId: string;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

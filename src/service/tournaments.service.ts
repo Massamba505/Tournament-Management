@@ -35,6 +35,28 @@ export const getOrganizerTournaments = (
   );
 };
 
+export const getAllTournaments = (): Promise<ApiResponse<Tournament[]>> => {
+  return api(
+    `/tournaments`,
+    {
+      method: "GET",
+    },
+    true
+  );
+};
+
+export const teamJoinTournament = (
+  tournamentId: string
+): Promise<ApiResponse<null>> => {
+  return api(
+    `/tournaments/${tournamentId}/teams`,
+    {
+      method: "POST",
+    },
+    true
+  );
+};
+
 export const getTournamentTeams = (
   id: string
 ): Promise<ApiResponse<TournamentTeam[]>> => {

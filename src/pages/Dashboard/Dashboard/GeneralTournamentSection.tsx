@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
-import { Plus } from "lucide-react";
-import { getOrganizerTournaments } from "../../../service/tournaments.service";
-import type { Tournament } from "../../../types";
+import { getAllTournaments } from "../../../service/tournaments.service";
+import type { Tournament, User } from "../../../types";
 import LoadingSpinner from "../../../components/LoadingSpinner";
-import { Link } from "react-router-dom";
-import TournamentCard from "./components/TournamentCard";
+import GeneralTournamentCard from "./GeneralTournamentCard";
 
 interface TournamentProps {
-  userId: string;
+  user: User;
 }
 
-const TournamentSection = ({ userId }: TournamentProps) => {
+const GeneralTournamentSection = ({ user }: TournamentProps) => {
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
   const [filteredTournaments, setFilteredTournaments] = useState<Tournament[]>(
     []
@@ -21,7 +19,7 @@ const TournamentSection = ({ userId }: TournamentProps) => {
   useEffect(() => {
     const fetchTournaments = async () => {
       try {
-        const { data } = await getOrganizerTournaments(userId);
+        const { data } = await getAllTournaments();
         setTournaments(data || []);
         setFilteredTournaments(data || []);
       } catch (error) {
@@ -32,7 +30,7 @@ const TournamentSection = ({ userId }: TournamentProps) => {
     };
 
     fetchTournaments();
-  }, [userId]);
+  }, []);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value;
@@ -56,16 +54,8 @@ const TournamentSection = ({ userId }: TournamentProps) => {
         />
       </div>
       <section className="mt-8 px-4 sm:px-0">
-        <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
+        <div className="flex items-center mb-6 flex-wrap gap-4">
           <h2 className="text-2xl font-bold text-gray-900">Tournaments</h2>
-          <Link
-            to="/create-tournament"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-[#142d4c] text-white text-sm rounded-lg font-medium hover:bg-[#142d4c]/90"
-            title="New Tournament"
-          >
-            <Plus className="w-4 h-4" />
-            <span className="hidden md:block">New Tournament</span>
-          </Link>
         </div>
 
         {loading && (
@@ -76,17 +66,15 @@ const TournamentSection = ({ userId }: TournamentProps) => {
 
         {filteredTournaments.length === 0 && !loading ? (
           <div className="text-center text-gray-500 py-12 border rounded-lg max-w-[350px]">
-            <p className="text-lg font-medium mb-2">No tournaments found</p>
-            <p className="text-sm">
-              Click "<span className="inline md:hidden">+</span>
-              <span className="hidden md:inline">New Tournament</span>" to
-              create one
-            </p>
+            <p className="text-lg font-medium mb-2">No tournaments found.</p>
           </div>
         ) : (
           <div className="flex flex-wrap justify-start gap-6">
             {filteredTournaments.map((tournament) => (
-              <TournamentCard key={tournament.id} tournament={tournament} />
+              <GeneralTournamentCard
+                key={tournament.id}
+                tournament={tournament}
+              />
             ))}
           </div>
         )}
@@ -95,4 +83,4 @@ const TournamentSection = ({ userId }: TournamentProps) => {
   );
 };
 
-export default TournamentSection;
+export default GeneralTournamentSection;
