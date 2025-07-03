@@ -1,6 +1,4 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import RedirectIfAuthenticated from "./components/RedirectIfAuthenticated";
-import ProtectedRoutes from "./components/ProtectedRoutes";
 import {
   CreateTournaments,
   Dashboard,
@@ -14,7 +12,9 @@ import {
   Teams,
   Tournaments,
   Unauthorized,
-} from "./pages";
+} from "@features/index";
+import RedirectIfAuthenticated from "@shared/components/RedirectIfAuthenticated";
+import ProtectedRoutes from "@shared/components/ProtectedRoutes";
 
 function App() {
   return (
