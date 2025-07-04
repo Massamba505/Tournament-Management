@@ -11,8 +11,8 @@ interface TournamentProps {
 function GeneralTournamentCard({ tournament }: TournamentProps) {
   const isUpcoming = new Date(tournament.startDate) > new Date();
   const [loading, setLoading] = useState<boolean>(false);
-  const isRegistrationOpen =
-    new Date(tournament.registrationDeadline) > new Date();
+  // Use end date as a fallback since registrationDeadline is not in the Tournament type
+  const isRegistrationOpen = new Date(tournament.endDate) > new Date();
 
   async function joinTournament(tournamentId: string) {
     setLoading(true);
@@ -33,7 +33,7 @@ function GeneralTournamentCard({ tournament }: TournamentProps) {
     >
       <div className="h-40 bg-gray-100 overflow-hidden">
         <img
-          src={tournament.bannerImage}
+          src={tournament.bannerImage ?? ""}
           alt={`${tournament.name} Banner`}
           className="w-full h-full object-cover"
         />
@@ -73,7 +73,9 @@ function GeneralTournamentCard({ tournament }: TournamentProps) {
           </div>
           <div className="flex items-center gap-2">
             <Trophy className="h-4 w-4 text-yellow-500" />
-            Match: {tournament.matchDuration} min
+            {tournament.matchDuration 
+              ? `Match: ${tournament.matchDuration} min` 
+              : "Match duration not set"}
           </div>
           <div className="flex items-center gap-2">
             <MapPin className="h-4 w-4" />
@@ -83,9 +85,9 @@ function GeneralTournamentCard({ tournament }: TournamentProps) {
 
         <div className="flex items-center justify-between mt-4">
           <div className="text-xs text-gray-500">
-            Registration ends:{" "}
+            Tournament ends:{" "}
             <span className="font-medium">
-              {new Date(tournament.registrationDeadline).toLocaleDateString()}
+              {new Date(tournament.endDate).toLocaleDateString()}
             </span>
           </div>
           <div className="flex gap-2">

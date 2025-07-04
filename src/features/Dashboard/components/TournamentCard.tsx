@@ -15,7 +15,7 @@ function TournamentCard({ tournament }: TournamentProps) {
     >
       <div className="h-40 bg-gray-100 overflow-hidden">
         <img
-          src={tournament.bannerImage}
+          src={tournament.bannerImage??""}
           alt={`${tournament.name} Banner`}
           className="w-full h-full object-cover"
         />
@@ -67,7 +67,7 @@ function TournamentCard({ tournament }: TournamentProps) {
           <div className="text-xs text-gray-500">
             Registration ends:{" "}
             <span className="font-medium">
-              {new Date(tournament.registrationDeadline).toLocaleDateString()}
+              {new Date(tournament.endDate).toLocaleDateString()}
             </span>
           </div>
           <Link

@@ -1,7 +1,8 @@
 import React from "react";
+import type { CreateTournamentRequest } from "../types/tournament";
 
 type Props = {
-  formData: any;
+  formData: CreateTournamentRequest;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleContactChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };

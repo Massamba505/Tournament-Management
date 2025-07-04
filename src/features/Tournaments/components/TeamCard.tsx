@@ -6,18 +6,16 @@ import ConfirmDeleteModal from "./ConfirmDeleteModal";
 
 interface TeamCardProps {
   tournamentTeam: TournamentTeam;
-  registeredAt: string;
   tournamentId: string;
   onDelete: (teamId: string) => void;
 }
 
 function TeamCard({
   tournamentTeam,
-  registeredAt,
   tournamentId,
   onDelete,
 }: TeamCardProps) {
-  const { team } = tournamentTeam;
+  const { team, registeredAt } = tournamentTeam;
   const [modalOpen, setModalOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
@@ -78,18 +76,9 @@ function TeamCard({
 
       <div className="space-y-3">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-gray-600">Manager:</span>
-          <span className="text-sm text-gray-900">{team.manager.fullName}</span>
+          <span className="text-sm font-medium text-gray-600">Team ID:</span>
+          <span className="text-sm text-gray-900">{team.id}</span>
         </div>
-
-        {team.captain && (
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-gray-600">Captain:</span>
-            <span className="text-sm text-gray-900">
-              {team.captain.fullName}
-            </span>
-          </div>
-        )}
       </div>
     </div>
   );

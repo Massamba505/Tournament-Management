@@ -7,37 +7,39 @@ import OrganizerInfoSection from "./OrganizerInfoSection";
 import TournamentDetailsSection from "./TournamentDetailsSection";
 import ScheduleSection from "./ScheduleSection";
 import AdditionalSettingsSection from "./AdditionalSettingsSection";
-import type { CreateTournament, TournamentFormat } from "../types/tournament";
+import { TournamentStatus, TournamentFormatEnum } from "../types/tournament";
+import type { CreateTournamentRequest, TournamentFormatItem } from "../types/tournament";
 
 interface Props {
   userId: string;
-  formats: TournamentFormat[];
+  formats: TournamentFormatItem[];
 }
 
 function CreateTournamentForm({ userId, formats }: Props) {
   const navigation = useNavigate();
 
-  const initialFormData: CreateTournament = {
-    name: null,
-    organizerId: userId ?? null,
-    description: null,
-    formatId: 0,
+  const initialFormData: CreateTournamentRequest = {
+    name: "",
+    organizerId: userId,
+    description: "",
+    format: TournamentFormatEnum.SingleElimination,
     numberOfTeams: 2,
     maxPlayersPerTeam: 2,
-    startDate: null,
-    endDate: null,
-    location: null,
+    startDate: new Date().toISOString().split('T')[0],
+    endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    location: "",
     allowJoinViaLink: false,
     bannerImage: null,
     contactEmail: null,
     contactPhone: null,
     entryFee: null,
-    matchDuration: 0,
-    registrationDeadline: null,
+    matchDuration: null,
+    registrationDeadline: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     isPublic: true,
+    status: TournamentStatus.Draft
   };
 
-  const [formData, setFormData] = useState<CreateTournament>(initialFormData);
+  const [formData, setFormData] = useState<CreateTournamentRequest>(initialFormData);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -19,7 +19,7 @@ export interface User {
 export interface UserSummary {
   id: string;
   fullName: string;
-  profilePicture?: string | null;
+  profilePicture: string | null;
   memberType: MemberType;
 }
 

@@ -51,16 +51,16 @@ export default function TournamentDetails({ tournament, onDelete }: Props) {
               {new Date(tournament.endDate).toLocaleDateString()}
             </div>
           )}
-          <div>
+          {/* <div>
             <span className="font-semibold text-gray-800">
               Registration Deadline:
             </span>{" "}
             {new Date(tournament.registrationDeadline).toLocaleDateString()}
-          </div>
-          <div>
+          </div> */}
+          {/* <div>
             <span className="font-semibold text-gray-800">Match Duration:</span>{" "}
             {tournament.matchDuration} min
-          </div>
+          </div> */}
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 text-sm text-gray-700 mt-2">
@@ -86,12 +86,12 @@ export default function TournamentDetails({ tournament, onDelete }: Props) {
               ? `$${tournament.entryFee.toFixed(2)}`
               : "Free"}
           </div>
-          <div>
+          {/* <div>
             <span className="font-medium text-gray-800">
               Allow Join via Link:
             </span>{" "}
             {tournament.allowJoinViaLink ? "Yes" : "No"}
-          </div>
+          </div> */}
           <div>
             <span className="font-medium text-gray-800">Visibility:</span>{" "}
             {tournament.isPublic ? "Public" : "Private"}

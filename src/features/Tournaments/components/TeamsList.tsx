@@ -58,7 +58,6 @@ const TeamsList: React.FC<TeamsListProps> = ({
           <TeamCard
             key={tournamentTeam.team.id}
             tournamentTeam={tournamentTeam}
-            registeredAt={tournamentTeam.registeredAt}
             tournamentId={tournamentId}
             onDelete={onDeleteTeam}
           />

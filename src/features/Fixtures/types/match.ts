@@ -22,7 +22,7 @@ export interface Match {
 
 export interface MatchDetail extends Match {
   tournamentId: string;
-  playerStats?: PlayerStat[];
+  playerStats: PlayerStat[] | null;
 }
 
 export interface CreateMatchRequest {

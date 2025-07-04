@@ -3,11 +3,11 @@ import toast from "react-hot-toast";
 import { getTournamentFormats } from "../services/tournaments.service";
 import CreateTournamentForm from "../components/CreateTournamentForm";
 import { useAuth } from "@features/Authentication/hooks/useAuth";
-import type { TournamentFormat } from "../types/tournament";
+import type { TournamentFormatItem } from "../types/tournament";
 
 function CreateTournaments() {
   const { user } = useAuth();
-  const [formats, setFormats] = useState<TournamentFormat[]>([]);
+  const [formats, setFormats] = useState<TournamentFormatItem[]>([]);
 
   useEffect(() => {
     const fetchFormats = async () => {

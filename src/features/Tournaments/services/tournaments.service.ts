@@ -11,7 +11,7 @@ import type {
   UpdateTournamentStatusRequest,
 } from "../types/tournament";
 
-// Get all tournament formats
+// Get tournament formats
 export const getTournamentFormats = (): Promise<ApiResponse<TournamentFormatItem[]>> => {
   return api("/tournaments/formats");
 };

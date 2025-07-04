@@ -1,8 +1,9 @@
 import React from "react";
-import type { TournamentFormat } from "../types/tournament";
+import type { CreateTournamentRequest, TournamentFormatItem } from "../types/tournament";
+
 type TournamentDetailsSectionProps = {
-  formData: any;
-  formats: TournamentFormat[];
+  formData: CreateTournamentRequest;
+  formats: TournamentFormatItem[];
   handleChange: (e: React.ChangeEvent<any>) => void;
 };
 
@@ -19,15 +20,15 @@ const TournamentDetailsSection: React.FC<TournamentDetailsSectionProps> = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         <div>
           <label
-            htmlFor="formatId"
+            htmlFor="format"
             className="block mb-2 font-medium text-gray-700"
           >
             Tournament Format
           </label>
           <select
-            id="formatId"
-            name="formatId"
-            value={formData.formatId ?? ""}
+            id="format"
+            name="format"
+            value={formData.format ?? ""}
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg"
             required
