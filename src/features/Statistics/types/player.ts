@@ -1,6 +1,10 @@
+import type { UserSummary } from "@shared/types/user";
+import type { MemberType } from "@features/Teams/types/team";
+
 export interface Player {
   id: string;
-  userId: number;
+  userId: string;
   teamId: string;
-  isCaptain: boolean;
+  memberType: MemberType;
+  user: UserSummary;
 }

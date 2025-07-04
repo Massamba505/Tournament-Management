@@ -1,55 +1,33 @@
-import type { Team } from "@features/Teams/types/team";
-import type { User } from "@shared/types/user";
+import type { UserSummary } from "@shared/types/user";
+import type { Match } from "@features/Fixtures/types/match";
 
-export interface TournamentFormat {
-  id: number;
+export enum TournamentStatus {
+  Draft = "Draft",
+  RegistrationOpen = "RegistrationOpen",
+  RegistrationClosed = "RegistrationClosed",
+  InProgress = "InProgress",
+  Completed = "Completed",
+  Cancelled = "Cancelled",
+}
+
+export enum TournamentFormat {
+  LeagueFormat = 0,
+  KnockoutFormat = 1,
+  GroupStage = 2,
+  SwissSystem = 3,
+  RoundRobin = 4,
+  DoubleElimination = 5,
+}
+
+export interface TournamentFormatItem {
+  id: TournamentFormat;
   name: string;
 }
 
-export interface CreateTournament {
-  name: string | null;
-  organizerId: string | null;
-  description: string | null;
-  formatId: number | null;
-  numberOfTeams: number | null;
-  maxPlayersPerTeam: number | null;
-  startDate: string | null;
-  endDate: string | null;
-  location: string | null;
-  allowJoinViaLink: boolean;
-  bannerImage: string | null;
-  contactEmail?: string | null;
-  contactPhone?: string | null;
-  entryFee?: number | null;
-  matchDuration: number | null;
-  registrationDeadline: string | null;
-  isPublic: boolean | null;
-}
-
-export interface UpdateTournament {
+export interface CreateTournamentRequest {
   name: string;
   description: string;
-  formatId: number;
-  numberOfTeams: number;
-  maxPlayersPerTeam: number;
-  startDate: string;
-  endDate: string;
-  location: string;
-  allowJoinViaLink: boolean;
-  bannerImage: string;
-  contactEmail?: string | null;
-  contactPhone?: string | null;
-  entryFee?: number | null;
-  matchDuration?: number | null;
-  registrationDeadline: string;
-  isPublic: boolean;
-}
-
-export interface Tournament {
-  id: string;
-  name: string;
-  format: string;
-  description: string;
+  format: TournamentFormat;
   numberOfTeams: number;
   maxPlayersPerTeam: number;
   startDate: string;
@@ -57,31 +35,72 @@ export interface Tournament {
   location: string;
   allowJoinViaLink: boolean;
   organizerId: string;
-  bannerImage: string;
-  contactEmail?: string;
-  contactPhone?: string;
-  entryFee?: number;
-  matchDuration: number;
+  bannerImage: string | null;
+  contactEmail: string | null;
+  contactPhone: string | null;
+  entryFee: number | null;
+  matchDuration: number | null;
   registrationDeadline: string;
   isPublic: boolean;
+  status: TournamentStatus;
+}
+
+export interface UpdateTournamentRequest {
+  name?: string;
+  description?: string;
+  startDate?: string;
+  endDate?: string;
+  location?: string;
+  allowJoinViaLink?: boolean;
+  bannerImage?: string | null;
+  contactEmail?: string | null;
+  contactPhone?: string | null;
+  entryFee?: number | null;
+  matchDuration?: number | null;
+  registrationDeadline?: string;
+  isPublic?: boolean;
+  status?: TournamentStatus;
+}
+
+export interface UpdateTournamentStatusRequest {
+  status: TournamentStatus;
+}
+
+export interface Tournament {
+  id: string;
+  name: string;
+  description: string;
+  format: string;
+  numberOfTeams: number;
+  maxPlayersPerTeam: number;
+  startDate: string;
+  endDate: string;
+  location: string;
+  organizer: UserSummary;
+  bannerImage: string | null;
+  contactEmail: string | null;
+  contactPhone: string | null;
+  entryFee: number | null;
+  isPublic: boolean;
+  status: TournamentStatus;
+}
+
+export interface TournamentDetail extends Tournament {
+  teams: TournamentTeam[];
+  matches: Match[];
+  registrationDeadline: string;
+  allowJoinViaLink: boolean;
+  matchDuration: number | null;
+  createdAt: string;
 }
 
 export interface TournamentTeam {
-  team: Team;
+  teamId: string;
+  teamName: string;
+  logoUrl?: string | null;
   registeredAt: string;
 }
 
-export interface JoinTournament {
+export interface JoinTournamentRequest {
   teamId: string;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-export interface TeamMember {
-  teamId: string;
-  joinedAt: string;
-  user: User;
-}
-
-export interface TournamentWithTeams extends Tournament {
-  teams: TournamentTeam[];
 }
