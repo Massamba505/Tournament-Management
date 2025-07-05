@@ -1,7 +1,11 @@
-import type { Roles } from "@shared/constants/roles";
 import type { ApiResponse } from "@shared/types/common";
 import { api } from "@shared/services/customFetch";
 
-export const getRoles = (): Promise<ApiResponse<ApiResponse<Roles[]>>> => {
+export interface RoleInfo {
+  id: number;
+  name: string;
+}
+
+export const getRoles = (): Promise<ApiResponse<RoleInfo[]>> => {
   return api("/roles");
 };
