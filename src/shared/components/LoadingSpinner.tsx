@@ -1,10 +1,20 @@
 import React from "react";
 
-const LoadingSpinner: React.FC = () => {
+interface LoadingSpinnerProps {
+  size?: 'small' | 'medium' | 'large';
+}
+
+const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ size = 'medium' }) => {
+  const sizeClass = {
+    small: 'w-10 h-10',
+    medium: 'w-20 h-20',
+    large: 'w-24 h-24'
+  };
+
   return (
     <div role="status" aria-label="Loading" className="loader">
       <svg
-        className="w-20 h-20 animate-spinCustom text-transparent mb-4"
+        className={`${sizeClass[size]} animate-spinCustom text-transparent mb-4`}
         viewBox="0 0 100 100"
       >
         <defs>
