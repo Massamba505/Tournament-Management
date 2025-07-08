@@ -6,10 +6,13 @@ import toast from "react-hot-toast";
 
 interface TournamentProps {
   tournament: Tournament;
-  joinButton?: boolean; 
+  joinButton?: boolean;
 }
 
-function GeneralTournamentCard({ tournament, joinButton = false }: TournamentProps) {
+function GeneralTournamentCard({
+  tournament,
+  joinButton = false,
+}: TournamentProps) {
   const isUpcoming = new Date(tournament.startDate) > new Date();
   const [loading, setLoading] = useState<boolean>(false);
   const isRegistrationOpen = new Date(tournament.endDate) > new Date();
@@ -30,12 +33,12 @@ function GeneralTournamentCard({ tournament, joinButton = false }: TournamentPro
     if (isUpcoming) {
       return {
         text: "Upcoming",
-        className: "bg-blue-100 text-blue-800 border border-blue-200"
+        className: "bg-blue-100 text-blue-800 border border-blue-200",
       };
     }
     return {
       text: "In Progress",
-      className: "bg-green-100 text-green-800 border border-green-200"
+      className: "bg-green-100 text-green-800 border border-green-200",
     };
   };
 
@@ -52,16 +55,18 @@ function GeneralTournamentCard({ tournament, joinButton = false }: TournamentPro
           alt={`${tournament.name} Banner`}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           onError={(e) => {
-            (e.target as HTMLImageElement).style.display = 'none';
+            (e.target as HTMLImageElement).style.display = "none";
           }}
         />
-        
+
         <div className="absolute top-3 left-3 flex gap-2">
-          <span className={`text-xs font-medium px-2 py-1 rounded-full ${status.className}`}>
+          <span
+            className={`text-xs font-medium px-2 py-1 rounded-full ${status.className}`}
+          >
             {status.text}
           </span>
         </div>
-        
+
         <div className="absolute top-3 right-3">
           <div className="bg-white/90 backdrop-blur-sm rounded-full p-1.5">
             <Trophy className="h-4 w-4 text-gray-500" />
@@ -91,7 +96,9 @@ function GeneralTournamentCard({ tournament, joinButton = false }: TournamentPro
             <div className="bg-green-100 rounded-full p-1">
               <Clock className="h-3 w-3 text-green-600" />
             </div>
-            <span className="font-medium">{tournament.matchDuration || 90}</span>
+            <span className="font-medium">
+              {tournament.matchDuration || 90}
+            </span>
             <span className="text-gray-500">min</span>
           </div>
         </div>
@@ -104,10 +111,10 @@ function GeneralTournamentCard({ tournament, joinButton = false }: TournamentPro
         <div className="flex items-center justify-between text-xs text-gray-500 bg-gray-50 rounded-lg p-2">
           <span>Registration ends:</span>
           <span className="font-semibold text-gray-700">
-            {new Date(tournament.endDate).toLocaleDateString('en-US', {
-              month: 'short',
-              day: 'numeric',
-              year: 'numeric'
+            {new Date(tournament.endDate).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
             })}
           </span>
         </div>
@@ -125,7 +132,7 @@ function GeneralTournamentCard({ tournament, joinButton = false }: TournamentPro
           <Link
             to={`/tournament-details/${tournament.id}`}
             className={`${
-              isRegistrationOpen && joinButton ? 'flex-none' : 'flex-1'
+              isRegistrationOpen && joinButton ? "flex-none" : "flex-1"
             } bg-white border border-gray-200 text-gray-700 text-sm font-medium py-2.5 px-4 rounded-lg hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 text-center`}
           >
             View Details

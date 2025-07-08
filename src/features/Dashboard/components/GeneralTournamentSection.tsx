@@ -11,7 +11,7 @@ interface TournamentProps {
   user: User;
 }
 
-const GeneralTournamentSection = ({  }: TournamentProps) => {
+const GeneralTournamentSection = ({}: TournamentProps) => {
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
   const [filteredTournaments, setFilteredTournaments] = useState<Tournament[]>(
     []
@@ -23,7 +23,10 @@ const GeneralTournamentSection = ({  }: TournamentProps) => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredTournaments.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredTournaments.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   useEffect(() => {
     const fetchTournaments = async () => {
@@ -68,7 +71,7 @@ const GeneralTournamentSection = ({  }: TournamentProps) => {
           In Progress
         </button>
       </div>
-                  
+
       <div className="flex items-center mb-4 relative">
         <Search className="absolute left-3 text-gray-400" size={18} />
         <input
@@ -79,7 +82,7 @@ const GeneralTournamentSection = ({  }: TournamentProps) => {
           className="pl-10 pr-4 border-gray-200 py-2 w-full border rounded-lg focus:border-blue-500 outline-none transition-all"
         />
       </div>
-      
+
       <div className={"flex flex-col h-full w"}>
         {loading && (
           <div className="flex items-center justify-center h-[60vh]">
@@ -90,7 +93,9 @@ const GeneralTournamentSection = ({  }: TournamentProps) => {
         {filteredTournaments.length === 0 && !loading ? (
           <div className="flex flex-col items-center justify-center py-16 bg-gradient-to-br from-gray-50 to-white rounded-xl border-2 border-dashed border-gray-200 shadow-inner">
             <Trophy size={48} className="mx-auto text-gray-400 mb-4" />
-            <h2 className="mb-2 text-2xl font-semibold text-gray-700">No Tournaments Found</h2>
+            <h2 className="mb-2 text-2xl font-semibold text-gray-700">
+              No Tournaments Found
+            </h2>
             <p className="mb-4 text-base text-gray-500 max-w-md text-center">
               It looks like there are currently no tournaments available.
               <br />
@@ -107,7 +112,7 @@ const GeneralTournamentSection = ({  }: TournamentProps) => {
                 />
               ))}
             </div>
-            
+
             <Pagination
               totalItems={filteredTournaments.length}
               itemsPerPage={itemsPerPage}

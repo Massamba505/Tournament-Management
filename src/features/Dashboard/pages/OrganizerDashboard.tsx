@@ -6,11 +6,10 @@ import { getOrganizerTournaments } from "@features/Tournaments/services/tourname
 import SectionCard from "../components/SectionCard";
 import TabNavigation from "../components/TabNavigation";
 import LoadingSpinner from "@shared/components/LoadingSpinner";
-import { 
-  Trophy, 
-  Users, 
-  BarChart3, 
-  Calendar,
+import {
+  Trophy,
+  Users,
+  BarChart3,
   Plus,
   MapPin,
   Clock,
@@ -18,7 +17,7 @@ import {
   Settings,
   TrendingUp,
   AlertCircle,
-  CheckCircle2
+  CheckCircle2,
 } from "lucide-react";
 
 interface OrganizerDashboardProps {
@@ -34,7 +33,7 @@ function OrganizerDashboard({ user }: OrganizerDashboardProps) {
   const tabs = [
     { id: "overview", label: "Overview", icon: <BarChart3 size={16} /> },
     { id: "tournaments", label: "My Tournaments", icon: <Trophy size={16} /> },
-    { id: "analytics", label: "Analytics", icon: <TrendingUp size={16} /> }
+    { id: "analytics", label: "Analytics", icon: <TrendingUp size={16} /> },
   ];
 
   useEffect(() => {
@@ -54,99 +53,28 @@ function OrganizerDashboard({ user }: OrganizerDashboardProps) {
     fetchTournaments();
   }, [user.id]);
 
-  const activeTournaments = tournaments.filter(t => 
-    new Date(t.startDate) <= new Date() && new Date(t.endDate) >= new Date()
+  const activeTournaments = tournaments.filter(
+    (t) =>
+      new Date(t.startDate) <= new Date() && new Date(t.endDate) >= new Date()
   );
-  const upcomingTournaments = tournaments.filter(t => new Date(t.startDate) > new Date());
-  const completedTournaments = tournaments.filter(t => new Date(t.endDate) < new Date());
+  const upcomingTournaments = tournaments.filter(
+    (t) => new Date(t.startDate) > new Date()
+  );
+  const completedTournaments = tournaments.filter(
+    (t) => new Date(t.endDate) < new Date()
+  );
 
-  const totalTeams = tournaments.reduce((sum, t) => sum + (t.numberOfTeams || 0), 0);
-  const totalParticipants = tournaments.reduce((sum, t) => sum + (t.numberOfTeams || 0) * 11, 0); // Assuming 11 players per team
+  const totalTeams = tournaments.reduce(
+    (sum, t) => sum + (t.numberOfTeams || 0),
+    0
+  );
+  const totalParticipants = tournaments.reduce(
+    (sum, t) => sum + (t.numberOfTeams || 0) * (t.maxPlayersPerTeam || 0),
+    0
+  );
 
   const renderOverview = () => (
     <div className="space-y-6">
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-6 text-white">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-blue-100 text-sm font-medium">Total Tournaments</p>
-              <p className="text-3xl font-bold">{tournaments.length}</p>
-            </div>
-            <Trophy className="h-8 w-8 text-blue-200" />
-          </div>
-        </div>
-
-        <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-6 text-white">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-green-100 text-sm font-medium">Active Tournaments</p>
-              <p className="text-3xl font-bold">{activeTournaments.length}</p>
-            </div>
-            <Calendar className="h-8 w-8 text-green-200" />
-          </div>
-        </div>
-
-        <div className="bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl p-6 text-white">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-purple-100 text-sm font-medium">Total Teams</p>
-              <p className="text-3xl font-bold">{totalTeams}</p>
-            </div>
-            <Users className="h-8 w-8 text-purple-200" />
-          </div>
-        </div>
-
-        <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl p-6 text-white">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-orange-100 text-sm font-medium">Participants</p>
-              <p className="text-3xl font-bold">{totalParticipants}</p>
-            </div>
-            <TrendingUp className="h-8 w-8 text-orange-200" />
-          </div>
-        </div>
-      </div>
-
-      {/* Quick Actions */}
-      <SectionCard title="Quick Actions" icon={<Settings size={18} />}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <button
-            onClick={() => navigate('/create-tournament')}
-            className="flex items-center gap-3 p-4 bg-blue-50 hover:bg-blue-100 rounded-lg border border-blue-200 transition-colors"
-          >
-            <Plus className="h-6 w-6 text-blue-600" />
-            <div className="text-left">
-              <h3 className="font-semibold text-gray-900">Create Tournament</h3>
-              <p className="text-sm text-gray-600">Set up a new tournament</p>
-            </div>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('tournaments')}
-            className="flex items-center gap-3 p-4 bg-green-50 hover:bg-green-100 rounded-lg border border-green-200 transition-colors"
-          >
-            <Trophy className="h-6 w-6 text-green-600" />
-            <div className="text-left">
-              <h3 className="font-semibold text-gray-900">Manage Tournaments</h3>
-              <p className="text-sm text-gray-600">View and edit tournaments</p>
-            </div>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('analytics')}
-            className="flex items-center gap-3 p-4 bg-purple-50 hover:bg-purple-100 rounded-lg border border-purple-200 transition-colors"
-          >
-            <BarChart3 className="h-6 w-6 text-purple-600" />
-            <div className="text-left">
-              <h3 className="font-semibold text-gray-900">View Analytics</h3>
-              <p className="text-sm text-gray-600">Tournament insights</p>
-            </div>
-          </button>
-        </div>
-      </SectionCard>
-
-      {/* Recent Tournaments */}
       <SectionCard title="Recent Tournaments" icon={<Trophy size={18} />}>
         {loading ? (
           <div className="flex justify-center py-12">
@@ -155,10 +83,14 @@ function OrganizerDashboard({ user }: OrganizerDashboardProps) {
         ) : tournaments.length === 0 ? (
           <div className="text-center py-12 text-gray-500 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
             <Trophy size={48} className="mx-auto text-gray-400 mb-4" />
-            <p className="mb-2 text-lg font-medium">No tournaments created yet</p>
-            <p className="mb-6 text-sm max-w-md mx-auto">Create your first tournament to start organizing competitions</p>
-            <button 
-              onClick={() => navigate('/create-tournament')}
+            <p className="mb-2 text-lg font-medium">
+              No tournaments created yet
+            </p>
+            <p className="mb-6 text-sm max-w-md mx-auto">
+              Create your first tournament to start organizing competitions
+            </p>
+            <button
+              onClick={() => navigate("/create-tournament")}
               className="px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-sm transition-all"
             >
               Create Your First Tournament
@@ -167,13 +99,18 @@ function OrganizerDashboard({ user }: OrganizerDashboardProps) {
         ) : (
           <div className="space-y-4">
             {tournaments.slice(0, 3).map((tournament) => (
-              <div key={tournament.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border">
+              <div
+                key={tournament.id}
+                className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border"
+              >
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
                     <Trophy className="h-6 w-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900">{tournament.name}</h3>
+                    <h3 className="font-semibold text-gray-900">
+                      {tournament.name}
+                    </h3>
                     <div className="flex items-center gap-4 text-sm text-gray-600">
                       <span className="flex items-center gap-1">
                         <Users className="h-4 w-4" />
@@ -195,7 +132,9 @@ function OrganizerDashboard({ user }: OrganizerDashboardProps) {
                         <CheckCircle2 className="h-4 w-4 text-green-500" />
                       )}
                       <span className="text-sm font-medium text-gray-700">
-                        {new Date(tournament.startDate) > new Date() ? 'Upcoming' : 'Active'}
+                        {new Date(tournament.startDate) > new Date()
+                          ? "Upcoming"
+                          : "Active"}
                       </span>
                     </div>
                     <p className="text-xs text-gray-500">
@@ -203,7 +142,9 @@ function OrganizerDashboard({ user }: OrganizerDashboardProps) {
                     </p>
                   </div>
                   <button
-                    onClick={() => navigate(`/manage-tournament/${tournament.id}`)}
+                    onClick={() =>
+                      navigate(`/manage-tournament/${tournament.id}`)
+                    }
                     className="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
                   >
                     Manage
@@ -233,7 +174,7 @@ function OrganizerDashboard({ user }: OrganizerDashboardProps) {
             </button>
           </div>
           <button
-            onClick={() => navigate('/create-tournament')}
+            onClick={() => navigate("/create-tournament")}
             className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700"
           >
             <Plus className="h-4 w-4" />
@@ -249,9 +190,11 @@ function OrganizerDashboard({ user }: OrganizerDashboardProps) {
           <div className="text-center py-12 text-gray-500 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
             <Trophy size={48} className="mx-auto text-gray-400 mb-4" />
             <p className="mb-2 text-lg font-medium">No tournaments yet</p>
-            <p className="mb-6 text-sm max-w-md mx-auto">Create your first tournament to start organizing competitions</p>
-            <button 
-              onClick={() => navigate('/create-tournament')}
+            <p className="mb-6 text-sm max-w-md mx-auto">
+              Create your first tournament to start organizing competitions
+            </p>
+            <button
+              onClick={() => navigate("/create-tournament")}
               className="px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-sm transition-all"
             >
               Create Tournament
@@ -260,32 +203,45 @@ function OrganizerDashboard({ user }: OrganizerDashboardProps) {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {tournaments.map((tournament) => (
-              <div key={tournament.id} className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+              <div
+                key={tournament.id}
+                className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden"
+              >
                 <div className="h-32 bg-gradient-to-br from-blue-500 to-purple-600 relative overflow-hidden">
                   {tournament.bannerImage ? (
-                    <img src={tournament.bannerImage} alt={tournament.name} className="w-full h-full object-cover" />
+                    <img
+                      src={tournament.bannerImage}
+                      alt={tournament.name}
+                      className="w-full h-full object-cover"
+                    />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
                       <Trophy className="h-12 w-12 text-white opacity-70" />
                     </div>
                   )}
                   <div className="absolute top-3 right-3">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      tournament.isPublic 
-                        ? 'bg-green-100 text-green-800 border border-green-200' 
-                        : 'bg-gray-100 text-gray-800 border border-gray-200'
-                    }`}>
-                      {tournament.isPublic ? 'Public' : 'Private'}
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        tournament.isPublic
+                          ? "bg-green-100 text-green-800 border border-green-200"
+                          : "bg-gray-100 text-gray-800 border border-gray-200"
+                      }`}
+                    >
+                      {tournament.isPublic ? "Public" : "Private"}
                     </span>
                   </div>
                 </div>
-                
+
                 <div className="p-4 space-y-3">
                   <div>
-                    <h3 className="font-semibold text-gray-900 truncate">{tournament.name}</h3>
-                    <p className="text-sm text-gray-600">{tournament.format} Tournament</p>
+                    <h3 className="font-semibold text-gray-900 truncate">
+                      {tournament.name}
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                      {tournament.format} Tournament
+                    </p>
                   </div>
-                  
+
                   <div className="space-y-2 text-sm text-gray-600">
                     <div className="flex items-center gap-2">
                       <Users className="h-4 w-4" />
@@ -300,15 +256,15 @@ function OrganizerDashboard({ user }: OrganizerDashboardProps) {
                       <span>{tournament.matchDuration} min matches</span>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center justify-between pt-2 border-t border-gray-100">
                     <div className="text-xs text-gray-500">
                       <span className="font-medium">
-                        {new Date(tournament.startDate) > new Date() 
-                          ? 'Starts: ' 
-                          : new Date(tournament.endDate) < new Date() 
-                            ? 'Ended: ' 
-                            : 'Active'}
+                        {new Date(tournament.startDate) > new Date()
+                          ? "Starts: "
+                          : new Date(tournament.endDate) < new Date()
+                          ? "Ended: "
+                          : "Active"}
                       </span>
                       <span className="block">
                         {new Date(tournament.startDate).toLocaleDateString()}
@@ -323,7 +279,9 @@ function OrganizerDashboard({ user }: OrganizerDashboardProps) {
                         <Eye className="h-4 w-4" />
                       </button>
                       <button
-                        onClick={() => navigate(`/manage-tournament/${tournament.id}`)}
+                        onClick={() =>
+                          navigate(`/manage-tournament/${tournament.id}`)
+                        }
                         className="p-1 text-gray-600 hover:text-blue-600 transition-colors"
                         title="Manage Tournament"
                       >
@@ -345,19 +303,27 @@ function OrganizerDashboard({ user }: OrganizerDashboardProps) {
       <div className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-blue-50 rounded-lg p-6 border border-blue-200">
-            <h3 className="font-semibold text-blue-900 mb-2">Tournament Status</h3>
+            <h3 className="font-semibold text-blue-900 mb-2">
+              Tournament Status
+            </h3>
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
                 <span className="text-blue-700">Active</span>
-                <span className="font-medium text-blue-900">{activeTournaments.length}</span>
+                <span className="font-medium text-blue-900">
+                  {activeTournaments.length}
+                </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-blue-700">Upcoming</span>
-                <span className="font-medium text-blue-900">{upcomingTournaments.length}</span>
+                <span className="font-medium text-blue-900">
+                  {upcomingTournaments.length}
+                </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-blue-700">Completed</span>
-                <span className="font-medium text-blue-900">{completedTournaments.length}</span>
+                <span className="font-medium text-blue-900">
+                  {completedTournaments.length}
+                </span>
               </div>
             </div>
           </div>
@@ -372,29 +338,35 @@ function OrganizerDashboard({ user }: OrganizerDashboardProps) {
               <div className="flex justify-between text-sm">
                 <span className="text-green-700">Avg per Tournament</span>
                 <span className="font-medium text-green-900">
-                  {tournaments.length > 0 ? Math.round(totalTeams / tournaments.length) : 0}
+                  {tournaments.length > 0
+                    ? Math.round(totalTeams / tournaments.length)
+                    : 0}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-green-700">Total Players</span>
-                <span className="font-medium text-green-900">{totalParticipants}</span>
+                <span className="font-medium text-green-900">
+                  {totalParticipants}
+                </span>
               </div>
             </div>
           </div>
 
           <div className="bg-purple-50 rounded-lg p-6 border border-purple-200">
-            <h3 className="font-semibold text-purple-900 mb-2">Tournament Types</h3>
+            <h3 className="font-semibold text-purple-900 mb-2">
+              Tournament Types
+            </h3>
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
                 <span className="text-purple-700">Public</span>
                 <span className="font-medium text-purple-900">
-                  {tournaments.filter(t => t.isPublic).length}
+                  {tournaments.filter((t) => t.isPublic).length}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-purple-700">Private</span>
                 <span className="font-medium text-purple-900">
-                  {tournaments.filter(t => !t.isPublic).length}
+                  {tournaments.filter((t) => !t.isPublic).length}
                 </span>
               </div>
             </div>
@@ -405,7 +377,9 @@ function OrganizerDashboard({ user }: OrganizerDashboardProps) {
           <div className="text-center py-12 text-gray-500">
             <BarChart3 size={48} className="mx-auto text-gray-400 mb-4" />
             <p className="text-lg font-medium mb-2">No analytics available</p>
-            <p className="text-sm">Create tournaments to see detailed analytics and insights</p>
+            <p className="text-sm">
+              Create tournaments to see detailed analytics and insights
+            </p>
           </div>
         )}
       </div>
@@ -426,22 +400,22 @@ function OrganizerDashboard({ user }: OrganizerDashboardProps) {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
+    <>
+      <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Organizer Dashboard</h1>
-          <p className="text-gray-600 mt-1">Welcome back, {user.name}! Manage your tournaments and track their performance.</p>
+          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+          <p className="text-gray-600 mt-1">Welcome, {user.name}!</p>
         </div>
       </div>
-      
+
       <TabNavigation
         tabs={tabs}
         activeTab={activeTab}
         onTabChange={setActiveTab}
       />
-      
+
       {renderTabContent()}
-    </div>
+    </>
   );
 }
 
