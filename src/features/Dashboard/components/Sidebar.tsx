@@ -61,7 +61,7 @@ const quickActions = [
   },
   {
     title: "Create Team",
-    url: "/create-team",
+    url: "/teams/create",
     icon: PlusCircle,
     roles: [Roles.General],
   },

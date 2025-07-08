@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import {
   CreateTournaments,
+  CreateTeam,
   Dashboard,
   DashboardLayout,
   Fixtures,
@@ -35,6 +36,7 @@ function App() {
           <Route path="tournaments" element={<Tournaments />} />
           <Route path="create-tournament" element={<CreateTournaments />} />
           <Route path="teams" element={<Teams />} />
+          <Route path="teams/create" element={<CreateTeam />} />
           <Route path="fixtures" element={<Fixtures />} />
           <Route path="statistics" element={<Statistics />} />
           <Route path="notifications" element={<Notifications />} />

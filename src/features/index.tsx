@@ -6,6 +6,7 @@ import Unauthorized from "./Unauthorized/Unauthorized";
 import DashboardLayout from "./Dashboard/components/DashboardLayout";
 import Tournaments from "./Tournaments/pages/Tournaments";
 import Teams from "./Teams/Teams";
+import CreateTeam from "./Teams/pages/CreateTeam";
 import Fixtures from "./Fixtures/Fixtures";
 import Statistics from "./Statistics/Statistics";
 import Notifications from "./Notifications/Notifications";
@@ -19,6 +20,7 @@ export {
   DashboardLayout,
   Tournaments,
   Teams,
+  CreateTeam,
   Fixtures,
   Statistics,
   Notifications,

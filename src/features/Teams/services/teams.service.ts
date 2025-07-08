@@ -82,7 +82,7 @@ export const getTeamsByManagerId = (managerId: string): Promise<ApiResponse<Team
 
 // Get current user's teams
 export const getCurrentUserTeams = (): Promise<ApiResponse<Team[]>> => {
-  return api(`/teams/my-teams`, {
+  return api(`/teams`, {
     method: "GET",
   }, true);
 };
