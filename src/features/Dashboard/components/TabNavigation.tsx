@@ -6,7 +6,11 @@ interface TabNavigationProps {
   onTabChange: (tabId: string) => void;
 }
 
-const TabNavigation = ({ tabs, activeTab, onTabChange }: TabNavigationProps) => {
+const TabNavigation = ({
+  tabs,
+  activeTab,
+  onTabChange,
+}: TabNavigationProps) => {
   return (
     <div className="border-b border-gray-200 mb-6 bg-white rounded-t-lg shadow-sm">
       <nav className="flex">

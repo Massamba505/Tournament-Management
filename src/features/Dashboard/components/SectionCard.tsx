@@ -7,7 +7,12 @@ interface SectionCardProps {
   icon?: React.ReactNode;
 }
 
-const SectionCard = ({ title, children, actionButton, icon }: SectionCardProps) => {
+const SectionCard = ({
+  title,
+  children,
+  actionButton,
+  icon,
+}: SectionCardProps) => {
   return (
     <div className="bg-white rounded-xl border border-gray-200 shadow-sm mb-6 overflow-hidden transition-all duration-300 hover:shadow-md">
       <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gradient-to-r from-gray-50 to-white">

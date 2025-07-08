@@ -6,7 +6,7 @@ import { Roles } from "../../shared/constants/roles";
 
 const Dashboard = () => {
   const { user, loading } = useAuth();
-  
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">

@@ -35,7 +35,10 @@ const Pagination = ({
         if (totalPages <= 5) {
           pageToShow = i + 1;
         } else {
-          const startPage = Math.max(1, Math.min(currentPage - 2, totalPages - 4));
+          const startPage = Math.max(
+            1,
+            Math.min(currentPage - 2, totalPages - 4)
+          );
           pageToShow = startPage + i;
         }
 
