@@ -1,27 +1,20 @@
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import { getTournamentFormats } from "../services/tournaments.service";
 import CreateTournamentForm from "../components/CreateTournamentForm";
 import { useAuth } from "@features/Authentication/hooks/useAuth";
 import type { TournamentFormatItem } from "../types/tournament";
+import { TournamentFormatEnum } from "../types/tournament";
+
+// Fallback formats in case API call fails
+const defaultFormats: TournamentFormatItem[] = [
+  { id: TournamentFormatEnum.SingleElimination, name: "Single Elimination" },
+  { id: TournamentFormatEnum.DoubleElimination, name: "Double Elimination" },
+  { id: TournamentFormatEnum.RoundRobin, name: "Round Robin" }
+];
 
 function CreateTournaments() {
   const { user } = useAuth();
-  const [formats, setFormats] = useState<TournamentFormatItem[]>([]);
-
-  useEffect(() => {
-    const fetchFormats = async () => {
-      try {
-        const data = await getTournamentFormats();
-        setFormats(data.data ?? []);
-      } catch (err: any) {
-        toast.error(err.message);
-        console.error(err);
-      }
-    };
-
-    fetchFormats();
-  }, []);
+  const [formats, setFormats] = useState<TournamentFormatItem[]>(defaultFormats);
 
   if (!user) return null;
 

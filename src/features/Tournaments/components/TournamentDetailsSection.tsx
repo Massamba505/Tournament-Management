@@ -34,12 +34,21 @@ const TournamentDetailsSection: React.FC<TournamentDetailsSectionProps> = ({
             required
           >
             <option value="">Select format</option>
-            {formats.map((format) => (
-              <option key={format.id} value={format.id}>
-                {format.name}
-              </option>
-            ))}
+            {formats && formats.length > 0 ? (
+              formats.map((format) => (
+                <option key={format.id} value={format.id}>
+                  {format.name}
+                </option>
+              ))
+            ) : (
+              <option disabled>Loading formats...</option>
+            )}
           </select>
+          {formats && formats.length === 0 && (
+            <p className="text-sm text-red-600 mt-1">
+              No formats available. Please try refreshing the page.
+            </p>
+          )}
         </div>
 
         <div>
