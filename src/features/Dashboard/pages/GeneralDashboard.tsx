@@ -30,7 +30,7 @@ function GeneralDashboard({ user }: GeneralDashboardProps) {
     const fetchTeams = async () => {
       try {
         const response = await getCurrentUserTeams();
-        if (response.success && response.data) {
+        if (response.data) {
           setTeams(response.data);
         }
       } catch (error) {
