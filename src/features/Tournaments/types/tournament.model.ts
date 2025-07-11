@@ -27,8 +27,8 @@ export interface CreateTournamentRequest {
   format: TournamentFormatEnum;
   numberOfTeams: number;
   maxPlayersPerTeam: number;
-  startDate: Date;
-  endDate: Date;
+  startDate: Date | string;
+  endDate: Date | string;
   location: string;
   allowJoinViaLink: boolean;
   organizerId: string;
@@ -37,7 +37,7 @@ export interface CreateTournamentRequest {
   contactPhone: string | null;
   entryFee: number | null;
   matchDuration: number | null;
-  registrationDeadline: Date;
+  registrationDeadline: Date | string;
   isPublic: boolean;
   status: TournamentStatus;
 }

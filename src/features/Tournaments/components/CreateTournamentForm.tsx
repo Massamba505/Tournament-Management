@@ -21,6 +21,12 @@ interface Props {
 function CreateTournamentForm({ userId, formats }: Props) {
   const navigation = useNavigate();
 
+  const getDefaultDate = (daysFromNow: number = 0): Date => {
+    const date = new Date();
+    date.setDate(date.getDate() + daysFromNow);
+    return date;
+  };
+
   const initialFormData: CreateTournamentRequest = {
     name: "",
     organizerId: userId,
@@ -28,8 +34,8 @@ function CreateTournamentForm({ userId, formats }: Props) {
     format: TournamentFormatEnum.SingleElimination,
     numberOfTeams: 2,
     maxPlayersPerTeam: 2,
-    startDate: new Date(),
-    endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    startDate: getDefaultDate(1), // Tomorrow
+    endDate: getDefaultDate(8), // Next week
     location: "",
     allowJoinViaLink: false,
     bannerImage: null,
@@ -37,7 +43,7 @@ function CreateTournamentForm({ userId, formats }: Props) {
     contactPhone: null,
     entryFee: null,
     matchDuration: null,
-    registrationDeadline: new Date(),
+    registrationDeadline: getDefaultDate(0), // Today
     isPublic: true,
     status: TournamentStatus.Draft,
   };
@@ -45,14 +51,75 @@ function CreateTournamentForm({ userId, formats }: Props) {
   const [formData, setFormData] =
     useState<CreateTournamentRequest>(initialFormData);
 
+  const validateForm = (): boolean => {
+    const errors: string[] = [];
+
+    // Basic validation
+    if (!formData.name.trim()) errors.push("Tournament name is required");
+    if (!formData.description.trim()) errors.push("Description is required");
+    if (!formData.location.trim()) errors.push("Location is required");
+
+    // Date validation
+    const startDate = new Date(formData.startDate);
+    const endDate = new Date(formData.endDate);
+    const regDeadline = new Date(formData.registrationDeadline);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (startDate <= today) {
+      errors.push("Start date must be in the future");
+    }
+    if (endDate <= startDate) {
+      errors.push("End date must be after start date");
+    }
+    if (regDeadline >= startDate) {
+      errors.push("Registration deadline must be before tournament start");
+    }
+
+    // Team validation
+    if (formData.numberOfTeams < 2) {
+      errors.push("At least 2 teams are required");
+    }
+    if (formData.maxPlayersPerTeam < 1) {
+      errors.push("At least 1 player per team is required");
+    }
+
+    if (errors.length > 0) {
+      toast.error(errors.join(". "));
+      return false;
+    }
+
+    return true;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+
     try {
-      await createTournament({ ...formData, organizerId: userId });
+      // Transform dates to ISO strings for API
+      const tournamentData = {
+        ...formData,
+        organizerId: userId,
+        startDate: formData.startDate instanceof Date 
+          ? formData.startDate.toISOString() 
+          : formData.startDate,
+        endDate: formData.endDate instanceof Date 
+          ? formData.endDate.toISOString() 
+          : formData.endDate,
+        registrationDeadline: formData.registrationDeadline instanceof Date 
+          ? formData.registrationDeadline.toISOString() 
+          : formData.registrationDeadline,
+      };
+
+      await createTournament(tournamentData);
       toast.success("Tournament created successfully!");
       navigation("/dashboard");
     } catch (err: any) {
-      toast.error(err.message);
+      toast.error(err.message || "Failed to create tournament");
       console.error(err);
     }
   };
@@ -63,12 +130,15 @@ function CreateTournamentForm({ userId, formats }: Props) {
     >
   ) => {
     const { name, value, type } = e.target;
-    let val: string | number | boolean = value;
+    let val: string | number | boolean | Date = value;
 
     if (type === "checkbox") {
       val = (e.target as HTMLInputElement).checked;
     } else if (type === "number") {
       val = Number(value);
+    } else if (type === "date") {
+      // Convert date string to Date object for consistency
+      val = value ? new Date(value + 'T00:00:00.000Z') : new Date();
     }
 
     setFormData((prev) => ({

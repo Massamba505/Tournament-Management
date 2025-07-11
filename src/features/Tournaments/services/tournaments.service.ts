@@ -21,7 +21,7 @@ export const createTournament = (tournament: CreateTournamentRequest): Promise<v
   return api("/tournaments", {
     method: "POST",
     body: JSON.stringify(tournament),
-  });
+  }, true);
 };
 
 // Get all tournaments
@@ -148,14 +148,27 @@ export const updateTournamentStatus = (tournamentId: string, status: UpdateTourn
 };
 
 // Delete tournament
-export const deleteTournament = (tournamentId: string): Promise<void> => {
-  return api(
-    `/tournaments/${tournamentId}`,
-    {
-      method: "DELETE",
-    },
-    true
-  );
+export const deleteTournament = async (tournamentId: string): Promise<void> => {
+  try {
+    return await api(
+      `/tournaments/${tournamentId}`,
+      {
+        method: "DELETE",
+      },
+      true
+    );
+  } catch (error: any) {
+    // Enhanced error handling for specific cases
+    if (error.message?.includes('tournament is active')) {
+      throw new Error('Cannot delete an active tournament. Please complete or cancel it first.');
+    } else if (error.message?.includes('has registered teams')) {
+      throw new Error('Cannot delete tournament with registered teams. Remove all teams first.');
+    } else if (error.message?.includes('not found')) {
+      throw new Error('Tournament not found or already deleted.');
+    } else {
+      throw new Error(error.message || 'Failed to delete tournament. Please try again.');
+    }
+  }
 };
 
 // Tournament Teams endpoints

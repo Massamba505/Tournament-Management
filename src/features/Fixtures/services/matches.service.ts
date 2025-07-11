@@ -56,7 +56,7 @@ export const deleteMatch = (matchId: string): Promise<void> => {
 
 // Get matches by tournament
 export const getMatchesByTournament = (tournamentId: string): Promise<ApiResponse<Match[]>> => {
-  return api(`/tournaments/${tournamentId}/matches`, {
+  return api(`/matches/tournament/${tournamentId}`, {
     method: "GET",
   }, true);
 };
