@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import type { Tournament } from "@features/Tournaments/types/tournament";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { formatDate } from "@/shared/utils/formatDate";
 
 interface TournamentProps {
   tournament: Tournament;
@@ -20,7 +21,6 @@ function GeneralTournamentCard({
   async function joinTournament() {
     setLoading(true);
     try {
-      // const { message } = await teamJoinTournament(tournamentId);
       toast.success(`Successfully joined tournament ${tournament.name}`);
     } catch (error: any) {
       toast.error(error.message);
@@ -111,11 +111,7 @@ function GeneralTournamentCard({
         <div className="flex items-center justify-between text-xs text-gray-500 bg-gray-50 rounded-lg p-2">
           <span>Registration ends:</span>
           <span className="font-semibold text-gray-700">
-            {new Date(tournament.endDate).toLocaleDateString("en-US", {
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-            })}
+            {formatDate(tournament.endDate)}
           </span>
         </div>
 

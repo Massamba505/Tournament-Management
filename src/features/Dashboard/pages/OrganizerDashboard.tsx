@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import type { User } from "@shared/types/user";
 import type { Tournament } from "@features/Tournaments/types/tournament";
 import { getOrganizerTournaments } from "@features/Tournaments/services/tournaments.service";
-import SectionCard from "../components/SectionCard";
+import SectionCard from "../../../shared/components/SectionCard";
 import TabNavigation from "../components/TabNavigation";
 import LoadingSpinner from "@shared/components/LoadingSpinner";
 import {

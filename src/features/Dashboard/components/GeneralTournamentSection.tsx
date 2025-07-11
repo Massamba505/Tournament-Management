@@ -4,7 +4,7 @@ import type { User } from "@shared/types/user";
 import type { Tournament } from "@features/Tournaments/types/tournament";
 import { getAllTournaments } from "@features/Tournaments/services/tournaments.service";
 import LoadingSpinner from "@shared/components/LoadingSpinner";
-import Pagination from "./Pagination";
+import Pagination from "../../../shared/components/Pagination";
 import { Search, Trophy } from "lucide-react";
 
 interface TournamentProps {
@@ -47,7 +47,7 @@ const GeneralTournamentSection = ({}: TournamentProps) => {
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value;
     setSearchQuery(query);
-    setCurrentPage(1); // Reset to first page on new search
+    setCurrentPage(1);
 
     const filtered = tournaments.filter((tournament) =>
       tournament.name.toLowerCase().includes(query.toLowerCase())

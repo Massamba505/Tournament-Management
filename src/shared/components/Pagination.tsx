@@ -30,7 +30,6 @@ const Pagination = ({
       </button>
 
       {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-        // Logic to show pages around current page
         let pageToShow;
         if (totalPages <= 5) {
           pageToShow = i + 1;

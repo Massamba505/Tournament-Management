@@ -13,7 +13,7 @@ export enum TournamentStatus {
 export enum TournamentFormatEnum {
   SingleElimination = 1,
   DoubleElimination = 2,
-  RoundRobin = 3
+  RoundRobin = 3,
 }
 
 export interface TournamentFormatItem {
@@ -27,8 +27,8 @@ export interface CreateTournamentRequest {
   format: TournamentFormatEnum;
   numberOfTeams: number;
   maxPlayersPerTeam: number;
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
   location: string;
   allowJoinViaLink: boolean;
   organizerId: string;
@@ -37,7 +37,7 @@ export interface CreateTournamentRequest {
   contactPhone: string | null;
   entryFee: number | null;
   matchDuration: number | null;
-  registrationDeadline: string;
+  registrationDeadline: Date;
   isPublic: boolean;
   status: TournamentStatus;
 }
@@ -45,8 +45,8 @@ export interface CreateTournamentRequest {
 export interface UpdateTournamentRequest {
   name?: string;
   description?: string;
-  startDate?: string;
-  endDate?: string;
+  startDate?: Date;
+  endDate?: Date;
   location?: string;
   allowJoinViaLink?: boolean;
   bannerImage?: string | null;
@@ -70,8 +70,8 @@ export interface Tournament {
   format: string;
   numberOfTeams: number;
   maxPlayersPerTeam: number;
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
   location: string;
   organizer: UserSummary;
   bannerImage: string | null;
@@ -80,16 +80,17 @@ export interface Tournament {
   entryFee: number | null;
   isPublic: boolean;
   status: TournamentStatus;
+  registrationDeadline: Date;
   matchDuration?: number | null; // Added for backward compatibility with cards
 }
 
 export interface TournamentDetail extends Tournament {
   teams: TournamentTeam[];
   matches: Match[];
-  registrationDeadline: string;
+  registrationDeadline: Date;
   allowJoinViaLink: boolean;
   matchDuration: number | null;
-  createdAt: string;
+  createdAt: Date;
 }
 
 export interface TournamentTeam {
