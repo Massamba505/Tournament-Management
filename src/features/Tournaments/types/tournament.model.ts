@@ -1,5 +1,6 @@
 import type { UserSummary } from "@shared/types/user";
 import type { Match } from "@features/Fixtures/types/match";
+import type { TournamentTeam } from "./tournamentTeams.model";
 
 export enum TournamentStatus {
   Draft = "Draft",
@@ -89,21 +90,4 @@ export interface TournamentDetail extends Tournament {
   allowJoinViaLink: boolean;
   teams: TournamentTeam[];
   matches: Match[];
-}
-
-export interface TournamentTeam {
-  id: string;
-  tournamentId: string;
-  teamId: string;
-  registeredAt: string;
-  isActive: boolean;
-  team: {
-    id: string;
-    name: string;
-    logoUrl: string | null;
-  };
-}
-
-export interface JoinTournamentRequest {
-  teamId: string;
 }

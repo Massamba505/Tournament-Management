@@ -6,19 +6,16 @@ import type {
   TournamentDetail,
   TournamentFormatItem,
   TournamentStatus,
-  TournamentTeam,
   TournamentUpdateRequest,
   UpdateTournamentStatusRequest,
 } from "../types/tournament";
 
-// Get tournament formats
 export const getTournamentFormats = (): Promise<
   ApiResponse<TournamentFormatItem[]>
 > => {
   return api("/tournaments/formats");
 };
 
-// Create a new tournament
 export const createTournament = (
   tournament: TournamentCreateRequest
 ): Promise<void> => {
@@ -32,7 +29,6 @@ export const createTournament = (
   );
 };
 
-// Get all tournaments
 export const getAllTournaments = (): Promise<ApiResponse<Tournament[]>> => {
   return api(
     "/tournaments",
@@ -43,7 +39,6 @@ export const getAllTournaments = (): Promise<ApiResponse<Tournament[]>> => {
   );
 };
 
-// Get tournament by ID
 export const getTournamentById = (
   id: string
 ): Promise<ApiResponse<Tournament>> => {
@@ -56,7 +51,6 @@ export const getTournamentById = (
   );
 };
 
-// Get tournament details by ID
 export const getTournamentDetailsById = (
   id: string
 ): Promise<ApiResponse<TournamentDetail>> => {
@@ -69,7 +63,6 @@ export const getTournamentDetailsById = (
   );
 };
 
-// Get tournaments by organizer ID
 export const getOrganizerTournaments = (
   organizerId: string
 ): Promise<ApiResponse<Tournament[]>> => {
@@ -82,7 +75,6 @@ export const getOrganizerTournaments = (
   );
 };
 
-// Get tournaments by status
 export const getTournamentsByStatus = (
   status: TournamentStatus
 ): Promise<ApiResponse<Tournament[]>> => {
@@ -95,7 +87,6 @@ export const getTournamentsByStatus = (
   );
 };
 
-// Search tournaments
 export const searchTournaments = (
   term: string
 ): Promise<ApiResponse<Tournament[]>> => {
@@ -108,7 +99,6 @@ export const searchTournaments = (
   );
 };
 
-// Get upcoming tournaments
 export const getUpcomingTournaments = (
   count: number = 5
 ): Promise<ApiResponse<Tournament[]>> => {
@@ -121,7 +111,6 @@ export const getUpcomingTournaments = (
   );
 };
 
-// Get tournaments by user participation
 export const getTournamentsByUserParticipation = (
   userId: string
 ): Promise<ApiResponse<Tournament[]>> => {
@@ -134,7 +123,6 @@ export const getTournamentsByUserParticipation = (
   );
 };
 
-// Get current user's tournaments
 export const getCurrentUserTournaments = (): Promise<
   ApiResponse<Tournament[]>
 > => {
@@ -147,7 +135,6 @@ export const getCurrentUserTournaments = (): Promise<
   );
 };
 
-// Update a tournament
 export const updateTournament = (
   tournamentId: string,
   tournament: TournamentUpdateRequest
@@ -162,7 +149,6 @@ export const updateTournament = (
   );
 };
 
-// Update tournament status
 export const updateTournamentStatus = (
   tournamentId: string,
   status: UpdateTournamentStatusRequest
@@ -177,50 +163,9 @@ export const updateTournamentStatus = (
   );
 };
 
-// Delete tournament
 export const deleteTournament = async (tournamentId: string): Promise<void> => {
   return await api(
     `/tournaments/${tournamentId}`,
-    {
-      method: "DELETE",
-    },
-    true
-  );
-};
-
-// Tournament Teams endpoints
-export const getTournamentTeams = (
-  tournamentId: string
-): Promise<ApiResponse<TournamentTeam[]>> => {
-  return api(
-    `/tournaments/${tournamentId}/teams`,
-    {
-      method: "GET",
-    },
-    true
-  );
-};
-
-export const teamJoinTournament = (
-  tournamentId: string,
-  teamId: string
-): Promise<void> => {
-  return api(
-    `/tournaments/${tournamentId}/teams`,
-    {
-      method: "POST",
-      body: JSON.stringify({ teamId }),
-    },
-    true
-  );
-};
-
-export const deleteTournamentTeam = (
-  tournamentId: string,
-  teamId: string
-): Promise<void> => {
-  return api(
-    `/tournaments/${tournamentId}/teams/${teamId}`,
     {
       method: "DELETE",
     },
