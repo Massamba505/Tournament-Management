@@ -21,40 +21,40 @@ export interface TournamentFormatItem {
   name: string;
 }
 
-export interface CreateTournamentRequest {
+export interface TournamentCreateRequest {
   name: string;
   description: string;
   format: TournamentFormatEnum;
-  numberOfTeams: number;
+  maxNumberOfTeams: number;
   maxPlayersPerTeam: number;
-  startDate: Date | string;
-  endDate: Date | string;
+  startDate: string;
+  endDate: string;
+  registrationDeadline: string;
   location: string;
-  allowJoinViaLink: boolean;
   organizerId: string;
-  bannerImage: string | null;
-  contactEmail: string | null;
-  contactPhone: string | null;
-  entryFee: number | null;
-  matchDuration: number | null;
-  registrationDeadline: Date | string;
+  bannerImage: string;
+  contactEmail?: string | null;
+  contactPhone?: string | null;
+  entryFee?: number | null;
+  allowJoinViaLink: boolean;
+  matchDuration?: number | null;
   isPublic: boolean;
   status: TournamentStatus;
 }
 
-export interface UpdateTournamentRequest {
+export interface TournamentUpdateRequest {
   name?: string;
   description?: string;
-  startDate?: Date;
-  endDate?: Date;
+  startDate?: string;
+  endDate?: string;
+  registrationDeadline?: string;
   location?: string;
-  allowJoinViaLink?: boolean;
   bannerImage?: string | null;
   contactEmail?: string | null;
   contactPhone?: string | null;
   entryFee?: number | null;
+  allowJoinViaLink?: boolean;
   matchDuration?: number | null;
-  registrationDeadline?: string;
   isPublic?: boolean;
   status?: TournamentStatus;
 }
@@ -68,38 +68,40 @@ export interface Tournament {
   name: string;
   description: string;
   format: string;
-  numberOfTeams: number;
+  maxNumberOfTeams: number;
   maxPlayersPerTeam: number;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
+  registrationDeadline: string;
   location: string;
   organizer: UserSummary;
-  bannerImage: string | null;
-  contactEmail: string | null;
-  contactPhone: string | null;
-  entryFee: number | null;
+  bannerImage: string;
+  contactEmail?: string | null;
+  contactPhone?: string | null;
+  entryFee?: number | null;
   isPublic: boolean;
   status: TournamentStatus;
-  registrationDeadline: Date;
-  matchDuration?: number | null; // Added for backward compatibility with cards
+  createdAt: string;
+  matchDuration?: number | null;
 }
 
 export interface TournamentDetail extends Tournament {
+  allowJoinViaLink: boolean;
   teams: TournamentTeam[];
   matches: Match[];
-  registrationDeadline: Date;
-  allowJoinViaLink: boolean;
-  matchDuration: number | null;
-  createdAt: Date;
 }
 
 export interface TournamentTeam {
+  id: string;
+  tournamentId: string;
+  teamId: string;
+  registeredAt: string;
+  isActive: boolean;
   team: {
     id: string;
     name: string;
     logoUrl: string | null;
   };
-  registeredAt: string;
 }
 
 export interface JoinTournamentRequest {
