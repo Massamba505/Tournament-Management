@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import type { Tournament, TournamentTeam } from "../types/tournament";
+import type { Tournament } from "../types/tournament";
 import {
   deleteTournament,
   getOrganizerTournaments,
-  getTournamentTeams,
 } from "../services/tournaments.service";
 import TournamentDropdown from "../components/TournamentDropdown";
 import TournamentDetails from "../components/TournamentDetails";
@@ -11,6 +10,8 @@ import TeamsList from "../components/TeamsList";
 import toast from "react-hot-toast";
 import ConfirmDeleteTournamentModal from "../components/ConfirmDeleteTournamentModal";
 import { useAuth } from "../../Authentication/hooks/useAuth";
+import type { TournamentTeam } from "../types/tournamentTeams.model";
+import { getTournamentTeams } from "../services/tournamentTeams.service";
 
 function Tournaments() {
   const { user } = useAuth();
@@ -54,9 +55,7 @@ function Tournaments() {
   };
 
   const handleTeamDelete = (teamId: string) => {
-    setTournamentTeams((prev) =>
-      prev.filter((team) => team.team.id !== teamId)
-    );
+    setTournamentTeams((prev) => prev.filter((team) => team.teamId !== teamId));
   };
 
   const confirmDeleteTournament = () => {

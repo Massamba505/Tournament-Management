@@ -70,7 +70,7 @@ export default function TournamentDetails({ tournament, onDelete }: Props) {
           </div>
           <div>
             <span className="font-medium text-gray-800">Teams Allowed:</span>{" "}
-            {tournament.numberOfTeams}
+            {tournament.maxNumberOfTeams}
           </div>
           <div>
             <span className="font-medium text-gray-800">Max Players/Team:</span>{" "}

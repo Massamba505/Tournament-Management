@@ -7,6 +7,7 @@ export enum MemberType {
 export interface TeamMember {
   userId: string;
   fullName: string;
+  profilePicture: string;
   memberType: MemberType;
   isCaptain: boolean;
   joinedAt: string;

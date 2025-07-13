@@ -1,23 +1,12 @@
 import React from "react";
-import type { CreateTournamentRequest } from "../types/tournament";
+import type { TournamentCreateRequest } from "../types/tournament";
 
 type Props = {
-  formData: CreateTournamentRequest;
+  formData: TournamentCreateRequest;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 const ScheduleSection: React.FC<Props> = ({ formData, handleChange }) => {
-  // Helper function to format Date to YYYY-MM-DD for date inputs
-  const formatDateForInput = (date: Date | string | null): string => {
-    if (!date) return "";
-    
-    // If it's already a string, assume it's in correct format
-    if (typeof date === "string") return date;
-    
-    // If it's a Date object, format it
-    return date.toISOString().split('T')[0];
-  };
-
   return (
     <div className="p-4 sm:p-6 rounded-lg shadow-sm border border-gray-100">
       <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4">
@@ -35,7 +24,7 @@ const ScheduleSection: React.FC<Props> = ({ formData, handleChange }) => {
             id="startDate"
             name="startDate"
             type="date"
-            value={formatDateForInput(formData.startDate)}
+            value={formData.startDate}
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg"
             required
@@ -53,10 +42,10 @@ const ScheduleSection: React.FC<Props> = ({ formData, handleChange }) => {
             id="endDate"
             name="endDate"
             type="date"
-            value={formatDateForInput(formData.endDate)}
+            value={formData.endDate}
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-            min={formatDateForInput(formData.startDate)}
+            min={formData.startDate}
             required
           />
         </div>
@@ -72,10 +61,10 @@ const ScheduleSection: React.FC<Props> = ({ formData, handleChange }) => {
             id="registrationDeadline"
             name="registrationDeadline"
             type="date"
-            value={formatDateForInput(formData.registrationDeadline)}
+            value={formData.registrationDeadline}
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-            max={formatDateForInput(formData.startDate)}
+            max={formData.startDate}
             required
           />
         </div>

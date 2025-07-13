@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { getTournamentFormats } from "../services/tournaments.service";
+import { useState } from "react";
 import CreateTournamentForm from "../components/CreateTournamentForm";
 import { useAuth } from "@features/Authentication/hooks/useAuth";
 import type { TournamentFormatItem } from "../types/tournament";
@@ -9,12 +8,13 @@ import { TournamentFormatEnum } from "../types/tournament";
 const defaultFormats: TournamentFormatItem[] = [
   { id: TournamentFormatEnum.SingleElimination, name: "Single Elimination" },
   { id: TournamentFormatEnum.DoubleElimination, name: "Double Elimination" },
-  { id: TournamentFormatEnum.RoundRobin, name: "Round Robin" }
+  { id: TournamentFormatEnum.RoundRobin, name: "Round Robin" },
 ];
 
 function CreateTournaments() {
   const { user } = useAuth();
-  const [formats, setFormats] = useState<TournamentFormatItem[]>(defaultFormats);
+  const [formats, setFormats] =
+    useState<TournamentFormatItem[]>(defaultFormats);
 
   if (!user) return null;
 

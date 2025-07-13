@@ -1,14 +1,27 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { 
-  Users, Crown, Shield, ChevronDown, 
-  Calendar, Mail, UserPlus, Edit3, Trash2 
+import {
+  Users,
+  Crown,
+  Shield,
+  ChevronDown,
+  Calendar,
+  Mail,
+  UserPlus,
+  Edit3,
+  Trash2,
 } from "lucide-react";
-import { getCurrentUserTeams, getTeamMembers, updateTeam, deleteTeam } from "./services/teams.service";
-import type { Team, TeamMember, UpdateTeamRequest } from "./types/team";
+import {
+  getCurrentUserTeams,
+  updateTeam,
+  deleteTeam,
+} from "./services/teams.service";
+import type { Team, UpdateTeamRequest } from "./types/team";
 import LoadingSpinner from "@shared/components/LoadingSpinner";
 import { EditTeamModal } from "./components";
 import toast from "react-hot-toast";
+import { getTeamMembers } from "./services/teamMember.service";
+import type { TeamMember } from "./types/teamMember";
 
 function Teams() {
   const navigate = useNavigate();
@@ -93,20 +106,20 @@ function Teams() {
     if (!selectedTeam) return;
 
     await updateTeam(selectedTeam.id, updateData);
-    
+
     const updatedTeam = {
       ...selectedTeam,
       name: updateData.name || selectedTeam.name,
       logoUrl: updateData.logoUrl || null,
       captainId: updateData.captainId || null,
-      status: updateData.status || selectedTeam.status
+      status: updateData.status || selectedTeam.status,
     };
-    
+
     setSelectedTeam(updatedTeam);
-    setTeams(teams.map(team => 
-      team.id === selectedTeam.id ? updatedTeam : team
-    ));
-    
+    setTeams(
+      teams.map((team) => (team.id === selectedTeam.id ? updatedTeam : team))
+    );
+
     toast.success("Team updated successfully!");
   };
 
@@ -114,20 +127,19 @@ function Teams() {
     setLoading(true);
     try {
       await deleteTeam(team.id);
-      
-      const updatedTeams = teams.filter(t => t.id !== team.id);
+
+      const updatedTeams = teams.filter((t) => t.id !== team.id);
       setTeams(updatedTeams);
-      
+
       if (selectedTeam?.id === team.id) {
         setSelectedTeam(null);
         setTeamMembers([]);
       }
-      
+
       toast.success("Team deleted successfully!");
     } catch (error: any) {
       toast.error(error.message || "Failed to delete team");
-    }
-    finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -147,15 +159,17 @@ function Teams() {
         <p className="text-gray-600 mt-1">Manage your teams and members</p>
       </div>
       <div className="mt-10">
-
         {teams.length === 0 ? (
           <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
             <div className="w-16 h-16 bg-gray-100 rounded-full mx-auto mb-4 flex items-center justify-center">
               <Users className="h-8 w-8 text-gray-400" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No Teams Yet</h3>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              No Teams Yet
+            </h3>
             <p className="text-gray-600 mb-6 max-w-md mx-auto">
-              Create your first team to start managing members and participating in tournaments.
+              Create your first team to start managing members and participating
+              in tournaments.
             </p>
             <button
               onClick={() => navigate("/teams/create")}
@@ -169,12 +183,16 @@ function Teams() {
             <div className="lg:col-span-1">
               <div className="bg-white rounded-xl border border-gray-200 p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-semibold text-gray-900">Select Team</h2>
+                  <h2 className="text-lg font-semibold text-gray-900">
+                    Select Team
+                  </h2>
                   {teams.length > 0 && (
-                    <span className="text-sm text-gray-500">{teams.length} team{teams.length !== 1 ? 's' : ''}</span>
+                    <span className="text-sm text-gray-500">
+                      {teams.length} team{teams.length !== 1 ? "s" : ""}
+                    </span>
                   )}
                 </div>
-                
+
                 <div className="relative">
                   <button
                     onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -199,11 +217,15 @@ function Teams() {
                       </div>
                     ) : (
                       <span className="text-gray-500">
-                        {teams.length > 0 ? "Choose a team to manage" : "No teams available"}
+                        {teams.length > 0
+                          ? "Choose a team to manage"
+                          : "No teams available"}
                       </span>
                     )}
-                    <ChevronDown 
-                      className={`h-4 w-4 text-gray-400 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} 
+                    <ChevronDown
+                      className={`h-4 w-4 text-gray-400 transition-transform ${
+                        dropdownOpen ? "rotate-180" : ""
+                      }`}
                     />
                   </button>
 
@@ -230,7 +252,9 @@ function Teams() {
                             )}
                           </div>
                           <div className="text-left">
-                            <div className="font-medium text-gray-900">{team.name}</div>
+                            <div className="font-medium text-gray-900">
+                              {team.name}
+                            </div>
                             <div className="text-sm text-gray-500">
                               {team.members?.length || 0} members
                             </div>
@@ -240,53 +264,57 @@ function Teams() {
                     </div>
                   )}
                 </div>
-
               </div>
             </div>
 
             {selectedTeam && (
               <div className="lg:col-span-1 ">
                 <div className="bg-white rounded-xl border border-gray-200 p-6">
-                    <div className="mt-6 space-y-4">
-                      <div className="border-b flex justify-between border-gray-200 pb-4">
-                        <div className="text-lg font-medium text-gray-900">{selectedTeam.name}</div>
-                        <div className="flex gap-2">
-                          <button
-                            onClick={startEditing}
-                            className="flex items-center gap-1 px-3 py-1.5 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors"
-                          >
-                            <Edit3 size={14} />
-                            Edit
-                          </button>
-                          <button
-                            onClick={() => handleDeleteTeam(selectedTeam)}
-                            className="flex items-center gap-1 px-3 py-1.5 text-sm bg-red-100 hover:bg-red-200 text-red-700 rounded-lg transition-colors"
-                          >
-                            <Trash2 size={14} />
-                            Delete
-                          </button>
-                        </div>
+                  <div className="mt-6 space-y-4">
+                    <div className="border-b flex justify-between border-gray-200 pb-4">
+                      <div className="text-lg font-medium text-gray-900">
+                        {selectedTeam.name}
                       </div>
-                      
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
-                        <Calendar className="h-4 w-4" />
-                        <span>Created {new Date(selectedTeam.createdAt).toLocaleDateString()}</span>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={startEditing}
+                          className="flex items-center gap-1 px-3 py-1.5 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors"
+                        >
+                          <Edit3 size={14} />
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDeleteTeam(selectedTeam)}
+                          className="flex items-center gap-1 px-3 py-1.5 text-sm bg-red-100 hover:bg-red-200 text-red-700 rounded-lg transition-colors"
+                        >
+                          <Trash2 size={14} />
+                          Delete
+                        </button>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
-                        <Users className="h-4 w-4" />
-                        <span>{teamMembers.length} members</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
-                        <Shield className="h-4 w-4" />
-                        <span>Manager: {selectedTeam.manager.fullName}</span>
-                      </div>
-                      {selectedTeam.captain && (
-                        <div className="flex items-center gap-2 text-sm text-gray-600">
-                          <Crown className="h-4 w-4" />
-                          <span>Captain: {selectedTeam.captain.fullName}</span>
-                        </div>
-                      )}
                     </div>
+
+                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <Calendar className="h-4 w-4" />
+                      <span>
+                        Created{" "}
+                        {new Date(selectedTeam.createdAt).toLocaleDateString()}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <Users className="h-4 w-4" />
+                      <span>{teamMembers.length} members</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <Shield className="h-4 w-4" />
+                      <span>Manager: {selectedTeam.manager.fullName}</span>
+                    </div>
+                    {selectedTeam.captain && (
+                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                        <Crown className="h-4 w-4" />
+                        <span>Captain: {selectedTeam.captain.fullName}</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             )}
@@ -294,7 +322,9 @@ function Teams() {
             <div className="lg:col-span-2">
               <div className="bg-white rounded-xl border border-gray-200 p-6">
                 <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-lg font-semibold text-gray-900">Team Members</h2>
+                  <h2 className="text-lg font-semibold text-gray-900">
+                    Team Members
+                  </h2>
                   {selectedTeam && (
                     <button className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
                       <UserPlus size={16} />
@@ -324,15 +354,15 @@ function Teams() {
                   <div className="space-y-4">
                     {teamMembers.map((member) => (
                       <div
-                        key={member.id}
+                        key={member.userId}
                         className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
                       >
                         <div className="flex items-center gap-4">
                           <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
-                            {member.user.profilePicture ? (
+                            {member.profilePicture ? (
                               <img
-                                src={member.user.profilePicture}
-                                alt={`${member.user.fullName} avatar`}
+                                src={member.profilePicture}
+                                alt={`${member.fullName} avatar`}
                                 className="w-full h-full object-cover"
                               />
                             ) : (
@@ -340,15 +370,22 @@ function Teams() {
                             )}
                           </div>
                           <div>
-                            <h3 className="font-medium text-gray-900">{member.user.fullName}</h3>
+                            <h3 className="font-medium text-gray-900">
+                              {member.fullName}
+                            </h3>
                             <p className="text-sm text-gray-500">
-                              Joined {new Date(member.joinedAt).toLocaleDateString()}
+                              Joined{" "}
+                              {new Date(member.joinedAt).toLocaleDateString()}
                             </p>
                           </div>
                         </div>
                         <div className="flex items-center gap-3">
-                          <span className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium border ${getMemberBadgeColor(member.memberType)}`}>
-                            {getMemberIcon(member.memberType)}
+                          <span
+                            className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium border ${getMemberBadgeColor(
+                              `${member.memberType}`
+                            )}`}
+                          >
+                            {getMemberIcon(`${member.memberType}`)}
                             {member.memberType}
                           </span>
                           <button className="text-gray-400 hover:text-gray-600 transition-colors">

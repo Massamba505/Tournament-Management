@@ -1,9 +1,10 @@
 import type { UserSummary } from "@shared/types/user";
+import type { TeamMember } from "./teamMember";
 
 export enum TeamStatus {
   Active = "Active",
   Inactive = "Inactive",
-  Disbanded = "Disbanded"
+  Disbanded = "Disbanded",
 }
 
 export interface Team {
@@ -27,19 +28,10 @@ export interface TeamSummary {
   memberCount: number;
 }
 
-export interface TeamMember {
-  id: string;
-  userId: string;
-  teamId: string;
-  memberType: MemberType;
-  joinedAt: string;
-  user: UserSummary;
-}
-
 export enum MemberType {
   Manager = "Manager",
   Captain = "Captain",
-  Player = "Player"
+  Player = "Player",
 }
 
 export interface CreateTeamRequest {
@@ -72,7 +64,7 @@ export interface TeamInvitation {
 export enum InvitationStatus {
   Pending = "Pending",
   Accepted = "Accepted",
-  Rejected = "Rejected"
+  Rejected = "Rejected",
 }
 
 export interface CreateTeamInvitationRequest {

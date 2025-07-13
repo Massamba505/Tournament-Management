@@ -1,6 +1,6 @@
 import React from "react";
 import { Users } from "lucide-react";
-import type { TournamentTeam } from "../types/tournament";
+import type { TournamentTeam } from "../types/tournamentTeams.model";
 import TeamCard from "./TeamCard";
 
 interface TeamsListProps {
@@ -56,7 +56,7 @@ const TeamsList: React.FC<TeamsListProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {tournamentTeams.map((tournamentTeam) => (
           <TeamCard
-            key={tournamentTeam.team.id}
+            key={tournamentTeam.teamId}
             tournamentTeam={tournamentTeam}
             tournamentId={tournamentId}
             onDelete={onDeleteTeam}

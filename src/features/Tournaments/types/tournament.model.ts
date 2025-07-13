@@ -3,12 +3,12 @@ import type { Match } from "@features/Fixtures/types/match";
 import type { TournamentTeam } from "./tournamentTeams.model";
 
 export enum TournamentStatus {
-  Draft = "Draft",
-  RegistrationOpen = "RegistrationOpen",
-  RegistrationClosed = "RegistrationClosed",
-  InProgress = "InProgress",
-  Completed = "Completed",
-  Cancelled = "Cancelled",
+  Draft = 0,
+  RegistrationOpen = 1,
+  RegistrationClosed = 2,
+  InProgress = 3,
+  Completed = 4,
+  Cancelled = 5,
 }
 
 export enum TournamentFormatEnum {

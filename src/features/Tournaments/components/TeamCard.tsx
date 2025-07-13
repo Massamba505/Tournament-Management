@@ -1,8 +1,8 @@
 import { Users, Trash2 } from "lucide-react";
-import type { TournamentTeam } from "../types/tournament";
 import { useState } from "react";
-import { deleteTournamentTeam } from "../services/tournaments.service";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
+import { removeTournamentTeam } from "../services/tournamentTeams.service";
+import type { TournamentTeam } from "../types/tournamentTeams.model";
 
 interface TeamCardProps {
   tournamentTeam: TournamentTeam;
@@ -10,20 +10,16 @@ interface TeamCardProps {
   onDelete: (teamId: string) => void;
 }
 
-function TeamCard({
-  tournamentTeam,
-  tournamentId,
-  onDelete,
-}: TeamCardProps) {
-  const { team, registeredAt } = tournamentTeam;
+function TeamCard({ tournamentTeam, tournamentId, onDelete }: TeamCardProps) {
+  const { registeredAt, teamName, logoUrl, teamId } = tournamentTeam;
   const [modalOpen, setModalOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
   const handleConfirmDelete = async () => {
     try {
       setDeleting(true);
-      await deleteTournamentTeam(tournamentId, team.id);
-      onDelete(team.id);
+      await removeTournamentTeam(tournamentId, teamId);
+      onDelete(teamId);
       setModalOpen(false);
     } catch (error) {
       console.error("Failed to delete team:", error);
@@ -48,15 +44,15 @@ function TeamCard({
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
         onConfirm={handleConfirmDelete}
-        teamName={team.name}
+        teamName={teamName}
       />
 
       <div className="flex items-start gap-4 mb-4">
         <div className="w-16 h-16 bg-gray-200 rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden">
-          {team.logoUrl ? (
+          {logoUrl ? (
             <img
-              src={team.logoUrl}
-              alt={`${team.name} logo`}
+              src={logoUrl}
+              alt={`${teamName} logo`}
               className="w-full h-full object-cover"
             />
           ) : (
@@ -65,7 +61,7 @@ function TeamCard({
         </div>
         <div className="flex-1">
           <h3 className="text-xl font-semibold text-gray-900 mb-1">
-            {team.name}
+            {teamName}
           </h3>
           <p className="text-sm text-gray-500">
             Registered: {new Date(registeredAt).toLocaleDateString()} at{" "}
@@ -77,7 +73,7 @@ function TeamCard({
       <div className="space-y-3">
         <div className="flex items-center gap-2">
           <span className="text-sm font-medium text-gray-600">Team ID:</span>
-          <span className="text-sm text-gray-900">{team.id}</span>
+          <span className="text-sm text-gray-900">{teamId}</span>
         </div>
       </div>
     </div>
