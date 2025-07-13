@@ -61,7 +61,7 @@ function Teams() {
     setMembersLoading(true);
     try {
       const response = await getTeamMembers(teamId);
-      if (response.success && response.data) {
+      if (response.data) {
         setTeamMembers(response.data);
       }
     } catch (error) {
