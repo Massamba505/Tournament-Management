@@ -4,11 +4,12 @@ import type {
   TournamentCreateRequest,
   Tournament,
   TournamentDetail,
-  TournamentFormatItem,
-  TournamentStatus,
   TournamentUpdateRequest,
   UpdateTournamentStatusRequest,
-} from "../types/tournament";
+  TournamentFormatItem,
+} from "@shared/types/tournament";
+import type { TournamentStatus } from "@shared/types/enums";
+
 
 export const getTournamentFormats = (): Promise<
   ApiResponse<TournamentFormatItem[]>

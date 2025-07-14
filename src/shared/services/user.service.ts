@@ -1,62 +1,55 @@
 import type { ApiResponse } from "@shared/types/common";
-import type { User, UserSummary } from "@shared/types/user";
+import type { User, UserDetail, UserSummary, UserUpdateRequest } from "@shared/types/user";
 import { api } from "@shared/services/customFetch";
-import type { PlayerStat } from "@features/Statistics/types/playerStat";
+import type { PlayerStat } from "@shared/types/playerStat";
+import type { UserStatus } from "@shared/types/enums";
 
-// Get current user
 export const getCurrentUser = (): Promise<ApiResponse<User>> => {
   return api("/users/me", {
     method: "GET",
   }, true);
 };
 
-// Get user by ID
 export const getUserById = (userId: string): Promise<ApiResponse<User>> => {
   return api(`/users/${userId}`, {
     method: "GET",
   }, true);
 };
 
-// Get user profile
-export const getUserProfile = (userId: string): Promise<ApiResponse<User>> => {
+export const getUserProfile = (userId: string): Promise<ApiResponse<UserDetail>> => {
   return api(`/users/${userId}/profile`, {
     method: "GET",
   }, true);
 };
 
-// Update user profile
-export const updateUserProfile = (userId: string, profileData: Partial<User>): Promise<void> => {
+export const updateUserProfile = (userId: string, profileData: UserUpdateRequest): Promise<void> => {
   return api(`/users/${userId}/profile`, {
     method: "PUT",
     body: JSON.stringify(profileData),
   }, true);
 };
 
-// Update user status
-export const updateUserStatus = (userId: string, status: string): Promise<void> => {
+export const updateUserStatus = (userId: string, status: UserStatus): Promise<void> => {
   return api(`/users/${userId}/status`, {
     method: "PATCH",
     body: JSON.stringify({ status }),
   }, true);
 };
 
-// Get user statistics
-export const getUserStatistics = (userId: string): Promise<ApiResponse<PlayerStat[]>> => {
-  return api(`/users/${userId}/statistics`, {
+export const getUserStatistics = (userId: string): Promise<ApiResponse<{ userId: string; name: string; surname: string; stats: PlayerStat[] }>> => {
+  return api(`/users/${userId}/stats`, {
     method: "GET",
   }, true);
 };
 
-// Search users
-export const searchUsers = (term: string): Promise<ApiResponse<UserSummary[]>> => {
-  return api(`/users/search?term=${encodeURIComponent(term)}`, {
+export const getUserTeams = (userId: string): Promise<ApiResponse<UserSummary[]>> => {
+  return api(`/users/${userId}/teams`, {
     method: "GET",
   }, true);
 };
 
-// Get all users
-export const getAllUsers = (): Promise<ApiResponse<User[]>> => {
-  return api("/users", {
+export const searchUsers = (query: string): Promise<ApiResponse<User[]>> => {
+  return api(`/users/search?query=${encodeURIComponent(query)}`, {
     method: "GET",
   }, true);
 };

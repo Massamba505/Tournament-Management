@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import GeneralTournamentCard from "./GeneralTournamentCard";
 import type { User } from "@shared/types/user";
-import type { Tournament } from "@features/Tournaments/types/tournament";
 import { getAllTournaments } from "@features/Tournaments/services/tournaments.service";
 import LoadingSpinner from "@shared/components/LoadingSpinner";
 import Pagination from "../../../shared/components/Pagination";
 import { Search, Trophy } from "lucide-react";
+import type { Tournament } from "@/shared/types/tournament";
 
 interface TournamentProps {
   user: User;

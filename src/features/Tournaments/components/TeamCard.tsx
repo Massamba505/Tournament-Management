@@ -2,7 +2,7 @@ import { Users, Trash2 } from "lucide-react";
 import { useState } from "react";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import { removeTournamentTeam } from "../services/tournamentTeams.service";
-import type { TournamentTeam } from "../types/tournamentTeams.model";
+import type { TournamentTeam } from "@/shared/types/tournament";
 
 interface TeamCardProps {
   tournamentTeam: TournamentTeam;

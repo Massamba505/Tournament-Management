@@ -4,7 +4,7 @@ import type {
   JoinTournamentRequest,
   TournamentTeam,
   TournamentTeamDetail,
-} from "../types/tournamentTeams.model";
+} from "@shared/types/tournament";
 
 export const joinTournament = (
   tournamentId: string,

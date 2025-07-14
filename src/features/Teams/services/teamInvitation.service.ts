@@ -2,9 +2,9 @@ import { api } from "@shared/services/customFetch";
 import type { ApiResponse } from "@shared/types/common";
 import type {
   TeamInvitation,
-  CreateTeamInvitationRequest,
+  TeamInvitationCreateRequest,
   TeamInvitationResponseRequest,
-} from "@features/Teams/types/teamInvitation";
+} from "@shared/types/teamInvitation";
 
 export const getUserInvitations = (): Promise<
   ApiResponse<TeamInvitation[]>
@@ -25,7 +25,7 @@ export const getInvitationById = (
 };
 
 export const sendInvitation = (
-  payload: CreateTeamInvitationRequest
+  payload: TeamInvitationCreateRequest
 ): Promise<ApiResponse<{ invitationId: string }>> => {
   return api(
     "/team-invitations",

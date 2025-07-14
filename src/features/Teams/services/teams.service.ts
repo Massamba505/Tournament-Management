@@ -2,11 +2,12 @@ import { api } from "@shared/services/customFetch";
 import type { ApiResponse } from "@shared/types/common";
 import type {
   Team,
-  TeamSummary,
-  CreateTeamRequest,
-  UpdateTeamRequest,
-} from "../types/team";
-import type { Match } from "@features/Fixtures/types/match";
+  TeamDetail,
+  TeamCreateRequest,
+  TeamUpdateRequest,
+} from "@shared/types/team";
+import type { TeamStatus } from "@shared/types/enums";
+import type { Match } from "@shared/types/match";
 
 export const getCurrentUserTeams = (): Promise<ApiResponse<Team[]>> => {
   return api("/teams", { method: "GET" }, true);
@@ -18,13 +19,13 @@ export const getTeamById = (teamId: string): Promise<ApiResponse<Team>> => {
 
 export const getTeamDetailsById = (
   teamId: string
-): Promise<ApiResponse<Team>> => {
-  return api(`/teams/details/${teamId}`, { method: "GET" }, true);
+): Promise<ApiResponse<TeamDetail>> => {
+  return api(`/teams/${teamId}/details`, { method: "GET" }, true);
 };
 
 export const createTeam = (
-  team: CreateTeamRequest
-): Promise<ApiResponse<Team>> => {
+  team: TeamCreateRequest
+): Promise<void> => {
   return api(
     "/teams",
     {
@@ -37,7 +38,7 @@ export const createTeam = (
 
 export const updateTeam = (
   teamId: string,
-  team: UpdateTeamRequest
+  team: TeamUpdateRequest
 ): Promise<void> => {
   return api(
     `/teams/${teamId}`,
@@ -63,7 +64,7 @@ export const deleteTeam = (teamId: string): Promise<void> => {
 
 export const searchTeams = (
   term: string
-): Promise<ApiResponse<TeamSummary[]>> => {
+): Promise<ApiResponse<Team[]>> => {
   return api(
     `/teams/search?query=${encodeURIComponent(term)}`,
     { method: "GET" },
@@ -72,7 +73,7 @@ export const searchTeams = (
 };
 
 export const getTeamsByStatus = (
-  status: string
+  status: TeamStatus
 ): Promise<ApiResponse<Team[]>> => {
   return api(`/teams/status/${status}`, { method: "GET" }, true);
 };

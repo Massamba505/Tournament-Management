@@ -7,7 +7,7 @@ import {
   Trophy, 
   XCircle 
 } from "lucide-react";
-import { TournamentStatus } from "../types/tournament";
+import { TournamentStatus } from "@/shared/types/enums";
 
 interface TournamentStatusBadgeProps {
   status: TournamentStatus;

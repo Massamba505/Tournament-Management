@@ -1,9 +1,9 @@
+import { UserRole } from "@/shared/types/enums";
 import { ShieldCheck, Users } from "lucide-react";
-import { Roles } from "@shared/constants/roles";
 
 interface RegisterStepTwoProps {
-  selectedRole: Roles;
-  setSelectedRole: (roleId: Roles) => void;
+  selectedRole: UserRole;
+  setSelectedRole: (roleId: UserRole) => void;
   onSubmit: () => void;
   loading: boolean;
 }
@@ -28,16 +28,16 @@ const RegisterStepTwo: React.FC<RegisterStepTwoProps> = ({
           icon={<ShieldCheck className="w-6 h-6 text-[#142d4c]" />}
           title="Tournament Organizer"
           description="Create, manage, and host tournaments."
-          selected={selectedRole === Roles.Organizer}
-          onClick={() => setSelectedRole(Roles.Organizer)}
+          selected={selectedRole === UserRole.Organizer}
+          onClick={() => setSelectedRole(UserRole.Organizer)}
         />
 
         <RoleCard
           icon={<Users className="w-6 h-6 text-[#142d4c]" />}
           title="Member"
           description="Join or create teams and enter tournaments."
-          selected={selectedRole === Roles.General}
-          onClick={() => setSelectedRole(Roles.General)}
+          selected={selectedRole === UserRole.General}
+          onClick={() => setSelectedRole(UserRole.General)}
         />
 
         <button

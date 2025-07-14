@@ -1,32 +1,27 @@
-export enum Roles {
-  General = 1,
-  Organizer = 2,
-  Admin = 3,
-}
+import { UserRole } from "../types/enums";
 
-// Utility functions for role conversion
-export const roleToString = (role: Roles): string => {
+export const roleToString = (role: UserRole): string => {
   switch (role) {
-    case Roles.General:
+    case UserRole.General:
       return "General";
-    case Roles.Organizer:
+    case UserRole.Organizer:
       return "Organizer";
-    case Roles.Admin:
+    case UserRole.Admin:
       return "Admin";
     default:
       return "General";
   }
 };
 
-export const stringToRole = (roleStr: string): Roles => {
+export const stringToRole = (roleStr: string): UserRole => {
   switch (roleStr.toLowerCase()) {
     case "general":
-      return Roles.General;
+      return UserRole.General;
     case "organizer":
-      return Roles.Organizer;
+      return UserRole.Organizer;
     case "admin":
-      return Roles.Admin;
+      return UserRole.Admin;
     default:
-      return Roles.General;
+      return UserRole.General;
   }
 };

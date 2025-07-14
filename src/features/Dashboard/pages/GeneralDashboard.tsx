@@ -5,9 +5,9 @@ import GeneralTournamentSection from "../components/GeneralTournamentSection";
 import SectionCard from "../../../shared/components/SectionCard";
 import TabNavigation from "../components/TabNavigation";
 import { getCurrentUserTeams } from "@features/Teams/services/teams.service";
-import type { Team } from "@features/Teams/types/team";
 import LoadingSpinner from "@shared/components/LoadingSpinner";
 import { Trophy, Users, LayoutDashboard } from "lucide-react";
+import type { Team } from "@/shared/types/team";
 
 interface GeneralDashboardProps {
   user: User;
@@ -111,9 +111,6 @@ function GeneralDashboard({ user }: GeneralDashboardProps) {
                 <h3 className="font-medium text-gray-900 truncate">
                   {team.name}
                 </h3>
-                <p className="text-sm text-gray-500">
-                  {team.members?.length || 0} members
-                </p>
               </div>
             </div>
             <div className="text-xs text-gray-500">

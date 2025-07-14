@@ -1,10 +1,10 @@
 import { api } from "@shared/services/customFetch";
 import type { ApiResponse } from "@shared/types/common";
 import type {
-  CreatePlayerStatRequest,
+  PlayerStatCreateRequest,
   PlayerStat,
-  UpdatePlayerStatRequest,
-} from "../types/playerStat";
+  PlayerStatUpdateRequest,
+} from "@shared/types/playerStat";
 
 export const getStatsByMatch = (
   matchId: string
@@ -30,7 +30,7 @@ export const getStatByPlayerAndMatch = (
 };
 
 export const createPlayerStat = (
-  payload: CreatePlayerStatRequest
+  payload: PlayerStatCreateRequest
 ): Promise<void> => {
   return api(
     "/player-stats",
@@ -45,7 +45,7 @@ export const createPlayerStat = (
 export const updatePlayerStat = (
   playerId: string,
   matchId: string,
-  payload: UpdatePlayerStatRequest
+  payload: PlayerStatUpdateRequest
 ): Promise<void> => {
   return api(
     `/player-stats/player/${playerId}/match/${matchId}`,

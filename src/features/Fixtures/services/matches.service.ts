@@ -2,107 +2,60 @@ import { api } from "@shared/services/customFetch";
 import type { ApiResponse } from "@shared/types/common";
 import type { 
   Match, 
-  CreateMatchRequest, 
-  UpdateMatchRequest, 
-  UpdateMatchScoreRequest,
-  MatchStatus
-} from "../types/match";
-import type { PlayerStat, CreatePlayerStatRequest, UpdatePlayerStatRequest } from "@features/Statistics/types/playerStat";
+  MatchDetail,
+  MatchCreateRequest, 
+  MatchUpdateRequest, 
+  UpdateMatchStatusRequest
+} from "@shared/types/match";
+import type { MatchStatus } from "@shared/types/enums";
 
-// Get match by ID
-export const getMatchById = (matchId: string): Promise<ApiResponse<Match>> => {
-  return api(`/team-matches/${matchId}`, {
+export const getMatchById = (matchId: string): Promise<ApiResponse<MatchDetail>> => {
+  return api(`/matches/${matchId}`, {
     method: "GET"
   }, true);
 };
 
-// Get match details
-export const getMatchDetails = (matchId: string): Promise<ApiResponse<Match>> => {
-  return api(`/team-matches/${matchId}/details`, {
-    method: "GET"
-  }, true);
-};
-
-// Create a match
-export const createMatch = (match: CreateMatchRequest): Promise<void> => {
-  return api("/team-matches", {
-    method: "POST",
-    body: JSON.stringify(match),
-  }, true);
-};
-
-// Update a match
-export const updateMatch = (matchId: string, match: UpdateMatchRequest): Promise<void> => {
-  return api(`/team-matches/${matchId}`, {
-    method: "PUT",
-    body: JSON.stringify(match),
-  }, true);
-};
-
-// Update match score
-export const updateMatchScore = (matchId: string, scoreUpdate: UpdateMatchScoreRequest): Promise<void> => {
-  return api(`/team-matches/${matchId}/score`, {
-    method: "PATCH",
-    body: JSON.stringify(scoreUpdate),
-  }, true);
-};
-
-// Delete a match
-export const deleteMatch = (matchId: string): Promise<void> => {
-  return api(`/team-matches/${matchId}`, {
-    method: "DELETE",
-  }, true);
-};
-
-// Get matches by tournament
 export const getMatchesByTournament = (tournamentId: string): Promise<ApiResponse<Match[]>> => {
   return api(`/matches/tournament/${tournamentId}`, {
     method: "GET",
   }, true);
 };
 
-// Get matches by team
 export const getMatchesByTeam = (teamId: string): Promise<ApiResponse<Match[]>> => {
-  return api(`/teams/${teamId}/matches`, {
+  return api(`/matches/team/${teamId}`, {
     method: "GET",
   }, true);
 };
 
-// Get matches by status
-export const getMatchesByStatus = (status: MatchStatus): Promise<ApiResponse<Match[]>> => {
-  return api(`/team-matches/status/${status}`, {
+export const getMatchesByStatus = (tournamentId: string, status: MatchStatus): Promise<ApiResponse<Match[]>> => {
+  return api(`/matches/tournament/${tournamentId}/status/${status}`, {
     method: "GET",
   }, true);
 };
 
-// Player stats for a match
-
-// Get player stats for a match
-export const getMatchPlayerStats = (matchId: string): Promise<ApiResponse<PlayerStat[]>> => {
-  return api(`/team-matches/${matchId}/player-stats`, {
-    method: "GET",
-  }, true);
-};
-
-// Add player stat to a match
-export const addPlayerStat = (playerStat: CreatePlayerStatRequest): Promise<void> => {
-  return api(`/player-stats`, {
+export const createMatch = (match: MatchCreateRequest): Promise<void> => {
+  return api("/matches", {
     method: "POST",
-    body: JSON.stringify(playerStat),
+    body: JSON.stringify(match),
   }, true);
 };
 
-// Update player stat
-export const updatePlayerStat = (playerStatId: string, playerStat: UpdatePlayerStatRequest): Promise<void> => {
-  return api(`/player-stats/${playerStatId}`, {
+export const updateMatch = (matchId: string, match: MatchUpdateRequest): Promise<void> => {
+  return api(`/matches/${matchId}`, {
     method: "PUT",
-    body: JSON.stringify(playerStat),
+    body: JSON.stringify(match),
   }, true);
 };
 
-// Delete player stat
-export const deletePlayerStat = (playerStatId: string): Promise<void> => {
-  return api(`/player-stats/${playerStatId}`, {
+export const updateMatchStatus = (matchId: string, statusUpdate: UpdateMatchStatusRequest): Promise<void> => {
+  return api(`/matches/${matchId}/status`, {
+    method: "PATCH",
+    body: JSON.stringify(statusUpdate),
+  }, true);
+};
+
+export const deleteMatch = (matchId: string): Promise<void> => {
+  return api(`/matches/${matchId}`, {
     method: "DELETE",
   }, true);
 };

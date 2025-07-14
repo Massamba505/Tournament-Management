@@ -2,13 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Users, Upload } from "lucide-react";
 import { createTeam } from "../services/teams.service";
-import type { CreateTeamRequest } from "../types/team";
 import toast from "react-hot-toast";
+import type { TeamCreateRequest } from "@/shared/types/team";
 
 function CreateTeam() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState<CreateTeamRequest>({
+  const [formData, setFormData] = useState<TeamCreateRequest>({
     name: "",
     logoUrl: null
   });

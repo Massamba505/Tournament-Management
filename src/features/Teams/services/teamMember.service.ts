@@ -4,7 +4,7 @@ import type {
   TeamMember,
   AddTeamMemberRequest,
   UpdateMemberTypeRequest,
-} from "../types/teamMember";
+} from "@shared/types/team";
 
 export const getTeamMembers = (
   teamId: string

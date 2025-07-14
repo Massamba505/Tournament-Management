@@ -2,7 +2,7 @@ import { useAuth } from "../../features/Authentication/hooks/useAuth";
 import LoadingSpinner from "../../shared/components/LoadingSpinner";
 import GeneralDashboard from "./pages/GeneralDashboard";
 import OrganizerDashboard from "./pages/OrganizerDashboard";
-import { Roles } from "../../shared/constants/roles";
+import { UserRole } from "@/shared/types/enums";
 
 const Dashboard = () => {
   const { user, loading } = useAuth();
@@ -18,9 +18,9 @@ const Dashboard = () => {
   if (!user) return null;
 
   switch (user.role) {
-    case Roles.Organizer:
+    case UserRole.Organizer:
       return <OrganizerDashboard user={user} />;
-    case Roles.General:
+    case UserRole.General:
       return <GeneralDashboard user={user} />;
     default:
       return (

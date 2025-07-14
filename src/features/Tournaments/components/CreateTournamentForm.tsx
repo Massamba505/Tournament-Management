@@ -7,19 +7,15 @@ import OrganizerInfoSection from "./OrganizerInfoSection";
 import TournamentDetailsSection from "./TournamentDetailsSection";
 import ScheduleSection from "./ScheduleSection";
 import AdditionalSettingsSection from "./AdditionalSettingsSection";
-import {
-  TournamentStatus,
-  TournamentFormatEnum,
-  type TournamentCreateRequest,
-  type TournamentFormatItem,
-} from "../types/tournament";
+import type { TournamentCreateRequest, TournamentFormatItem } from "@/shared/types/tournament";
+import { TournamentFormatEnum, TournamentStatus } from "@/shared/types/enums";
 
-interface Props {
+interface CreateTournamentFormProps {
   userId: string;
   formats: TournamentFormatItem[];
 }
 
-function CreateTournamentForm({ userId, formats }: Props) {
+function CreateTournamentForm({ userId, formats }: CreateTournamentFormProps) {
   const navigation = useNavigate();
 
   const toIsoDate = (daysFromNow: number): string => {

@@ -16,12 +16,11 @@ import {
   updateTeam,
   deleteTeam,
 } from "./services/teams.service";
-import type { Team, UpdateTeamRequest } from "./types/team";
 import LoadingSpinner from "@shared/components/LoadingSpinner";
 import { EditTeamModal } from "./components";
 import toast from "react-hot-toast";
 import { getTeamMembers } from "./services/teamMember.service";
-import type { TeamMember } from "./types/teamMember";
+import type { Team, TeamMember, TeamUpdateRequest } from "@/shared/types/team";
 
 function Teams() {
   const navigate = useNavigate();
@@ -102,7 +101,7 @@ function Teams() {
     setSelectedTeam(team);
   };
 
-  const handleSaveTeam = async (updateData: UpdateTeamRequest) => {
+  const handleSaveTeam = async (updateData: TeamUpdateRequest) => {
     if (!selectedTeam) return;
 
     await updateTeam(selectedTeam.id, updateData);
@@ -254,9 +253,6 @@ function Teams() {
                           <div className="text-left">
                             <div className="font-medium text-gray-900">
                               {team.name}
-                            </div>
-                            <div className="text-sm text-gray-500">
-                              {team.members?.length || 0} members
                             </div>
                           </div>
                         </button>

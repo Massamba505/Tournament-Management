@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import { X, Save, Upload, Users } from "lucide-react";
-import type { Team, UpdateTeamRequest } from "../types/team";
+import type { Team, TeamUpdateRequest } from "@/shared/types/team";
 
 interface EditTeamModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (updateData: UpdateTeamRequest) => Promise<void>;
+  onSave: (updateData: TeamUpdateRequest) => Promise<void>;
   team: Team;
 }
 
 function EditTeamModal({ isOpen, onClose, onSave, team }: EditTeamModalProps) {
-  const [formData, setFormData] = useState<UpdateTeamRequest>({});
+  const [formData, setFormData] = useState<TeamUpdateRequest>({});
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{[key: string]: string}>({});
 
@@ -19,7 +19,7 @@ function EditTeamModal({ isOpen, onClose, onSave, team }: EditTeamModalProps) {
       setFormData({
         name: team.name,
         logoUrl: team.logoUrl,
-        captainId: team.captainId
+        captainId: team.captain?.id
       });
     }
   }, [isOpen, team]);

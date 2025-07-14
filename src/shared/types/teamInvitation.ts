@@ -1,11 +1,5 @@
-import type { UserSummary } from "@/shared/types/user";
-
-export enum InvitationStatus {
-  Pending = "Pending",
-  Accepted = "Accepted",
-  Rejected = "Rejected",
-  Expired = "Expired",
-}
+import type { InvitationStatus } from "./enums";
+import type { UserSummary } from "./user";
 
 export interface TeamInvitation {
   id: string;
@@ -20,7 +14,7 @@ export interface TeamInvitation {
   respondedAt: string | null;
 }
 
-export interface CreateTeamInvitationRequest {
+export interface TeamInvitationCreateRequest {
   teamId: string;
   invitedUserId: string;
 }

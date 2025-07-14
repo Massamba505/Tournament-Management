@@ -1,12 +1,35 @@
+import type { TournamentCreateRequest } from "@/shared/types/tournament";
 import React from "react";
-import type { TournamentCreateRequest } from "../types/tournament";
 
-type Props = {
+type ScheduleSectionProps = {
   formData: TournamentCreateRequest;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const ScheduleSection: React.FC<Props> = ({ formData, handleChange }) => {
+const ScheduleSection: React.FC<ScheduleSectionProps
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+> = ({ formData, handleChange }) => {
   return (
     <div className="p-4 sm:p-6 rounded-lg shadow-sm border border-gray-100">
       <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4">

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import type { User } from "@shared/types/user";
-import type { Tournament } from "@features/Tournaments/types/tournament";
 import { getOrganizerTournaments } from "@features/Tournaments/services/tournaments.service";
 import SectionCard from "../../../shared/components/SectionCard";
 import TabNavigation from "../components/TabNavigation";
@@ -12,13 +11,13 @@ import {
   BarChart3,
   Plus,
   MapPin,
-  Clock,
   Eye,
   Settings,
   TrendingUp,
   AlertCircle,
   CheckCircle2,
 } from "lucide-react";
+import type { Tournament } from "@/shared/types/tournament";
 
 interface OrganizerDashboardProps {
   user: User;
@@ -65,11 +64,11 @@ function OrganizerDashboard({ user }: OrganizerDashboardProps) {
   );
 
   const totalTeams = tournaments.reduce(
-    (sum, t) => sum + (t.numberOfTeams || 0),
+    (sum, t) => sum + (t.maxNumberOfTeams || 0),
     0
   );
   const totalParticipants = tournaments.reduce(
-    (sum, t) => sum + (t.numberOfTeams || 0) * (t.maxPlayersPerTeam || 0),
+    (sum, t) => sum + (t.maxNumberOfTeams || 0) * (t.maxPlayersPerTeam || 0),
     0
   );
 
@@ -114,7 +113,7 @@ function OrganizerDashboard({ user }: OrganizerDashboardProps) {
                     <div className="flex items-center gap-4 text-sm text-gray-600">
                       <span className="flex items-center gap-1">
                         <Users className="h-4 w-4" />
-                        {tournament.numberOfTeams} teams
+                        {tournament.maxNumberOfTeams} teams
                       </span>
                       <span className="flex items-center gap-1">
                         <MapPin className="h-4 w-4" />
@@ -245,15 +244,11 @@ function OrganizerDashboard({ user }: OrganizerDashboardProps) {
                   <div className="space-y-2 text-sm text-gray-600">
                     <div className="flex items-center gap-2">
                       <Users className="h-4 w-4" />
-                      <span>{tournament.numberOfTeams} teams</span>
+                      <span>{tournament.maxNumberOfTeams} teams</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <MapPin className="h-4 w-4" />
                       <span className="truncate">{tournament.location}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Clock className="h-4 w-4" />
-                      <span>{tournament.matchDuration} min matches</span>
                     </div>
                   </div>
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Users } from "lucide-react";
-import type { TournamentTeam } from "../types/tournamentTeams.model";
 import TeamCard from "./TeamCard";
+import type { TournamentTeam } from "@/shared/types/tournament";
 
 interface TeamsListProps {
   tournamentTeams: TournamentTeam[];

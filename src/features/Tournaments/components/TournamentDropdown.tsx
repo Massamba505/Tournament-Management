@@ -1,5 +1,5 @@
+import type { Tournament } from "@/shared/types/tournament";
 import { ChevronDown } from "lucide-react";
-import type { Tournament } from "../types/tournament";
 import { useState } from "react";
 
 export default function TournamentDropdown({

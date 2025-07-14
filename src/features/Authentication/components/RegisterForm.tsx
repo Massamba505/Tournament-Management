@@ -2,9 +2,9 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import RegisterStepOne from "./RegisterStepOne";
 import RegisterStepTwo from "./RegisterStepTwo";
-import { Roles } from "@shared/constants/roles";
 import { useAuth } from "../hooks/useAuth";
 import type { RegisterRequest } from "../types/auth";
+import { UserRole } from "@/shared/types/enums";
 
 function RegisterForm() {
   const { register, loading } = useAuth();
@@ -15,7 +15,7 @@ function RegisterForm() {
     surname: "",
     email: "",
     password: "",
-    role: Roles.Organizer,
+    role: UserRole.Organizer,
   });
 
   const handleStepOneSubmit = () => {
@@ -51,7 +51,7 @@ function RegisterForm() {
       ) : (
         <RegisterStepTwo
           selectedRole={formData.role}
-          setSelectedRole={(role: Roles) => setFormData({ ...formData, role })}
+          setSelectedRole={(role: UserRole) => setFormData({ ...formData, role })}
           onSubmit={handleFinalSubmit}
           loading={loading}
         />

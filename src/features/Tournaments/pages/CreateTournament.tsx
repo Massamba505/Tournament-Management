@@ -2,9 +2,8 @@ import { useState } from "react";
 import CreateTournamentForm from "../components/CreateTournamentForm";
 import { useAuth } from "@features/Authentication/hooks/useAuth";
 import type { TournamentFormatItem } from "../types/tournament";
-import { TournamentFormatEnum } from "../types/tournament";
+import { TournamentFormatEnum } from "@/shared/types/enums";
 
-// Fallback formats in case API call fails
 const defaultFormats: TournamentFormatItem[] = [
   { id: TournamentFormatEnum.SingleElimination, name: "Single Elimination" },
   { id: TournamentFormatEnum.DoubleElimination, name: "Double Elimination" },

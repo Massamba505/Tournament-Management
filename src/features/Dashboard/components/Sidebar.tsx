@@ -10,13 +10,13 @@ import {
 import { Logo } from "@assets/index";
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { Roles } from "@shared/constants/roles";
 import Footer from "@shared/components/Footer";
+import { UserRole } from "@/shared/types/enums";
 
 interface AppSidebarProps {
   isOpen: boolean;
   onToggle: () => void;
-  userRole: Roles;
+  userRole: UserRole;
 }
 
 const menuItems = [
@@ -24,31 +24,31 @@ const menuItems = [
     title: "Dashboard",
     url: "/dashboard",
     icon: Home,
-    roles: [Roles.Organizer, Roles.General],
+    roles: [UserRole.Organizer, UserRole.General],
   },
   {
     title: "Tournaments",
     url: "/tournaments",
     icon: Trophy,
-    roles: [Roles.Organizer],
+    roles: [UserRole.Organizer],
   },
   {
     title: "Teams",
     url: "/teams",
     icon: Users,
-    roles: [Roles.General],
+    roles: [UserRole.General],
   },
   {
     title: "Fixtures",
     url: "/fixtures",
     icon: Calendar,
-    roles: [Roles.Organizer, Roles.General],
+    roles: [UserRole.Organizer, UserRole.General],
   },
   {
     title: "Notifications",
     url: "/notifications",
     icon: Bell,
-    roles: [Roles.Organizer, Roles.General],
+    roles: [UserRole.Organizer, UserRole.General],
   },
 ];
 
@@ -57,13 +57,13 @@ const quickActions = [
     title: "Create Tournament",
     url: "/create-tournament",
     icon: PlusCircle,
-    roles: [Roles.Organizer],
+    roles: [UserRole.Organizer],
   },
   {
     title: "Create Team",
     url: "/teams/create",
     icon: PlusCircle,
-    roles: [Roles.General],
+    roles: [UserRole.General],
   },
 ];
 

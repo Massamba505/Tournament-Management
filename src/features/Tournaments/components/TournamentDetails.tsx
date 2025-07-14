@@ -1,10 +1,11 @@
-import type { Tournament } from "../types/tournament";
-interface Props {
+import type { Tournament } from "@/shared/types/tournament";
+
+interface TournamentDetailsProps {
   tournament: Tournament;
   onDelete: () => void;
 }
 
-export default function TournamentDetails({ tournament, onDelete }: Props) {
+export default function TournamentDetails({ tournament, onDelete }: TournamentDetailsProps) {
   return (
     <div className="mb-10 bg-white rounded-2xl p-8 shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-300">
       <div className="flex flex-col gap-6">

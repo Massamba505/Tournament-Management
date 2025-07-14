@@ -1,9 +1,9 @@
-import { Clock, MapPin, Trophy, Users } from "lucide-react";
+import {MapPin, Trophy, Users } from "lucide-react";
 import { Link } from "react-router-dom";
-import type { Tournament } from "@features/Tournaments/types/tournament";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { formatDate } from "@/shared/utils/formatDate";
+import type { Tournament } from "@/shared/types/tournament";
 
 interface TournamentProps {
   tournament: Tournament;
@@ -89,10 +89,10 @@ function GeneralTournamentCard({
             <div className="bg-blue-100 rounded-full p-1">
               <Users className="h-3 w-3 text-blue-600" />
             </div>
-            <span className="font-medium">{tournament.numberOfTeams}</span>
+            <span className="font-medium">{tournament.maxNumberOfTeams}</span>
             <span className="text-gray-500">Teams</span>
           </div>
-          <div className="flex items-center gap-2 text-sm text-gray-600">
+          {/* <div className="flex items-center gap-2 text-sm text-gray-600">
             <div className="bg-green-100 rounded-full p-1">
               <Clock className="h-3 w-3 text-green-600" />
             </div>
@@ -100,7 +100,7 @@ function GeneralTournamentCard({
               {tournament.matchDuration || 90}
             </span>
             <span className="text-gray-500">min</span>
-          </div>
+          </div> */}
         </div>
 
         <div className="flex items-center gap-2 text-sm text-gray-600 bg-gray-50 rounded-lg p-2">

@@ -1,13 +1,13 @@
+import type { TournamentCreateRequest } from "@/shared/types/tournament";
 import React from "react";
-import type { CreateTournamentRequest } from "../types/tournament";
 
-type Props = {
-  formData: CreateTournamentRequest;
+type OrganizerInfoSectionProps = {
+  formData: TournamentCreateRequest;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleContactChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const OrganizerInfoSection: React.FC<Props> = ({
+const OrganizerInfoSection: React.FC<OrganizerInfoSectionProps> = ({
   formData,
   handleChange,
   handleContactChange,

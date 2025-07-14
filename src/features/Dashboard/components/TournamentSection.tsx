@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Plus } from "lucide-react";
-import type { Tournament } from "@features/Tournaments/types/tournament";
 import { Link } from "react-router-dom";
 import TournamentCard from "./TournamentCard";
 import { getOrganizerTournaments } from "@features/Tournaments/services/tournaments.service";
 import LoadingSpinner from "@shared/components/LoadingSpinner";
+import type { Tournament } from "@/shared/types/tournament";
 
 interface TournamentProps {
   userId: string;

@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import {
-  CreateTournaments,
+  CreateTournament,
   CreateTeam,
   Dashboard,
   DashboardLayout,
@@ -34,7 +34,7 @@ function App() {
           <Route index element={<Navigate to="dashboard" replace />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="tournaments" element={<Tournaments />} />
-          <Route path="create-tournament" element={<CreateTournaments />} />
+          <Route path="create-tournament" element={<CreateTournament />} />
           <Route path="teams" element={<Teams />} />
           <Route path="teams/create" element={<CreateTeam />} />
           <Route path="fixtures" element={<Fixtures />} />

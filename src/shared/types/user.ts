@@ -1,19 +1,25 @@
-import type { Roles } from "@shared/constants/roles";
-
-export enum MemberType {
-  Player = "Player",
-  Manager = "Manager",
-  Organizer = "Organizer",
-  Captain = "Captain"
-}
+import type { MemberType, UserRole } from "./enums";
+import type { TeamSummary } from "./team";
 
 export interface User {
   id: string;
   name: string;
   surname: string;
   email: string;
-  profilePicture: string;
-  role: Roles;
+  profilePicture: string | null;
+  role: UserRole;
+  createdAt: string;
+}
+
+export interface UserDetail {
+  id: string;
+  name: string;
+  surname: string;
+  email: string;
+  profilePicture: string | null;
+  role: UserRole;
+  createdAt: string;
+  teams: TeamSummary[]
 }
 
 export interface UserSummary {
@@ -23,8 +29,15 @@ export interface UserSummary {
   memberType: MemberType;
 }
 
+export interface UserUpdateRequest {
+  name?: string;
+  surname?: string;
+  email?: string;
+  profilePicture?: string | null;
+}
+
 export interface Member {
-  id: number;
+  id: string;
   fullName: string;
   profilePicture: string;
 }

@@ -1,8 +1,8 @@
+import type { TournamentCreateRequest, TournamentFormatItem } from "@/shared/types/tournament";
 import React from "react";
-import type { CreateTournamentRequest, TournamentFormatItem } from "../types/tournament";
 
 type TournamentDetailsSectionProps = {
-  formData: CreateTournamentRequest;
+  formData: TournamentCreateRequest;
   formats: TournamentFormatItem[];
   handleChange: (e: React.ChangeEvent<any>) => void;
 };
@@ -64,7 +64,7 @@ const TournamentDetailsSection: React.FC<TournamentDetailsSectionProps> = ({
             type="number"
             min="2"
             max="128"
-            value={formData.numberOfTeams ?? ""}
+            value={formData.maxNumberOfTeams ?? ""}
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg"
             required

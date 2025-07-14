@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import type { Tournament } from "../types/tournament";
 import {
   deleteTournament,
   getOrganizerTournaments,
@@ -10,8 +9,8 @@ import TeamsList from "../components/TeamsList";
 import toast from "react-hot-toast";
 import ConfirmDeleteTournamentModal from "../components/ConfirmDeleteTournamentModal";
 import { useAuth } from "../../Authentication/hooks/useAuth";
-import type { TournamentTeam } from "../types/tournamentTeams.model";
 import { getTournamentTeams } from "../services/tournamentTeams.service";
+import type { Tournament, TournamentTeam } from "@/shared/types/tournament";
 
 function Tournaments() {
   const { user } = useAuth();
