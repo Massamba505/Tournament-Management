@@ -1,4 +1,5 @@
 import type { Tournament } from "@/shared/types/tournament";
+import { format, formatDate } from "date-fns";
 
 interface TournamentDetailsProps {
   tournament: Tournament;
@@ -44,24 +45,20 @@ export default function TournamentDetails({ tournament, onDelete }: TournamentDe
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-600">
           <div>
             <span className="font-semibold text-gray-800">Start:</span>{" "}
-            {new Date(tournament.startDate).toLocaleDateString()}
+            {formatDate(tournament.startDate, "MMM dd, yyyy")}
           </div>
           {tournament.endDate && (
             <div>
               <span className="font-semibold text-gray-800">End:</span>{" "}
-              {new Date(tournament.endDate).toLocaleDateString()}
+              {formatDate(tournament.endDate, "MMM dd, yyyy")}
             </div>
           )}
-          {/* <div>
+          <div>
             <span className="font-semibold text-gray-800">
               Registration Deadline:
             </span>{" "}
-            {new Date(tournament.registrationDeadline).toLocaleDateString()}
-          </div> */}
-          {/* <div>
-            <span className="font-semibold text-gray-800">Match Duration:</span>{" "}
-            {tournament.matchDuration} min
-          </div> */}
+            {formatDate(tournament.registrationDeadline, "MMM dd, yyyy")}
+          </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 text-sm text-gray-700 mt-2">
