@@ -10,7 +10,7 @@ import {
   Notifications,
   Register,
   Statistics,
-  Teams,
+  ManageTeams,
   ManageTournaments,
   Unauthorized,
 } from "@features/index";
@@ -35,7 +35,7 @@ function App() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="tournaments" element={<ManageTournaments />} />
           <Route path="create-tournament" element={<CreateTournament />} />
-          <Route path="teams" element={<Teams />} />
+          <Route path="teams" element={<ManageTeams />} />
           <Route path="teams/create" element={<CreateTeam />} />
           <Route path="fixtures" element={<Fixtures />} />
           <Route path="statistics" element={<Statistics />} />
