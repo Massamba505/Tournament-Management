@@ -26,7 +26,6 @@ export const DateInput: React.FC<DateInputProps> = ({
       <label className="block mb-2 font-medium text-gray-700" htmlFor={name}>
         {label}
       </label>
-      {/* @ts-expect-error: react-datepicker types are not perfect for JSX usage */}
       <DatePicker
         id={name}
         name={name}

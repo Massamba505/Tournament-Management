@@ -1,5 +1,5 @@
 import type { Tournament } from "@/shared/types/tournament";
-import { format, formatDate } from "date-fns";
+import { formatDate } from "date-fns";
 
 interface TournamentDetailsProps {
   tournament: Tournament;
