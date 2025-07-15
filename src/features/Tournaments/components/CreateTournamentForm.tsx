@@ -124,6 +124,12 @@ function CreateTournamentForm({ userId, formats }: CreateTournamentFormProps) {
     }
   };
 
+  const handleFormatChange = (format: TournamentFormatItem) => {
+    setFormData(prev => ({
+      ...prev,
+      format: format.id
+    }));
+  };
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 sm:gap-6">
       <div className="p-4 sm:p-6 rounded-lg shadow-sm border border-gray-100">
@@ -179,6 +185,7 @@ function CreateTournamentForm({ userId, formats }: CreateTournamentFormProps) {
         formData={formData}
         formats={formats}
         handleChange={handleChange}
+        handleFormatChange={handleFormatChange}
       />
 
       <ScheduleSection formData={formData} handleChange={handleChange} />

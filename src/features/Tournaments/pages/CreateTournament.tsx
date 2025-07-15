@@ -1,4 +1,3 @@
-import { useState } from "react";
 import CreateTournamentForm from "../components/CreateTournamentForm";
 import { useAuth } from "@features/Authentication/hooks/useAuth";
 import type { TournamentFormatItem } from "../types/tournament";
@@ -12,8 +11,6 @@ const defaultFormats: TournamentFormatItem[] = [
 
 function CreateTournament() {
   const { user } = useAuth();
-  const [formats, setFormats] =
-    useState<TournamentFormatItem[]>(defaultFormats);
 
   if (!user) return null;
 
@@ -24,7 +21,7 @@ function CreateTournament() {
           Create Your Tournament
         </h1>
       </div>
-      <CreateTournamentForm userId={user.id} formats={formats} />
+      <CreateTournamentForm userId={user.id} formats={defaultFormats} />
     </div>
   );
 }

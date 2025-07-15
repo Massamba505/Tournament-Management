@@ -1,17 +1,21 @@
 import type { TournamentCreateRequest, TournamentFormatItem } from "@/shared/types/tournament";
+import SimpleDropdown from "@/shared/components/Dropdown";
 import React from "react";
 
 type TournamentDetailsSectionProps = {
   formData: TournamentCreateRequest;
   formats: TournamentFormatItem[];
   handleChange: (e: React.ChangeEvent<any>) => void;
+  handleFormatChange: (format: TournamentFormatItem) => void;
 };
 
 const TournamentDetailsSection: React.FC<TournamentDetailsSectionProps> = ({
   formData,
   formats,
   handleChange,
+  handleFormatChange,
 }) => {
+  const selectedFormat = formats.find(f => f.id === formData.format) || null;
   return (
     <div className="p-4 sm:p-6 rounded-lg shadow-sm border border-gray-100">
       <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4">
@@ -19,36 +23,18 @@ const TournamentDetailsSection: React.FC<TournamentDetailsSectionProps> = ({
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         <div>
-          <label
-            htmlFor="format"
-            className="block mb-2 font-medium text-gray-700"
-          >
-            Tournament Format
-          </label>
-          <select
-            id="format"
-            name="format"
-            value={formData.format ?? ""}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-            required
-          >
-            <option value="">Select format</option>
-            {formats && formats.length > 0 ? (
-              formats.map((format) => (
-                <option key={format.id} value={format.id}>
-                  {format.name}
-                </option>
-              ))
-            ) : (
-              <option disabled>Loading formats...</option>
-            )}
-          </select>
-          {formats && formats.length === 0 && (
-            <p className="text-sm text-red-600 mt-1">
-              No formats available. Please try refreshing the page.
-            </p>
-          )}
+          <SimpleDropdown
+            label="Tournament Format"
+            placeholder="Choose a format..."
+            options={formats}
+            value={selectedFormat}
+            onChange={handleFormatChange}
+            getOptionId={(format) => format.id}
+            getOptionLabel={(format) => format.name}
+            required={true}
+            disabled={formats.length === 0}
+            emptyMessage="No formats available"
+          />
         </div>
 
         <div>
