@@ -12,7 +12,7 @@ import { useAuth } from "../../Authentication/hooks/useAuth";
 import { getTournamentTeams } from "../services/tournamentTeams.service";
 import type { Tournament, TournamentTeam } from "@/shared/types/tournament";
 
-function Tournaments() {
+function ManageTournaments() {
   const { user } = useAuth();
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
   const [selectedTournament, setSelectedTournament] =
@@ -123,4 +123,4 @@ function Tournaments() {
   );
 }
 
-export default Tournaments;
+export default ManageTournaments;

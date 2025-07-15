@@ -10,7 +10,7 @@ const defaultFormats: TournamentFormatItem[] = [
   { id: TournamentFormatEnum.RoundRobin, name: "Round Robin" },
 ];
 
-function CreateTournaments() {
+function CreateTournament() {
   const { user } = useAuth();
   const [formats, setFormats] =
     useState<TournamentFormatItem[]>(defaultFormats);
@@ -29,4 +29,4 @@ function CreateTournaments() {
   );
 }
 
-export default CreateTournaments;
+export default CreateTournament;

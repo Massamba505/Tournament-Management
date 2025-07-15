@@ -15,14 +15,14 @@ import {
   getCurrentUserTeams,
   updateTeam,
   deleteTeam,
-} from "./services/teams.service";
+} from "../services/teams.service";
 import LoadingSpinner from "@shared/components/LoadingSpinner";
-import { EditTeamModal } from "./components";
+import { EditTeamModal } from "../components";
 import toast from "react-hot-toast";
-import { getTeamMembers } from "./services/teamMember.service";
+import { getTeamMembers } from "../services/teamMember.service";
 import type { Team, TeamMember, TeamUpdateRequest } from "@/shared/types/team";
 
-function Teams() {
+function ManageTeams() {
   const navigate = useNavigate();
   const [teams, setTeams] = useState<Team[]>([]);
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
@@ -410,4 +410,4 @@ function Teams() {
   );
 }
 
-export default Teams;
+export default ManageTeams;

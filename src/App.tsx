@@ -11,7 +11,7 @@ import {
   Register,
   Statistics,
   Teams,
-  Tournaments,
+  ManageTournaments,
   Unauthorized,
 } from "@features/index";
 import RedirectIfAuthenticated from "@shared/components/RedirectIfAuthenticated";
@@ -33,7 +33,7 @@ function App() {
         <Route path="/" element={<DashboardLayout />}>
           <Route index element={<Navigate to="dashboard" replace />} />
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="tournaments" element={<Tournaments />} />
+          <Route path="tournaments" element={<ManageTournaments />} />
           <Route path="create-tournament" element={<CreateTournament />} />
           <Route path="teams" element={<Teams />} />
           <Route path="teams/create" element={<CreateTeam />} />
